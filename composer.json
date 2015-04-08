@@ -1,0 +1,21 @@
+{
+	"name": "markatom/bp",
+	"type": "project",
+	"license": ["BSD-2-Clause"],
+	"authors": [
+		{
+			"name": "Tomáš Markacz",
+			"email": "tomas@markacz.com"
+		}
+	],
+	"require": {
+		"php": ">= 5.3.7",
+		"nette/nette": "~2.3.0",
+		"dg/adminer-custom": "~1.6",
+		"kdyby/doctrine": "~2.3",
+		"kdyby/console": "~2.3"
+	},
+	"require-dev": {
+		"nette/tester": "~1.3"
+	}
+}
