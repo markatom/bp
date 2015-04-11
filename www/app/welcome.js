@@ -26,7 +26,7 @@ define(['app/rest', 'app/gui'], function () {
                     });
 
                     // set session value
-                    session = data;
+                    session.start(data.token, data.user);
 
                     $state.go('app.orders');
                 })
@@ -50,6 +50,42 @@ define(['app/rest', 'app/gui'], function () {
         };
     }
 
+    // Model
+
+    /**
+     * Session service maintaining current session.
+     * @constructor
+     */
+    function Session() {
+        this._active = false;
+    }
+
+    /**
+     * Starts new session.
+     * @param {string} token
+     * @param {Object} user
+     */
+    Session.prototype.start = function (token, user) {
+        this._active = true;
+        this.token = token;
+        this.user = user;
+    };
+
+    /**
+     * Terminates current session.
+     */
+    Session.prototype.terminate = function () {
+        this._active = false;
+    };
+
+    /**
+     * Returns true if session is active.
+     * @returns {boolean}
+     */
+    Session.prototype.isActive = function () {
+        return this._active;
+    };
+
     // Configuration
 
     angular.module('app.welcome', ['ui.router', 'app.rest', 'app.gui'])
@@ -66,6 +102,6 @@ define(['app/rest', 'app/gui'], function () {
             return resourceFactory.create('api/sessions');
         })
 
-        .value('session', null);
+        .service('session', Session);
 
 });

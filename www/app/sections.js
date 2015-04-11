@@ -67,7 +67,7 @@ define(['app/welcome', 'app/gui'], function () {
                 var state = toState.name;
                 var section = state.split('.')[0];
 
-                if (session) {
+                if (session.isActive()) {
                     if (section === 'welcome') {
                         $state.go('app.orders');
                         event.preventDefault();
@@ -93,12 +93,12 @@ define(['app/welcome', 'app/gui'], function () {
 
                 sessions.read('current').success(function (data, code) {
                     if (code === 200) { // session is active
-                        session = data;
+                        session.start(data.token, data.user);
                         $state.go(section === 'welcome' ? 'app.orders' : state);
                         event.preventDefault();
 
                     } else { // session not found or expired
-                        session = null;
+                        session.terminate();
                         $cookies.remove('session-token');
 
                         if (section === 'app') {
