@@ -2,41 +2,15 @@
 
 define(['app/welcome', 'app/gui'], function () {
 
-    //function forceSection($cookies, $state, session, sessions, alerter) {
-    //    if (session.token) {
-    //        if ($state.includes('welcome')) {
-    //            $state.go('app.orders');
-    //        }
-    //        return;
-    //    }
-    //
-    //    var token = $cookies.get('session-token');
-    //
-    //    if (!token) {
-    //        if ($state.includes('app')) {
-    //            alerter.note('Přihlaste se, prosím.');
-    //            $state.go('welcome.signIn');
-    //        }
-    //        return;
-    //    }
-    //
-    //    console.debug($state.current);
-    //
-    //    var currentState = $state.current.name;
-    //    var currentSection = $state.includes('welcome') ? 'welcome' : 'app';
-    //
-    //    $state.go('loading');
-    //
-    //    sessions.get('actual').success(function (data, code) {
-    //        if (code === 200) { // session is active
-    //            session = data;
-    //            $state.go(currentSection === 'welcome' ? 'app.orders' : currentState);
-    //
-    //        } else { // session not found or expired
-    //            $state.go(currentSection === 'app' ? 'welcome.signIn' : currentState);
-    //        }
-    //    });
-    //}
+    /**
+     * App section controller.
+     * @param $scope
+     * @param session
+     * @constructor
+     */
+    function AppCtrl($scope, session) {
+        $scope.user = session.user;
+    }
 
     angular.module('app.sections', ['ui.router', 'app.welcome', 'app.gui', 'ngCookies'])
 
@@ -49,6 +23,7 @@ define(['app/welcome', 'app/gui'], function () {
                 .state('app', {
                     abstract: true,
                     url: '/app',
+                    controller: AppCtrl,
                     templateUrl: 'app/sections/app.html'
                 })
                 .state('loading', {
