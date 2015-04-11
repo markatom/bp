@@ -2,14 +2,15 @@
 
 define(['app/welcome', 'app/gui'], function () {
 
-    /**
-     * App section controller.
-     * @param $scope
-     * @param session
-     * @constructor
-     */
-    function AppCtrl($scope, session) {
+    function AppCtrl($scope, session, $state, sessions, alerts) {
         $scope.user = session.user;
+
+        $scope.signOut = function () {
+            sessions.delete('current');
+            session.terminate();
+            alerts.success('Odhlášení proběhlo úspěšně.');
+            $state.go('welcome.signIn');
+        };
     }
 
     angular.module('app.sections', ['ui.router', 'app.welcome', 'app.gui', 'ngCookies'])
