@@ -44,7 +44,7 @@ class SessionsPresenter extends ApiPresenter
 			$this->sendError(IResponse::S401_UNAUTHORIZED, 'incorrectPassword');
 		}
 
-		$session = new Session($user, $this->getPost('longLife'));
+		$session = new Session($user, $this->getPost('longLife', FALSE));
 
 		$this->em->persist($session)->flush();
 
