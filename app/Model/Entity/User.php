@@ -35,15 +35,23 @@ class User extends BaseEntity
 	private $password;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="Role")
+	 * @var Role
+	 */
+	protected $role;
+
+	/**
 	 * @param string $fullName
 	 * @param string $email
 	 * @param string $password
+	 * @param Role $role
 	 */
-	public function __construct($fullName, $email, $password)
+	public function __construct($fullName, $email, $password, Role $role)
 	{
 		$this->fullName = $fullName;
 		$this->email    = $email;
 		$this->password = $this->hash($password);
+		$this->role     = $role;
 	}
 
 	/**
