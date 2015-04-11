@@ -3,4 +3,4 @@ log/*
 temp/*
 vendor/*
 !vendor/others
-app/config/config.local.neon
+app/config/local.neon
