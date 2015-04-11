@@ -32,7 +32,7 @@ class User extends BaseEntity
 	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
-	protected $password;
+	private $password;
 
 	/**
 	 * @param string $fullName
@@ -43,7 +43,15 @@ class User extends BaseEntity
 	{
 		$this->fullName = $fullName;
 		$this->email    = $email;
-		$this->password = $password;
+		$this->password = $this->hash($password);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPassword()
+	{
+		return $this->password;
 	}
 
 	/**
