@@ -30,7 +30,7 @@ class ApiRoute extends Route
 	 */
     public function __construct($mask, $metadata = [], $flags = 0)
     {
-		$this->flags = isset($metadata['method']) ? $metadata['method'] : 0;
+		$this->flags = $flags;
 
         parent::__construct(self::API_URL_PREFIX . $mask, $metadata, $flags);
     }
