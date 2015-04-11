@@ -41,6 +41,10 @@ define(function () {
         });
     };
 
+    Alerts.prototype.success = function (text) {
+        this._add('success', text);
+    };
+
     /**
      * Adds alert of error type.
      * @param {string} text
