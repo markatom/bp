@@ -9,7 +9,6 @@ use Nette\Utils\Random;
 
 /**
  * @ORM\Entity
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="token_uniq", columns={"token"})})
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
@@ -25,7 +24,7 @@ class Session extends BaseEntity
 	protected $user;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", unique=true)
 	 * @var string
 	 */
 	protected $token;

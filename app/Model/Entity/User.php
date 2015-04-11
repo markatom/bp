@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="email_uniq", columns={"email"})})
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
@@ -24,13 +23,13 @@ class User extends BaseEntity
 	protected $fullName;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", unique=true)
 	 * @var string
 	 */
 	protected $email;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
 	protected $password;
