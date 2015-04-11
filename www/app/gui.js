@@ -14,39 +14,54 @@ define(function () {
 
     // Controllers
 
-    function alertsCtrl($scope, alerter) {
-        $scope.alerter = alerter;
+    function AlertsCtrl($scope, alerts) {
+        $scope.alerts = alerts;
     }
 
     // Services
 
-    function Alerter() {
+    /**
+     * Collects alert messages.
+     * @constructor
+     */
+    function Alerts() {
         this.alerts = [];
     }
 
-    Alerter.prototype._add = function (type, text) {
+    /**
+     * Adds alert.
+     * @param {string} type
+     * @param {string} text
+     * @private
+     */
+    Alerts.prototype._add = function (type, text) {
         this.alerts.push({
             type: type,
             text: text
         });
     };
 
-    Alerter.prototype.error = function (text) {
+    /**
+     * Adds alert of error type.
+     * @param {string} text
+     */
+    Alerts.prototype.error = function (text) {
         this._add('danger', text);
     };
 
-    Alerter.prototype.info = function (text) {
+    /**
+     * Adds alert of info type.
+     * @param {string} text
+     */
+    Alerts.prototype.info = function (text) {
         this._add('info', text);
     };
 
     // Configuration
 
     angular.module('app.gui', [])
-
-        .service('alerter', Alerter)
-
+        .service('alerts', Alerts)
         .directive('appAlerts', alertsDir)
-
-        .controller('alerts', alertsCtrl);
+        .controller('alerts', AlertsCtrl);
 
 });
