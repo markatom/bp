@@ -1,14 +1,14 @@
-<div ng-class="['alert', 'alert-' + alert.type]" role="alert" ng-repeat="alert in alerts">{{alert.message}}</div>
+<app-alerts></app-alerts>
 
 <form ng-submit="signIn()">
     <div class="form-group">
         <label for="email">E-mailová adresa</label>
-        <input id="email" class="form-control" type="email" ng-model="email">
+        <input id="email" class="form-control" type="email" ng-model="email" required="required">
     </div>
 
     <div class="form-group">
         <label for="password">Heslo</label>
-        <input id="password" class="form-control" type="password" ng-model="password">
+        <input id="password" class="form-control" type="password" ng-model="password" required="required">
     </div>
 
     <div class="checkbox">

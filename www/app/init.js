@@ -1,9 +1,7 @@
 'use strict';
 
-define([
-    'app/session/module'
-], function () {
+define(['app/sections', 'app/welcome', 'app/order'], function () {
 
-    angular.bootstrap(document.documentElement, ['app.session'])
+    angular.bootstrap(document.documentElement, ['app.welcome', 'app.sections', 'app.order']);
 
 });
