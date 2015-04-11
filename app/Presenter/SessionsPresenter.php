@@ -2,6 +2,7 @@
 
 namespace Presenter;
 
+use DateTime;
 use Kdyby\Doctrine\EntityManager;
 use Model\Entity\Session;
 use Model\Entity\User;
@@ -15,16 +16,23 @@ use Nette\Http\IResponse;
 class SessionsPresenter extends ApiPresenter
 {
 
-	/** @var EntityManager */
-	private $em;
+	/** @var EntityManager @inject */
+	public $em;
 
 	/**
-	 * @param EntityManager $em
+	 * Removes all expired sessions, so they are not cumulating in database.
 	 */
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
-    }
+	public function startup()
+	{
+		parent::startup();
+
+		$this->em->getFilters()->disable('expiredSessionFilter');
+
+		$this->em->createQuery('DELETE ' . Session::class . ' s WHERE s.expiration < ?0')
+			->execute([new DateTime]);
+
+		$this->em->getFilters()->enable('expiredSessionFilter');
+	}
 
 	/**
 	 * Performs authentication and establishes session.
@@ -48,35 +56,66 @@ class SessionsPresenter extends ApiPresenter
 
 		$this->em->persist($session)->flush();
 
-		$this->sendJson([
-			'token' => $session->token,
-			'user'  => [
-				'fullName' => $user->fullName,
-				'email'    => $user->email,
-			],
-		], IResponse::S201_CREATED);
+		$this->sendJson($this->mapSession($session), IResponse::S201_CREATED);
 	}
 
 	/**
-	 * Terminates session.
+	 * Retrieves current session.
 	 */
-	public function actionDelete()
+	public function actionReadCurrent()
 	{
 		$token = $this->httpRequest->getHeader('X-Session-Token');
 
 		if ($token === NULL) {
-			$this->sendBadRequest("Missing header 'X-Session-Token' identifying current session.");
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'missingSessionToken', "Missing header 'X-Session-Token' identifying current session.");
 		}
 
-		$session = $this->em->getRepository(Session::class)->findBy(['token' => $token]);
+		/** @var Session $session */
+		$session = $this->em->getRepository(Session::class)->findOneBy(['token' => $token]);
 
 		if (!$session) {
-			$this->sendBadRequest("Unknown token supplied in 'X-Session-Token' header.");
+			$this->sendEmpty();
 		}
 
-		$this->em->remove($session)->flush();
+		$this->sendJson($this->mapSession($session));
+	}
+
+	/**
+	 * Terminates current session.
+	 */
+	public function actionDeleteCurrent()
+	{
+		$token = $this->httpRequest->getHeader('X-Session-Token');
+
+		if ($token === NULL) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'missingSessionToken', "Missing header 'X-Session-Token' identifying current session.");
+		}
+
+		/** @var Session $session */
+		$session = $this->em->getRepository(Session::class)->findOneBy(['token' => $token]);
+
+		if ($session) {
+			$this->em->remove($session)->flush();
+		}
 
 		$this->sendEmpty();
+	}
+
+	/**
+	 * Maps given session to an array.
+	 * @param Session $session
+	 * @return array
+	 */
+	public function mapSession(Session $session)
+	{
+		return [
+			'token'    => $session->token,
+			'longLife' => $session->longLife,
+			'user'     => [
+				'fullName' => $session->user->fullName,
+				'email'    => $session->user->email,
+			],
+		];
 	}
 
 }
