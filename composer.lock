@@ -4,27 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cdbe434ab4710b832f07a9f9105de416",
+    "hash": "f5e19745ae9ec18a883fb848b9a65558",
     "packages": [
-        {
-            "name": "dg/adminer-custom",
-            "version": "v1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dg/adminer-custom.git",
-                "reference": "f1b449b7076d49711fdb41382e5bd858f09855d0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dg/adminer-custom/zipball/f1b449b7076d49711fdb41382e5bd858f09855d0",
-                "reference": "f1b449b7076d49711fdb41382e5bd858f09855d0",
-                "shasum": ""
-            },
-            "type": "project",
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "Customization for the best database management tool written in PHP, Adminer",
-            "time": "2015-02-07 20:26:30"
-        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.3",
