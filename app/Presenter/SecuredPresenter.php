@@ -38,12 +38,7 @@ class SecuredPresenter extends ApiPresenter
 		$session = $this->em->getRepository(Session::class)->findBy(['token' => $token]);
 
 		if (!$session) {
-			$this->sendError(IResponse::S401_UNAUTHORIZED, 'unknownSessionToken', "Unknown session token supplied in 'X-Session-Token' header.");
-		}
-
-		if (!$session->isActive()) {
-			$this->em->remove($session)->flush();
-			$this->sendError(IResponse::S401_UNAUTHORIZED, 'sessionExpired', 'Session for supplied token expired.');
+			$this->sendError(IResponse::S401_UNAUTHORIZED, 'unknownSessionToken', "Unknown session token supplied in 'X-Session-Token' header. Token maybe expired.");
 		}
 
 		$session->renew();

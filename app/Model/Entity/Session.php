@@ -68,14 +68,6 @@ class Session extends BaseEntity
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function isActive()
-	{
-		return $this->expiration > new \DateTime;
-	}
-
-	/**
 	 * Renews session expiration.
 	 */
 	public function renew()
