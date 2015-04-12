@@ -34,11 +34,13 @@ define(['app/rest', 'app/gui'], function () {
                 .error(function (error) {
                     switch (error.type) {
                         case 'unknownEmail':
-                            alerts.error('Uživatel se zadaným e-mailem v systému neexistuje.');
+                            alerts.clear();
+                            alerts.showError('Uživatel se zadaným e-mailem v systému neexistuje.');
                             break;
 
                         case 'incorrectPassword':
-                            alerts.error('Zadáno chybné heslo k uživatelskému účtu.');
+                            alerts.clear();
+                            alerts.showError('Zadáno chybné heslo k uživatelskému účtu.');
                             break;
 
                         default:

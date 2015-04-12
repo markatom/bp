@@ -18,47 +18,120 @@ define(function () {
         $scope.alerts = alerts;
     }
 
-    // Services
+    // Model
 
     /**
      * Collects alert messages.
      * @constructor
      */
     function Alerts() {
-        this.alerts = [];
+        this.current = [];
+        this.waiting = [];
     }
 
     /**
-     * Adds alert.
+     * Shows an alert.
      * @param {string} type
      * @param {string} text
      * @private
      */
-    Alerts.prototype._add = function (type, text) {
-        this.alerts.push({
+    Alerts.prototype._show = function (type, text) {
+        this.current.push({
             type: type,
             text: text
         });
     };
 
-    Alerts.prototype.success = function (text) {
-        this._add('success', text);
+    /**
+     * Prepares an alert.
+     * @param {string} type
+     * @param {string} text
+     * @private
+     */
+    Alerts.prototype._prepare = function (type, text) {
+        this.waiting.push({
+            type: type,
+            text: text
+        });
     };
 
     /**
-     * Adds alert of error type.
+     * Shows an success alert.
      * @param {string} text
      */
-    Alerts.prototype.error = function (text) {
-        this._add('danger', text);
+    Alerts.prototype.showSuccess = function (text) {
+        this._show('success', text);
     };
 
     /**
-     * Adds alert of info type.
+     * Shows an error alert.
      * @param {string} text
      */
-    Alerts.prototype.info = function (text) {
-        this._add('info', text);
+    Alerts.prototype.showError = function (text) {
+        this._show('danger', text);
+    };
+
+    /**
+     * Shows an info alert.
+     * @param {string} text
+     */
+    Alerts.prototype.showInfo = function (text) {
+        this._show('info', text);
+    };
+
+    /**
+     * Shows an warning alert.
+     * @param {string} text
+     */
+    Alerts.prototype.showWarning = function (text) {
+        this._show('warning', text);
+    };
+
+    /**
+     * Prepares an success alert.
+     * @param {string} text
+     */
+    Alerts.prototype.prepareSuccess = function (text) {
+        this._prepare('success', text);
+    };
+
+    /**
+     * Prepares an error alert.
+     * @param {string} text
+     */
+    Alerts.prototype.prepareError = function (text) {
+        this._prepare('danger', text);
+    };
+
+    /**
+     * Prepares an info alert.
+     * @param {string} text
+     */
+    Alerts.prototype.prepareInfo = function (text) {
+        this._prepare('info', text);
+    };
+
+    /**
+     * Prepares an warning alert.
+     * @param {string} text
+     */
+    Alerts.prototype.prepareWarning = function (text) {
+        this._prepare('warning', text);
+    };
+
+    /**
+     * Removes all alerts.
+     */
+    Alerts.prototype.clear = function () {
+        this.current = [];
+    };
+
+    /**
+     * Shows waiting alerts.
+     */
+    Alerts.prototype.shift = function () {
+        this.current = this.waiting;
+        this.waiting = [];
     };
 
     // Configuration
@@ -66,6 +139,12 @@ define(function () {
     angular.module('app.gui', [])
         .service('alerts', Alerts)
         .directive('appAlerts', alertsDir)
-        .controller('alerts', AlertsCtrl);
+        .controller('alerts', AlertsCtrl)
+
+        .run(function ($rootScope, alerts) {
+            $rootScope.$on('$stateChangeSuccess', function () {
+                alerts.shift();
+            });
+        });
 
 });

@@ -1,3 +1,3 @@
 <div ng-controller="alerts">
-    <div ng-class="['alert', 'alert-' + alert.type]" role="alert" ng-repeat="alert in alerts.alerts">{{alert.text}}</div>
+    <div ng-class="['alert', 'alert-' + alert.type]" role="alert" ng-repeat="alert in alerts.current">{{alert.text}}</div>
 </div>

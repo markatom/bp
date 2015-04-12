@@ -8,7 +8,7 @@ define(['app/welcome', 'app/gui'], function () {
         $scope.signOut = function () {
             sessions.delete('current');
             session.terminate();
-            alerts.success('Odhlášení proběhlo úspěšně.');
+            alerts.prepareSuccess('Odhlášení proběhlo úspěšně.');
             $state.go('welcome.signIn');
         };
     }
@@ -56,7 +56,7 @@ define(['app/welcome', 'app/gui'], function () {
 
                 if (!token) {
                     if (section === 'app') {
-                        alerts.info('Přihlaste se, prosím.');
+                        alerts.prepareInfo('Přihlaste se, prosím.');
                         $state.go('welcome.signIn');
                         event.preventDefault();
                     }
@@ -79,7 +79,7 @@ define(['app/welcome', 'app/gui'], function () {
                         $cookies.remove('session-token');
 
                         if (section === 'app') {
-                            alerts.info('Přihlaste se, prosím.');
+                            alerts.prepareInfo('Přihlaste se, prosím.');
                         }
                         $state.go(section === 'app' ? 'welcome.signIn' : state, params);
                         event.preventDefault();
