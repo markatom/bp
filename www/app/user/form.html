@@ -13,5 +13,5 @@
         <select id="role" class="form-control" ng-model="user.role" ng-options="role.name for role in roles track by role.id"></select>
     </div>
 
-    <button type="submit" class="btn btn-primary" ng-disabled="sending">Uložit</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="sending">{{sending ? 'Ukládám…' : 'Uložit'}}</button>
 </form>
