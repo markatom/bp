@@ -159,9 +159,17 @@ define(function () {
 
     angular.module('app.rest', [])
 
-        .run(function (alerts) {
-            Response.defaultErrorHandler = function () {
-                alerts.error('Při komunikaci se serverem došlo k chybě, zkuste to prosím znovu.')
+        .run(function (alerts, $state, session) {
+            Response.defaultErrorHandler = function (data, code) {
+                if (code === 401) { // unauthorized
+                    session.terminate();
+                    alerts.prepareInfo('Přihlaste se, prosím');
+                    $state.go('welcome.signIn');
+
+                } else {
+                    alerts.clear();
+                    alerts.showError('Při komunikaci se serverem došlo k chybě, zkuste to prosím znovu.')
+                }
             };
         })
 
