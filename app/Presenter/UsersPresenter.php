@@ -2,6 +2,7 @@
 
 namespace Presenter;
 
+use Kdyby\Doctrine\Tools\NonLockingUniqueInserter;
 use Model\Entity\Role;
 use Model\Entity\User;
 use Nette\Http\IResponse;
@@ -22,6 +23,30 @@ class UsersPresenter extends SecuredPresenter
 		$users = $this->em->getRepository(User::class)->findAll();
 
 		$this->sendJson(array_map([self::class, 'mapUser'], $users));
+	}
+
+	/**
+	 * Creates a new entity.
+	 */
+	public function actionCreate()
+	{
+		$role = $this->em->getRepository(Role::class)->find($this->getPost(['role', 'id']));
+
+		if (!$role) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownRole');
+		}
+
+		$user = new User($this->getPost('fullName'), $this->getPost('email'), $role);
+
+		$inserter = new NonLockingUniqueInserter($this->em);
+
+		$user = $inserter->persist($user);
+
+		if (!$user) {
+			$this->sendError(IResponse::S409_CONFLICT, 'emailConflict');
+		}
+
+		$this->sendJson(self::mapUser($user));
 	}
 
 	/**
@@ -61,6 +86,28 @@ class UsersPresenter extends SecuredPresenter
 		$user->role     = $role;
 
 		$this->em->flush();
+
+		$this->sendEmpty();
+	}
+
+	/**
+	 * Deletes single user entity.
+	 * @param int $id
+	 */
+	public function actionDelete($id)
+	{
+		sleep(2);
+		$user = $this->em->getRepository(User::class)->find($id);
+
+		if (!$user) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownUser');
+		}
+
+		if ($this->user->id === $user->id) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'cannotDeleteYourself');
+		}
+
+		$this->em->remove($user)->flush();
 
 		$this->sendEmpty();
 	}
