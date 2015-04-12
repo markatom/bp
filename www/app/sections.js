@@ -35,12 +35,13 @@ define(['app/welcome', 'app/gui'], function () {
         })
 
         .run(function ($rootScope, $state, $cookies, session, $view, sessions, alerts, $http) {
-            $rootScope.$on('$stateChangeStart', function(event, toState) {
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
                 if (toState.name === 'loading') {
                     return;
                 }
 
                 var state = toState.name;
+                var params = toParams;
                 var section = state.split('.')[0];
 
                 if (session.isActive()) {
@@ -70,7 +71,7 @@ define(['app/welcome', 'app/gui'], function () {
                 sessions.read('current').success(function (data, code) {
                     if (code === 200) { // session is active
                         session.start(data.token, data.user);
-                        $state.go(section === 'welcome' ? 'app.orders' : state);
+                        $state.go(section === 'welcome' ? 'app.orders' : state, params);
                         event.preventDefault();
 
                     } else { // session not found or expired
@@ -80,7 +81,7 @@ define(['app/welcome', 'app/gui'], function () {
                         if (section === 'app') {
                             alerts.info('Přihlaste se, prosím.');
                         }
-                        $state.go(section === 'app' ? 'welcome.signIn' : state);
+                        $state.go(section === 'app' ? 'welcome.signIn' : state, params);
                         event.preventDefault();
                     }
                 });
