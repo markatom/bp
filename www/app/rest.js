@@ -5,13 +5,14 @@ define(function () {
     // Model
 
     /**
-     * Response object with success and error handlers.
+     * Response object with success, error and finally handlers.
      * @constructor
      * @param {HttpPromise} promise
      */
     function Response(promise) {
         this._successHandler = this.constructor.defaultSuccessHandler;
         this._errorHandler = this.constructor.defaultErrorHandler;
+        this._finallyHandler = this.constructor.defaultFinallyHandler;
 
         var that = this;
         promise.success(function (data, status, headers) {
@@ -19,6 +20,9 @@ define(function () {
         });
         promise.error(function (data, status, headers) {
             that._errorHandler(data, status, headers);
+        });
+        promise.finally(function (data, status, headers) {
+            that._finallyHandler(data, status, headers);
         });
     }
 
@@ -35,6 +39,13 @@ define(function () {
      * @type {function}
      */
     Response.defaultErrorHandler = function () { };
+
+    /**
+     * Default finally handler.
+     * @static
+     * @type {function}
+     */
+    Response.defaultFinallyHandler = function () { };
 
     /**
      * Sets a handler which is called when a non-error response received.
@@ -54,6 +65,15 @@ define(function () {
     Response.prototype.error = function (handler) {
         this._errorHandler = handler;
         return this;
+    };
+
+    /**
+     * Sets a handler which is called when response received.
+     * @param {function} handler
+     * @returns {Response}
+     */
+    Response.prototype.finally = function (handler) {
+        this._finallyHandler = handler;
     };
 
     /**
