@@ -5,6 +5,7 @@ namespace Model\Entity;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Kdyby\Doctrine\Entities\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 
 /**
  * @ORM\Entity
@@ -43,14 +44,12 @@ class User extends BaseEntity
 	/**
 	 * @param string $fullName
 	 * @param string $email
-	 * @param string $password
 	 * @param Role $role
 	 */
-	public function __construct($fullName, $email, $password, Role $role)
+	public function __construct($fullName, $email, Role $role)
 	{
 		$this->fullName = $fullName;
 		$this->email    = $email;
-		$this->password = $this->hash($password);
 		$this->role     = $role;
 	}
 
@@ -69,6 +68,18 @@ class User extends BaseEntity
 	public function authenticate($password)
 	{
 		return password_verify($password, $this->password);
+	}
+
+	/**
+	 * @param string $password
+	 */
+	public function setPassword($password)
+	{
+		if ($this->password !== NULL) {
+			throw new LogicException('Cannot set password if password was already set. Use User::changePassword method instead.');
+		}
+
+		$this->password = $this->hash($password);
 	}
 
 	/**

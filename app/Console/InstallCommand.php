@@ -61,12 +61,13 @@ class InstallCommand extends Command
 
 		$output->writeln(PHP_EOL . 'In order to manage users in system, initial admin account must be created.');
 
-		$this->em->persist(new User(
+		$this->em->persist($user = new User(
 			$this->questionHelper->ask($input, $output, new Question("\tFull name: ")),
 			$this->questionHelper->ask($input, $output, new Question("\tEmail address: ")),
-			$this->questionHelper->ask($input, $output, (new Question("\tPassword: "))->setHidden(TRUE)),
 			$admin
 		));
+
+		$user->setPassword($this->questionHelper->ask($input, $output, (new Question("\tPassword: "))->setHidden(TRUE)));
 
 		$this->em->flush();
 
