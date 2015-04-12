@@ -1,7 +1,7 @@
 'use strict';
 
-define(['app/sections', 'app/welcome', 'app/order'], function () {
+define(['app/sections', 'app/welcome', 'app/order', 'app/user'], function () {
 
-    angular.bootstrap(document.documentElement, ['app.welcome', 'app.sections', 'app.order']);
+    angular.bootstrap(document.documentElement, ['app.welcome', 'app.sections', 'app.order', 'app.user']);
 
 });

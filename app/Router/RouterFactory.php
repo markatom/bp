@@ -22,7 +22,11 @@ class RouterFactory
 		$router[] = new ApiRoute('sessions/current', 'Sessions:deleteCurrent', ApiRoute::METHOD_DELETE);
 		$router[] = new ApiRoute('sessions/current', 'Sessions:readCurrent', ApiRoute::METHOD_GET);
 
-		$router[] = new ApiRoute('user/me', 'User:readMe', ApiRoute::METHOD_GET);
+		$router[] = new ApiRoute('roles', 'Roles:readAll', ApiRoute::METHOD_GET);
+
+		$router[] = new ApiRoute('users', 'Users:readAll', ApiRoute::METHOD_GET);
+		$router[] = new ApiRoute('users/<id>', 'Users:read', ApiRoute::METHOD_GET);
+		$router[] = new ApiRoute('users/<id>', 'Users:update', ApiRoute::METHOD_PUT);
 
 		return $router;
 	}

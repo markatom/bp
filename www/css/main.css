@@ -352,3 +352,7 @@ h1.page-header {
         margin: 0;
     }
 }
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}

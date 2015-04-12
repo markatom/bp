@@ -56,7 +56,7 @@ class SessionsPresenter extends ApiPresenter
 
 		$this->em->persist($session)->flush();
 
-		$this->sendJson($this->mapSession($session), IResponse::S201_CREATED);
+		$this->sendJson(self::mapSession($session), IResponse::S201_CREATED);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class SessionsPresenter extends ApiPresenter
 			$this->sendEmpty();
 		}
 
-		$this->sendJson($this->mapSession($session));
+		$this->sendJson(self::mapSession($session));
 	}
 
 	/**
@@ -106,15 +106,12 @@ class SessionsPresenter extends ApiPresenter
 	 * @param Session $session
 	 * @return array
 	 */
-	public function mapSession(Session $session)
+	public static function mapSession(Session $session)
 	{
 		return [
 			'token'    => $session->token,
 			'longLife' => $session->longLife,
-			'user'     => [
-				'fullName' => $session->user->fullName,
-				'email'    => $session->user->email,
-			],
+			'user'     => UsersPresenter::mapUser($session->user),
 		];
 	}
 

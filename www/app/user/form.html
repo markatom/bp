@@ -1,0 +1,17 @@
+<form ng-submit="save()">
+    <div class="form-group">
+        <label for="full-name">Celé jméno</label>
+        <input id="full-name" class="form-control" type="text" ng-model="user.fullName">
+    </div>
+    <div class="form-group">
+        <label for="email">E-mail</label>
+        <input id="email" class="form-control" type="text" disabled="disabled" ng-model="user.email">
+        <p class="help-block">E-mail nelze změnit.</p>
+    </div>
+    <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" class="form-control" ng-model="user.role" ng-options="role.name for role in roles track by role.id"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="sending">Uložit</button>
+</form>
