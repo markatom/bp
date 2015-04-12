@@ -88,6 +88,17 @@ define(function () {
     };
 
     /**
+     * Updates a data of a single entity identified by given id.
+     * @param {int|string} id
+     * @param {Object} data
+     * @param {Object=} query
+     * @returns {Response}
+     */
+    Resource.prototype.update = function (id, data, query) {
+        return new Response(this._$http.put(this._url + '/' + id, data, {query: query || {}}));
+    };
+
+    /**
      * Deletes a single entity identified by given id.
      * @param {int|string} id
      * @param {Object=} query
@@ -95,6 +106,15 @@ define(function () {
      */
     Resource.prototype.delete = function (id, query) {
         return new Response(this._$http.delete(this._url + '/' + id, {query: query || {}}));
+    };
+
+    /**
+     * Reads all entities.
+     * @param {Object=} query
+     * @returns {Response}
+     */
+    Resource.prototype.readAll = function (query) {
+        return new Response(this._$http.get(this._url, {query: query || {}}));
     };
 
     /**
