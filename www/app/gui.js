@@ -142,8 +142,10 @@ define(function () {
         .controller('alerts', AlertsCtrl)
 
         .run(function ($rootScope, alerts) {
-            $rootScope.$on('$stateChangeSuccess', function () {
-                alerts.shift();
+            $rootScope.$on('$stateChangeSuccess', function (event, toState) {
+                if (toState.name !== 'loading') {
+                    alerts.shift();
+                }
             });
         });
 
