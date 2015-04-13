@@ -6,10 +6,11 @@ define(['app/welcome', 'app/gui'], function () {
         $scope.session = session;
 
         $scope.signOut = function () {
-            sessions.delete('current');
-            session.terminate();
-            alerts.prepareSuccess('Odhlášení proběhlo úspěšně.');
-            $state.go('welcome.signIn');
+            sessions.delete('current').success(function () {
+                session.terminate();
+                alerts.prepareSuccess('Odhlášení proběhlo úspěšně.');
+                $state.go('welcome.signIn');
+            });
         };
     }
 
