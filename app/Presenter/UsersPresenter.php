@@ -2,8 +2,11 @@
 
 namespace Presenter;
 
+use DateTime;
+use Email\UserCreated\UserCreatedSender;
 use Kdyby\Doctrine\Tools\NonLockingUniqueInserter;
 use Model\Entity\Role;
+use Model\Entity\Token;
 use Model\Entity\User;
 use Nette\Http\IResponse;
 
@@ -14,6 +17,19 @@ use Nette\Http\IResponse;
  */
 class UsersPresenter extends SecuredPresenter
 {
+
+	/** @var UserCreatedSender @inject */
+	public $userCreatedSender;
+
+	public function startup()
+	{
+		if ($this->action === 'updateAll') {
+			ApiPresenter::startup();
+
+		} else {
+			parent::startup();
+		}
+	}
 
 	/**
 	 * Reads all users.
@@ -36,15 +52,17 @@ class UsersPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownRole');
 		}
 
-		$user = new User($this->getPost('fullName'), $this->getPost('email'), $role);
-
+		$user     = new User($this->getPost('fullName'), $this->getPost('email'), $role);
 		$inserter = new NonLockingUniqueInserter($this->em);
-
-		$user = $inserter->persist($user);
+		$user     = $inserter->persist($user);
 
 		if (!$user) {
 			$this->sendError(IResponse::S409_CONFLICT, 'emailConflict');
 		}
+
+		$this->em->persist($token = new Token($user, 'setPassword', new DateTime('+24 hours')));
+
+		$this->userCreatedSender->send($token->key, $user->email);
 
 		$this->sendJson(self::mapUser($user));
 	}
@@ -76,18 +94,47 @@ class UsersPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownUser');
 		}
 
-		$role = $this->em->getRepository(Role::class)->find($this->getPost(['role', 'id']));
-
-		if (!$role) {
-			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownRole');
-		}
-
 		$user->fullName = $this->getPost('fullName');
-		$user->role     = $role;
+
+		if ($roleId = $this->getPost(['role', 'id'], NULL)) {
+			$role = $this->em->getRepository(Role::class)->find($roleId);
+
+			if (!$role) {
+				$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownRole');
+			}
+
+			$user->role = $role;
+		}
 
 		$this->em->flush();
 
-		$this->sendEmpty();
+		$this->sendJson(self::mapUser($user));
+	}
+
+	/**
+	 * Updates user's password by provided token.
+	 */
+	public function actionUpdateAll()
+	{
+		$this->removeExpiredTokens();
+
+		/** @var Token $token */
+		$token = $this->em->getRepository(Token::class)->findOneBy(['key' => $this->getPost(['token', 'key'])]);
+
+		if (!$token) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownToken', 'Unknown token key. Token maybe expired.');
+		}
+
+		if ($token->type !== 'setPassword') {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'invalidTokenType');
+		}
+
+		$token->user->setPassword($this->getPost('password'));
+
+
+		$this->em->remove($token)->flush();
+
+		$this->sendJson($this->mapUser($token->user));
 	}
 
 	/**
@@ -96,7 +143,6 @@ class UsersPresenter extends SecuredPresenter
 	 */
 	public function actionDelete($id)
 	{
-		sleep(2);
 		$user = $this->em->getRepository(User::class)->find($id);
 
 		if (!$user) {
@@ -127,6 +173,17 @@ class UsersPresenter extends SecuredPresenter
 		];
 	}
 
+	/**
+	 * Removes all expired tokens, so they are not cumulating in database.
+	 */
+	private function removeExpiredTokens()
+	{
+		$this->em->getFilters()->disable('expiredTokenFilter');
 
+		$this->em->createQuery('DELETE ' . Token::class . ' t WHERE t.expiration < ?0')
+			->execute([new DateTime]);
+
+		$this->em->getFilters()->enable('expiredTokenFilter');
+	}
 
 }

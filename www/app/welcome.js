@@ -1,6 +1,6 @@
 'use strict';
 
-define(['app/rest', 'app/gui'], function () {
+define(['app/rest', 'app/gui', 'app/user'], function () {
 
     // Controllers
 
@@ -59,6 +59,56 @@ define(['app/rest', 'app/gui'], function () {
         };
     }
 
+    function passwordFormCtrl($scope, $state, users, alerts, Response, sessions, $http, $cookies, session) {
+        $scope.saving = false;
+
+        $scope.setPassword = function () {
+            $scope.saving = true;
+
+            users.updateAll({
+                password: $scope.password,
+                token: {
+                    key: $state.params.token
+                }
+            }).success(function (user) {
+                sessions.create({
+                        user: {
+                            email: user.email,
+                            password: $scope.password
+                        }
+                    })
+                    .success(function (data) { // todo: refactor, code duplicity
+                        // set authentication header
+                        $http.defaults.headers.common['X-Session-Token'] = data.token;
+
+                        // save token to cookie
+                        var expiration = new Date;
+                        expiration.setDate(expiration.getDate() + 14); // 14 days
+                        $cookies.put('session-token', data.token, {
+                            expires: expiration
+                        });
+
+                        // set session value
+                        session.start(data.token, data.user);
+
+                        $state.go('app.orders');
+                    })
+
+            }).error(function (error) {
+                if (error.type === 'unknownToken') {
+                    alerts.clear();
+                    alerts.showError('Heslo se nepodařilo nastavit. Pravděpodobně vypršela platnost tohoto odkazu.');
+
+                } else {
+                    Response.defaultErrorHandler();
+                }
+
+            }).finally(function () {
+                $scope.saving = false;
+            });
+        };
+    }
+
     // Model
 
     /**
@@ -97,14 +147,20 @@ define(['app/rest', 'app/gui'], function () {
 
     // Configuration
 
-    angular.module('app.welcome', ['ui.router', 'app.rest', 'app.gui'])
+    angular.module('app.welcome', ['ui.router', 'app.rest', 'app.gui', 'app.user'])
 
         .config(function ($stateProvider) {
-            $stateProvider.state('welcome.signIn', {
-                url: '/',
-                templateUrl: 'app/welcome/signIn.html',
-                controller: signInCtrl
-            });
+            $stateProvider
+                .state('welcome.signIn', {
+                    url: '/',
+                    templateUrl: 'app/welcome/signIn.html',
+                    controller: signInCtrl
+                })
+                .state('welcome.setPassword', {
+                    url: '/set-password/{token}',
+                    templateUrl: 'app/welcome/passwordForm.html',
+                    controller: passwordFormCtrl
+                });
         })
 
         .factory('sessions', function (resourceFactory) {

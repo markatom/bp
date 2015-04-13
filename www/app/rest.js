@@ -138,6 +138,16 @@ define(function () {
     };
 
     /**
+     * Updates all entities.
+     * @param {Object} data
+     * @param {Object=} query
+     * @returns {Response}
+     */
+    Resource.prototype.updateAll = function (data, query) {
+        return new Response(this._$http.put(this._url, data, {query: query || {}}));
+    };
+
+    /**
      * Factory for REST resources.
      * @constructor
      * @param {$http} $http
