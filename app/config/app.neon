@@ -44,3 +44,5 @@ services:
 			- enable(expiredTokenFilter)
 		tags: [run]
 
+	- Email\UserCreated\UserCreatedSender
+
