@@ -16,6 +16,7 @@
 	},
 	"require-dev": {
 		"behat/mink-extension": "2.0.1",
-		"behat/mink-sahi-driver": "1.1.0"
+		"behat/mink-sahi-driver": "1.1.0",
+		"doctrine/data-fixtures": "1.1.1"
 	}
 }
