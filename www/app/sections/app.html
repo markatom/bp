@@ -20,8 +20,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" ng-click="signOut()">Odhlásit se</a></li>
                 <li><a id="profile" href="#" ui-sref="app.user.profile">{{session.user.fullName}}</a></li>
+                <li><a id="signOut" href="#" ng-click="signOut()">Odhlásit se</a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
