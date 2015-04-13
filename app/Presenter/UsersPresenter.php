@@ -88,6 +88,12 @@ class UsersPresenter extends SecuredPresenter
 	 */
 	public function actionUpdate($id)
 	{
+		$roleId = $this->getPost(['role', 'id'], NULL);
+
+		if ($this->user->role->slug !== 'admin' && ($this->user->id != $id || $roleId)) { // weak comparison intentionally
+			$this->sendError(IResponse::S403_FORBIDDEN, 'adminOnly');
+		}
+
 		$user = $this->em->getRepository(User::class)->find($id);
 
 		if (!$user) {
@@ -96,7 +102,7 @@ class UsersPresenter extends SecuredPresenter
 
 		$user->fullName = $this->getPost('fullName');
 
-		if ($roleId = $this->getPost(['role', 'id'], NULL)) {
+		if ($roleId) {
 			$role = $this->em->getRepository(Role::class)->find($roleId);
 
 			if (!$role) {
