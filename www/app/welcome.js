@@ -5,7 +5,11 @@ define(['app/rest', 'app/gui'], function () {
     // Controllers
 
     function signInCtrl ($scope, $http, sessions, session, alerts, $state, $cookies, Response) {
+        $scope.signing = false;
+
         $scope.signIn = function () {
+            $scope.signing = true;
+
             sessions.create({
                     longLife: $scope.longLife,
                     user: {
@@ -46,6 +50,9 @@ define(['app/rest', 'app/gui'], function () {
                         default:
                             Response.defaultErrorHandler();
                     }
+                })
+                .finally(function () {
+                    $scope.signing = false;
                 });
 
             $scope.password = '';
