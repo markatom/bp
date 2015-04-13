@@ -1,0 +1,14 @@
+<form ng-submit="save()">
+    <div class="form-group">
+        <label for="full-name">Celé jméno</label>
+        <input id="full-name" class="form-control" type="text" ng-model="fullName" required>
+    </div>
+
+    <div class="form-group">
+        <label for="email">E-mail</label>
+        <input id="email" class="form-control" type="email" ng-model="email" required disabled>
+        <p class="help-block">E-mail nelze změnit.</p>
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="sending">{{sending ? 'Ukládám…' : 'Uložit'}}</button>
+</form>

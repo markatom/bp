@@ -90,6 +90,27 @@ define(function () {
         };
     }
 
+    function ProfileCtrl($scope, users, alerts, session) {
+        $scope.saving = false;
+        $scope.fullName = session.user.fullName;
+        $scope.email = session.user.email;
+
+        $scope.save = function () {
+            $scope.saving = true;
+
+            users.update(session.user.id, {
+                fullName: $scope.fullName
+            }).success(function (data) {
+                session.user = data;
+                alerts.clear();
+                alerts.showSuccess('Změny byly úspěšně uloženy.');
+
+            }).finally(function () {
+                $scope.saving = false;
+            });
+        };
+    }
+
     // Configuration
 
     angular.module('app.user', ['ui.router', 'app.rest'])
@@ -119,6 +140,12 @@ define(function () {
                     url: '/add',
                     templateUrl: 'app/user/form.html',
                     controller: FormCtrl
+                })
+
+                .state('app.user.profile', {
+                    url: '/profile',
+                    templateUrl: 'app/user/profile.html',
+                    controller: ProfileCtrl
                 });
         })
 

@@ -3,7 +3,7 @@
 define(['app/welcome', 'app/gui'], function () {
 
     function AppCtrl($scope, session, $state, sessions, alerts) {
-        $scope.user = session.user;
+        $scope.session = session;
 
         $scope.signOut = function () {
             sessions.delete('current');
