@@ -29,14 +29,18 @@ extensions:
 doctrine:
 	filters:
 		expiredSessionFilter: Model\Sql\ExpiredSessionFilter
+		expiredTokenFilter: Model\Sql\ExpiredTokenFilter
 	metadata:
 		Model: %appDir%/Model/Entity
 
 
 services:
 	router: App\RouterFactory::createRouter
+
 	filters:
 		factory: @Doctrine\ORM\EntityManagerInterface::getFilters
-		setup: [enable(expiredSessionFilter)]
+		setup:
+			- enable(expiredSessionFilter)
+			- enable(expiredTokenFilter)
 		tags: [run]
 
