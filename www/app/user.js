@@ -4,7 +4,7 @@ define(function () {
 
     // Controllers
 
-    function GridCtrl ($scope, users, alerts, $state, session) {
+    function GridCtrl ($scope, users, alerts, session) {
         $scope.users = [];
         $scope.deleting = {};
         $scope.session = session;
@@ -71,7 +71,7 @@ define(function () {
             } else {
                 users.create($scope.user)
                     .success(function () {
-                        alerts.prepareSuccess('Nový uživatel byl vytvořen. O této skutečnosti bude informován e-mailem.')
+                        alerts.prepareSuccess('Nový uživatel byl vytvořen. O této skutečnosti bude informován e-mailem.');
                         $state.go('app.user.grid');
                     })
                     .error(function (data, code) {
