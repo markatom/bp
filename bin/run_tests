@@ -4,4 +4,4 @@ cd "`pwd`/`dirname $0`/.."
 
 vendor/bin/behat \
     -c tests/behavioural/config.yaml \
-    tests/behavioural
+    ${1-tests/behavioural}
