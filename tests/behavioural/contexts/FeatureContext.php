@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Kdyby\Doctrine\EntityManager;
 use Model\Entity\Session;
 use Nette\DI\Container;
+use Nette\Neon\Neon;
 
 /**
  * Defines application features from the specific context.
@@ -16,11 +17,23 @@ use Nette\DI\Container;
 class FeatureContext extends MinkContext implements Context, SnippetAcceptingContext
 {
 
+	const TEST_CONFIG = '/../test.neon';
+
+	const LOCAL_CONFIG = '/../../../app/config/local.neon';
+
+	const BACKUP_SUFFIX = '.backup';
+
 	/** @var Container */
 	private $dic;
 
 	/** @var EntityManager */
 	private $em;
+
+	/** @var Loader */
+	private $loader;
+
+	/** @var ORMExecutor */
+	private $executor;
 
     /**
      * Initializes context.
@@ -31,15 +44,46 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
      */
     public function __construct()
     {
-		$this->dic = require __DIR__ . '/../bootstrap.php';
-		$this->em  = $this->dic->getByType(EntityManager::class);
+		$this->dic      = require __DIR__ . '/../bootstrap.php';
+		$this->em       = $this->dic->getByType(EntityManager::class);
+		$this->loader   = new Loader;
+		$this->executor = new ORMExecutor($this->em, new ORMPurger);
 
-		$loader = new Loader;
-		$loader->loadFromDirectory(__DIR__ . '/../../fixtures');
+		$this->loader->loadFromDirectory(__DIR__ . '/../../fixtures');
+	}
 
-		$executor = new ORMExecutor($this->em, new ORMPurger);
-		$executor->execute($loader->getFixtures());
-    }
+	/**
+	 * Creates local config with test database for tested server application.
+	 * @BeforeSuite
+	 */
+	public static function beforeSuite()
+	{
+		$test  = Neon::decode(file_get_contents(__DIR__ . self::TEST_CONFIG));
+		$local = Neon::decode(file_get_contents(__DIR__ . self::LOCAL_CONFIG));
+
+		$local['doctrine']['dbname'] = $test['doctrine']['dbname'];
+
+		rename(__DIR__ . self::LOCAL_CONFIG, __DIR__ . self::LOCAL_CONFIG . self::BACKUP_SUFFIX);
+		file_put_contents(__DIR__ . self::LOCAL_CONFIG, Neon::encode($local, Neon::BLOCK));
+	}
+
+	/**
+	 * Loads fixtures.
+	 * @BeforeScenario
+	 */
+	public function beforeScenario()
+	{
+		$this->executor->execute($this->loader->getFixtures());
+	}
+
+	/**
+	 * Undo changed local config.
+	 * @AfterSuite
+	 */
+	public static function afterSuite()
+	{
+		rename(__DIR__ . self::LOCAL_CONFIG . self::BACKUP_SUFFIX, __DIR__ . self::LOCAL_CONFIG);
+	}
 
 	/**
 	 * Activates session of given user.
@@ -59,6 +103,7 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 
 		$this->visitPath('/');
 		$this->getSession()->setCookie('session-token', $session->token);
+		$this->visitPath('/');
 	}
 
 	/**
@@ -78,6 +123,14 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 	public function wait()
 	{
 		sleep(1);
+	}
+
+	/**
+	 * @When /^I follow "(?:[^"]|\\")*" with xpath "(?P<xpath>(?:[^"]|\\")*)"$/
+	 */
+	public function followXpath($xpath)
+	{
+		$this->getSession()->getPage()->find('xpath', $xpath)->click();
 	}
 
 }
