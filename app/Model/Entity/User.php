@@ -12,7 +12,7 @@ use LogicException;
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
-class User extends BaseEntity
+class User extends Addressable
 {
 
     use Identifier;
@@ -22,12 +22,6 @@ class User extends BaseEntity
 	 * @var string
 	 */
 	protected $fullName;
-
-	/**
-	 * @ORM\Column(type="string", unique=true)
-	 * @var string
-	 */
-	protected $email;
 
 	/**
 	 * @ORM\Column(type="string", nullable=true)
