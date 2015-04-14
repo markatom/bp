@@ -11,7 +11,7 @@
 	"require": {
 		"php": ">= 5.5",
 		"nette/nette": "~2.3.0",
-		"kdyby/doctrine": "~2.3",
+		"kdyby/doctrine": "~3.0@dev",
 		"kdyby/console": "~2.3"
 	},
 	"require-dev": {

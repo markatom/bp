@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "12893784dc98b03211560ffe33bc75cb",
+    "hash": "cedb4186aae74d37336b6c86007fa857",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -533,26 +533,30 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.4.7",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "2bc4ff3cab2ae297bcd05f2e619d42e6a7ca9e68"
+                "reference": "aa80c7d2c55a372f5f9f825f5c66dbda53a6e3fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/2bc4ff3cab2ae297bcd05f2e619d42e6a7ca9e68",
-                "reference": "2bc4ff3cab2ae297bcd05f2e619d42e6a7ca9e68",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/aa80c7d2c55a372f5f9f825f5c66dbda53a6e3fe",
+                "reference": "aa80c7d2c55a372f5f9f825f5c66dbda53a6e3fe",
                 "shasum": ""
             },
             "require": {
-                "doctrine/collections": "~1.1",
-                "doctrine/dbal": "~2.4",
+                "doctrine/cache": "~1.4",
+                "doctrine/collections": "~1.2",
+                "doctrine/common": ">=2.5-dev,<2.6-dev",
+                "doctrine/dbal": ">=2.5-dev,<2.6-dev",
+                "doctrine/instantiator": "~1.0.1",
                 "ext-pdo": "*",
-                "php": ">=5.3.2",
-                "symfony/console": "~2.0"
+                "php": ">=5.4",
+                "symfony/console": "~2.5"
             },
             "require-dev": {
+                "phpunit/phpunit": "~4.0",
                 "satooshi/php-coveralls": "dev-master",
                 "symfony/yaml": "~2.1"
             },
@@ -566,7 +570,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4.x-dev"
+                    "dev-master": "2.6.x-dev"
                 }
             },
             "autoload": {
@@ -602,7 +606,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-12-16 13:45:01"
+            "time": "2015-04-02 20:40:18"
         },
         {
             "name": "kdyby/annotations",
@@ -775,22 +779,21 @@
         },
         {
             "name": "kdyby/doctrine",
-            "version": "v2.3.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kdyby/Doctrine.git",
-                "reference": "4c8f4a72833e8c5bc944c0293003a0ba4b26cac2"
+                "reference": "95647a29bb7e950a09884dba28721ec7d31501c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kdyby/Doctrine/zipball/4c8f4a72833e8c5bc944c0293003a0ba4b26cac2",
-                "reference": "4c8f4a72833e8c5bc944c0293003a0ba4b26cac2",
+                "url": "https://api.github.com/repos/Kdyby/Doctrine/zipball/95647a29bb7e950a09884dba28721ec7d31501c7",
+                "reference": "95647a29bb7e950a09884dba28721ec7d31501c7",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "~2.5",
-                "doctrine/instantiator": "~1.0.3",
-                "doctrine/orm": ">=2.4.7,<2.5",
+                "doctrine/orm": "~2.5",
                 "kdyby/annotations": "~2.1@dev",
                 "kdyby/console": "~2.3@dev",
                 "kdyby/doctrine-cache": "~2.3@dev",
@@ -828,7 +831,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -863,7 +866,7 @@
                 "nette",
                 "orm"
             ],
-            "time": "2015-04-05 14:14:17"
+            "time": "2015-04-13 11:55:35"
         },
         {
             "name": "kdyby/doctrine-cache",
@@ -3311,7 +3314,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "kdyby/doctrine": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
