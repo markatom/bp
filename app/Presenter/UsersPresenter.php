@@ -11,7 +11,7 @@ use Model\Entity\User;
 use Nette\Http\IResponse;
 
 /**
- * @todo Fill desc.
+ * Users resource controller.
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
@@ -23,11 +23,11 @@ class UsersPresenter extends SecuredPresenter
 
 	public function startup()
 	{
-		if ($this->action === 'updateAll') {
-			ApiPresenter::startup();
+		if ($this->action === 'updateUserByToken') {
+			ApiPresenter::startup(); // no authorization
 
 		} else {
-			parent::startup();
+			parent::startup(); // authorization required
 		}
 	}
 
@@ -64,7 +64,7 @@ class UsersPresenter extends SecuredPresenter
 
 		$this->userCreatedSender->send($token->key, $user->email);
 
-		$this->sendJson(self::mapUser($user));
+		$this->sendJson(self::mapUser($user), IResponse::S201_CREATED);
 	}
 
 	/**
@@ -118,7 +118,7 @@ class UsersPresenter extends SecuredPresenter
 	}
 
 	/**
-	 * Updates user's password by provided token.
+	 * Updates password of user identified by provided token key.
 	 */
 	public function actionUpdateUserByToken()
 	{

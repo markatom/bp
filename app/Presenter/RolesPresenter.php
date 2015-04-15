@@ -3,10 +3,9 @@
 namespace Presenter;
 
 use Model\Entity\Role;
-use Nette\Object;
 
 /**
- * @todo Fill desc.
+ * Roles resource controller.
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */

@@ -8,11 +8,11 @@ use Model\Entity\User;
 use Nette\Http\IResponse;
 
 /**
- * @todo Fill desc.
+ * Ancestor for secured resources (only signed in user can request them).
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
-class SecuredPresenter extends ApiPresenter
+abstract class SecuredPresenter extends ApiPresenter
 {
 
 	/** @var EntityManager @inject */
@@ -22,7 +22,7 @@ class SecuredPresenter extends ApiPresenter
 	protected $user;
 
 	/**
-	 * Validates session and obtains user entity.
+	 * Validates the session and obtains an entity of signed in user.
 	 */
 	public function startup()
     {

@@ -9,7 +9,7 @@ use Model\Entity\User;
 use Nette\Http\IResponse;
 
 /**
- * @todo Fill desc.
+ * Sessions resource controller.
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
