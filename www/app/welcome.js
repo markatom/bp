@@ -66,7 +66,8 @@ define(['app/rest', 'app/gui', 'app/user'], function () {
             $scope.saving = true;
 
             users.updateAll({
-                password: $scope.password,
+                password: $scope.password
+            }, {
                 token: {
                     key: $state.params.token
                 }

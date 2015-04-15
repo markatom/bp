@@ -120,12 +120,12 @@ class UsersPresenter extends SecuredPresenter
 	/**
 	 * Updates user's password by provided token.
 	 */
-	public function actionUpdateAll()
+	public function actionUpdateUserByToken()
 	{
 		$this->removeExpiredTokens();
 
 		/** @var Token $token */
-		$token = $this->em->getRepository(Token::class)->findOneBy(['key' => $this->getPost(['token', 'key'])]);
+		$token = $this->em->getRepository(Token::class)->findOneBy(['key' => $this->getQuery(['token', 'key'])]);
 
 		if (!$token) {
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownToken', 'Unknown token key. Token maybe expired.');
