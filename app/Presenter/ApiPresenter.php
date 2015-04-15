@@ -9,11 +9,11 @@ use Nette\Http\IResponse;
 use Nette\Utils\Json;
 
 /**
- * @todo Fill desc.
+ * Ancestor for all resources' controllers.
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
-class ApiPresenter extends Presenter
+abstract class ApiPresenter extends Presenter
 {
 
 	/** @var IRequest @inject */
@@ -23,6 +23,9 @@ class ApiPresenter extends Presenter
 	public $httpResponse;
 
 	/**
+	 * Returns data sent in body of post request.
+	 * Can to iterate nested structures if given name is an array.
+	 * Sends error with description if default value is not provided and requested value is missing.
 	 * @param array|string $name
 	 * @param mixed $default
 	 * @return mixed
@@ -57,26 +60,46 @@ class ApiPresenter extends Presenter
 	}
 
 	/**
+	 * Returns data sent as query parameters.
+	 * Can to iterate nested structures if given name is an array.
+	 * Sends error with description if default value is not provided and requested value is missing.
 	 * @param string $name
 	 * @param mixed $default
 	 * @return mixed
 	 */
 	public function getQuery($name, $default = NULL)
 	{
-		$value = $this->httpRequest->getQuery($name);
+		$data = $this->httpRequest->getQuery();
 
-		if ($value === NULL) {
-			if (func_num_args() === 1) {
-				$this->sendError(IResponse::S400_BAD_REQUEST, 'missingRequiredValue', "Missing required value for query parameter named '$name'.");
-			}
-
-			return $default;
+		if (!is_array($name)) {
+			$name = [$name];
 		}
 
-		return $value;
+		foreach ($name as $key) {
+			if (!isset($data[$key])) {
+				if (func_num_args() === 1) {
+					$nested = array_slice($name, 1);
+
+					$name = $name[0] . (
+						$nested
+							? '[' . implode('][', $nested) . ']'
+							: ''
+					);
+
+					$this->sendError(IResponse::S400_BAD_REQUEST, 'missingRequiredValue', "Missing required value for query parameter named '$name'.");
+				}
+
+				return $default;
+			}
+
+			$data = $data[$key];
+		}
+
+		return $data;
 	}
 
 	/**
+	 * Sends a data in JSON format with given HTTP status code.
 	 * @param array $data
 	 * @param int $code
 	 */
@@ -88,6 +111,7 @@ class ApiPresenter extends Presenter
 	}
 
 	/**
+	 * Sends a response with empty body with HTTP No Content status code.
 	 */
 	public function sendEmpty()
 	{
@@ -97,6 +121,7 @@ class ApiPresenter extends Presenter
 	}
 
 	/**
+	 * Sends an error as JSON object with a type of the error and an optional message describing further details.
 	 * @param int $code
 	 * @param string $type
 	 * @param string $message
