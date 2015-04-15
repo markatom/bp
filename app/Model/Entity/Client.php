@@ -57,6 +57,21 @@ class Client extends Addressable
 	protected $address;
 
 	/**
+	 * @param string $fullName
+	 * @param string|DateTime $dateOfBirth
+	 * @param string $telephone
+	 * @param Address $address
+	 */
+	public function __construct($fullName, $dateOfBirth, $telephone, Address $address)
+	{
+		$this->fullName = $fullName;
+		$this->address  = $address;
+
+		$this->setDateOfBirth($dateOfBirth);
+		$this->setTelephone($telephone);
+	}
+
+	/**
 	 * @param string $telephone
 	 */
 	public function setTelephone($telephone)
