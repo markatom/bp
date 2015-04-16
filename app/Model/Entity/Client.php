@@ -82,7 +82,7 @@ class Client extends Addressable
 			throw new LogicException('Invalid telephone number.');
 		}
 
-		$p = isset($m['p']) ? $m['p'] : '420'; // default country code for the Czech Republic
+		$p = $m['p'] ?: '420'; // default country code for the Czech Republic
 
 		$this->telephone = '+' . $p . ' ' . $m['a'] . ' ' . $m['b'] . ' ' . $m['c']; // normalize
 	}
