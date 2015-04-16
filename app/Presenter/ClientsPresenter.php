@@ -11,7 +11,7 @@ use Nette\Http\IResponse;
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
-class ClientPresenter extends SecuredPresenter
+class ClientsPresenter extends SecuredPresenter
 {
 
 	/**
@@ -22,6 +22,7 @@ class ClientPresenter extends SecuredPresenter
 		$client = new Client(
 			$this->getPost('fullName'),
 			$this->getPost('dateOfBirth'),
+			$this->getPost('email'),
 			$this->getPost('telephone'),
 			new Address(
 				$this->getPost(['address', 'street']),
@@ -86,7 +87,7 @@ class ClientPresenter extends SecuredPresenter
 	{
 		$clients = $this->em->getRepository(Client::class)->findAll();
 
-		return array_map([self::class, 'mapClient'], $clients);
+		$this->sendJson(array_map([self::class, 'mapClient'], $clients));
     }
 
 	/**
@@ -98,7 +99,8 @@ class ClientPresenter extends SecuredPresenter
 	{
 		return [
 			'fullName'    => $client->fullName,
-			'dateOfBirth' => $client->dateOfBirth,
+			'dateOfBirth' => $client->dateOfBirth->format('Y-m-d'),
+			'email'       => $client->email,
 			'telephone'   => $client->telephone,
 			'address'     => [
 				'street'  => $client->address->street,
