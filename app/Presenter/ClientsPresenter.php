@@ -85,7 +85,15 @@ class ClientsPresenter extends SecuredPresenter
 	 */
 	public function actionReadAll()
 	{
-		$clients = $this->em->getRepository(Client::class)->findAll();
+		if ($sort = $this->getQuery('sort', NULL)) {
+			$sort = substr($sort, 0, 1) === '-'
+				? [substr($sort, 1) => 'DESC']
+				: [$sort => 'ASC'];
+		} else {
+			$sort = [];
+		}
+
+		$clients = $this->em->getRepository(Client::class)->findBy([], $sort);
 
 		$this->sendJson(array_map([self::class, 'mapClient'], $clients));
     }

@@ -1,10 +1,10 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Jméno</th>
-            <th>Datum narození</th>
-            <th>E-mail</th>
-            <th>Telefon</th>
+            <th><a href="#" ng-click="sort('fullName')">Jméno {{indicator('fullName')}}</a></th>
+            <th><a href="#" ng-click="sort('dateOfBirth')">Datum narození {{indicator('dateOfBirth')}}</a></th>
+            <th><a href="#" ng-click="sort('email')">E-mail {{indicator('email')}}</a></th>
+            <th><a href="#" ng-click="sort('telephone')">Telefon {{indicator('telephone')}}</a></th>
             <th><a class="btn btn-info" href="#" ui-sref="app.client.add"><i class="glyphicon glyphicon-plus"></i> Nový klient</a></th>
         </tr>
     </thead>
