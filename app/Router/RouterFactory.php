@@ -31,6 +31,8 @@ class RouterFactory
 		$router[] = new ApiRoute('users/<id>', 'Users:update', ApiRoute::METHOD_PUT);
 		$router[] = new ApiRoute('users/<id>', 'Users:delete', ApiRoute::METHOD_DELETE);
 
+		$router[] = new ApiRoute('clients', 'Clients:readAll', ApiRoute::METHOD_GET);
+
 		return $router;
 	}
 
