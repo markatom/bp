@@ -94,7 +94,7 @@ define(function () {
      * @returns {Response}
      */
     Resource.prototype.create = function (data, query) {
-        return new Response(this._$http.post(this._url, data, {query: query || {}}));
+        return new Response(this._$http.post(this._url, data, {params: query || {}}));
     };
 
     /**
@@ -104,7 +104,7 @@ define(function () {
      * @returns {Response}
      */
     Resource.prototype.read = function (id, query) {
-        return new Response(this._$http.get(this._url + '/' + id, {query: query || {}}));
+        return new Response(this._$http.get(this._url + '/' + id, {params: query || {}}));
     };
 
     /**
@@ -115,7 +115,7 @@ define(function () {
      * @returns {Response}
      */
     Resource.prototype.update = function (id, data, query) {
-        return new Response(this._$http.put(this._url + '/' + id, data, {query: query || {}}));
+        return new Response(this._$http.put(this._url + '/' + id, data, {params: query || {}}));
     };
 
     /**
@@ -125,7 +125,7 @@ define(function () {
      * @returns {Response}
      */
     Resource.prototype.delete = function (id, query) {
-        return new Response(this._$http.delete(this._url + '/' + id, {query: query || {}}));
+        return new Response(this._$http.delete(this._url + '/' + id, {params: query || {}}));
     };
 
     /**
@@ -134,7 +134,7 @@ define(function () {
      * @returns {Response}
      */
     Resource.prototype.readAll = function (query) {
-        return new Response(this._$http.get(this._url, {query: query || {}}));
+        return new Response(this._$http.get(this._url, {params: query || {}}));
     };
 
     /**
@@ -144,7 +144,7 @@ define(function () {
      * @returns {Response}
      */
     Resource.prototype.updateAll = function (data, query) {
-        return new Response(this._$http.put(this._url, data, {query: query || {}}));
+        return new Response(this._$http.put(this._url, data, {params: query || {}}));
     };
 
     /**
