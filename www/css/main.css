@@ -356,3 +356,15 @@ h1.page-header {
 .table > tbody > tr > td, .table > thead > tr > th {
     vertical-align: middle;
 }
+
+.table th > .form-group {
+    margin-top: 6px;
+}
+
+.table th > .search {
+    margin-top: 12px;
+}
+
+.table tbody.loading {
+    opacity: 0.3;
+}

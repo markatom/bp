@@ -85,15 +85,25 @@ class ClientsPresenter extends SecuredPresenter
 	 */
 	public function actionReadAll()
 	{
+		$qb = $this->em->getRepository(Client::class)->createQueryBuilder('c');
+
 		if ($sort = $this->getQuery('sort', NULL)) {
-			$sort = substr($sort, 0, 1) === '-'
-				? [substr($sort, 1) => 'DESC']
-				: [$sort => 'ASC'];
-		} else {
-			$sort = [];
+			if (substr($sort, 0, 1) === '-') {
+				$qb->orderBy('c.' . substr($sort, 1), 'DESC');
+			} else {
+				$qb->orderBy("c.$sort");
+			}
 		}
 
-		$clients = $this->em->getRepository(Client::class)->findBy([], $sort);
+		foreach ($this->getQuery('filters', []) as $prop => $value) {
+			if ($value === '') {
+				continue;
+			}
+			$qb->where("c.$prop LIKE :$prop")
+				->setParameter($prop, "%$value%");
+		}
+
+		$clients = $qb->getQuery()->getResult();
 
 		$this->sendJson(array_map([self::class, 'mapClient'], $clients));
     }
