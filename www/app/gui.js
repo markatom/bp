@@ -136,10 +136,18 @@ define(function () {
 
     // Configuration
 
-    angular.module('app.gui', [])
+    angular.module('app.gui', ['ui.bootstrap'])
         .service('alerts', Alerts)
         .directive('appAlerts', alertsDir)
         .controller('alerts', AlertsCtrl)
+
+        .config(function (datepickerConfig, datepickerPopupConfig) {
+            datepickerConfig.showWeeks = false;
+            datepickerConfig.startingDay = 1;
+            datepickerConfig.formatDay = 'd';
+            datepickerConfig.formatMonth = 'MMMM';
+            datepickerPopupConfig.showButtonBar = false;
+        })
 
         .run(function ($rootScope, alerts) {
             $rootScope.$on('$stateChangeSuccess', function (event, toState) {
