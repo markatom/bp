@@ -107,6 +107,11 @@ define(['app/rest', 'app/gui'], function () {
         $scope.save = function () {
             $scope.sending = true;
 
+            if ($scope.client.dateOfBirth instanceof Date) {
+                $scope.client.dateOfBirth.setHours(2); // fixes https://github.com/angular-ui/bootstrap/issues/2072
+                $scope.client.dateOfBirth = $scope.client.dateOfBirth.toString();
+            }
+
             if ($scope.editation) {
                 clients.update($state.params.id, $scope.client)
                     .success(function () {
