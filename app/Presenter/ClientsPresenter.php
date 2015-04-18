@@ -116,6 +116,7 @@ class ClientsPresenter extends SecuredPresenter
 	public static function mapClient(Client $client)
 	{
 		return [
+			'id'          => $client->id,
 			'fullName'    => $client->fullName,
 			'dateOfBirth' => $client->dateOfBirth->format('Y-m-d'),
 			'email'       => $client->email,
