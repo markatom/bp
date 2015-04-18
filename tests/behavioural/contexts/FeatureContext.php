@@ -2,6 +2,7 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Mink\Exception\ResponseTextException;
 use Behat\MinkExtension\Context\MinkContext;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
@@ -113,16 +114,17 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 	public function welcomeScreen()
 	{
 		$this->visitPath('/');
-		sleep(1);
+		$this->getSession()->setCookie('session-token', NULL);
+		$this->visitPath('/');
 	}
 
 	/**
-	 * Waits one seconds.
-	 * @When /^I wait for a while$/
+	 * Waits x seconds.
+	 * @When /^I wait for "(?P<delay>(?:[^"]|\\")*)" seconds?$/
 	 */
-	public function wait()
+	public function wait($delay)
 	{
-		sleep(1);
+		sleep($delay);
 	}
 
 	/**
@@ -131,6 +133,50 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 	public function followXpath($xpath)
 	{
 		$this->getSession()->getPage()->find('xpath', $xpath)->click();
+	}
+
+	/**
+	 * @Then /^I should see "(?P<items>(?:[^"]|\\")*)" in that order$/
+	 */
+	public function assertPageContainsOrderedItems($items)
+	{
+		$actual = $this->getSession()->getPage()->getText();
+		$actual = preg_replace('/\s+/u', ' ', $actual);
+
+		$previous = NULL;
+		foreach (explode(',', $items) as $text) {
+			$text  = trim($text);
+			$regex = '/' . preg_quote($text, '/') . '/ui';
+
+			if (preg_match($regex, $actual, $matches, PREG_OFFSET_CAPTURE)) {
+				if ($previous !== NULL && $matches[0][1] <= $previous[1]) {
+					$message = sprintf('The text "%s" was not followed by text "%s" in the text of the current page.', $previous[0], $text);
+					throw new ResponseTextException($message, $this->getSession());
+				}
+				$previous = $matches[0];
+
+			} else {
+				$message = sprintf('The text "%s" was not found anywhere in the text of the current page.', $text);
+				throw new ResponseTextException($message, $this->getSession());
+			}
+		}
+	}
+
+	/**
+	 * @Then /^I should not see any of "(?P<items>(?:[^"]|\\")*)"$/
+	 */
+	public function assertPageNotContainsItems($items)
+	{
+		$actual = $this->getSession()->getPage()->getText();
+		$actual = preg_replace('/\s+/u', ' ', $actual);
+
+		foreach (explode(',', $items) as $text) {
+			$regex  = '/' . preg_quote(trim($text), '/') . '/ui';
+			if (preg_match($regex, $actual)) {
+				$message = sprintf('The text "%s" appears in the text of this page, but it should not.', $text);
+				throw new ResponseTextException($message, $this->getSession());
+			}
+		}
 	}
 
 }

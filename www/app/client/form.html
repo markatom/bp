@@ -2,13 +2,13 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="full-name">Celé jméno</label>
-                <input id="full-name" class="form-control" type="text" ng-model="client.fullName" required>
+                <label for="fullName">Celé jméno</label>
+                <input id="fullName" class="form-control" type="text" ng-model="client.fullName" required>
             </div>
             <div class="form-group">
-                <label for="date-of-birth">Datum narození</label>
+                <label for="dateOfBirth">Datum narození</label>
                 <p class="input-group">
-                    <input id="date-of-birth" datepicker-popup="mediumDate" is-open="opened" datepicker-mode="'year'" class="form-control" type="text" ng-model="client.dateOfBirth" required>
+                    <input id="dateOfBirth" datepicker-popup="mediumDate" is-open="opened" datepicker-mode="'year'" class="form-control" type="text" ng-model="client.dateOfBirth" required>
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>

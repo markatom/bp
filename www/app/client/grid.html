@@ -2,11 +2,11 @@
     <thead>
         <tr>
             <th>
-                <a href="#" ng-click="sort('fullName')">Jméno {{indicator('fullName')}}</a>
+                <a id="fullName" href="#" ng-click="sort('fullName')">Jméno {{indicator('fullName')}}</a>
                 <div ng-if="search" class="form-group"><input id="search-fullName" class="form-control" type="text" ng-model="filters.fullName"></div>
             </th>
             <th>
-                <a href="#" ng-click="sort('dateOfBirth')">Datum narození {{indicator('dateOfBirth')}}</a>
+                <a id="dateOfBirth" href="#" ng-click="sort('dateOfBirth')">Datum narození {{indicator('dateOfBirth')}}</a>
                 <div ng-if="search" class="form-group">
                     <p class="input-group">
                         <input datepicker-popup="mediumDate" datepicker-mode="'year'" id="search-date-of-birth" type="text" class="form-control" ng-model="filters.dateOfBirth" is-open="opened">
@@ -17,17 +17,17 @@
                 </div>
             </th>
             <th>
-                <a href="#" ng-click="sort('email')">E-mail {{indicator('email')}}</a>
+                <a id="email" href="#" ng-click="sort('email')">E-mail {{indicator('email')}}</a>
                 <div ng-if="search" class="form-group"><input id="search-email" class="form-control" type="text" ng-model="filters.email"></div>
             </th>
             <th>
-                <a href="#" ng-click="sort('telephone')">Telefon {{indicator('telephone')}}</a>
+                <a id="telephone" href="#" ng-click="sort('telephone')">Telefon {{indicator('telephone')}}</a>
                 <div ng-if="search" class="form-group"><input id="search-telephone" class="form-control" type="text" ng-model="filters.telephone"></div>
             </th>
             <th>
                 <div ng-class="{search: search}">
-                    <a class="btn btn-default" href="#" ng-click="searchClicked()"><i class="glyphicon glyphicon-search"></i> Hledat</a>
-                    <a class="btn btn-info" href="#" ui-sref="app.client.add"><i class="glyphicon glyphicon-plus"></i> Nový klient</a>
+                    <a id="search" class="btn btn-default" href="#" ng-click="searchClicked()"><i class="glyphicon glyphicon-search"></i> Hledat</a>
+                    <a id="add" class="btn btn-info" href="#" ui-sref="app.client.add"><i class="glyphicon glyphicon-plus"></i> Nový klient</a>
                 </div>
             </th>
         </tr>
