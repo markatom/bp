@@ -37,6 +37,9 @@ class RouterFactory
 		$router[] = new ApiRoute('clients/<id>', 'Clients:update', ApiRoute::METHOD_PUT);
 
 		$router[] = new ApiRoute('orders', 'Orders:readAll', ApiRoute::METHOD_GET);
+		$router[] = new ApiRoute('orders', 'Orders:create', ApiRoute::METHOD_POST);
+		$router[] = new ApiRoute('orders/<id>', 'Orders:read', ApiRoute::METHOD_GET);
+		$router[] = new ApiRoute('orders/<id>', 'Orders:update', ApiRoute::METHOD_PUT);
 
 		$router[] = new ApiRoute('order-states', 'OrderStates:readAll', ApiRoute::METHOD_GET);
 
