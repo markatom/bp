@@ -26,12 +26,12 @@ class OrderState extends BaseEntity
 	 * Available states.
 	 * @var array
 	 */
-	public static $states = [
-		self::PROCESSING,
-		self::WAITING,
-		self::POSTPONED,
-		self::CANCELLED,
-		self::COMPLETED,
+	public static $transitions = [
+		self::PROCESSING => [self::WAITING, self::POSTPONED, self::CANCELLED, self::COMPLETED],
+		self::WAITING    => [self::PROCESSING],
+		self::POSTPONED  => [self::PROCESSING],
+		self::CANCELLED  => [],
+		self::COMPLETED  => [],
 	];
 
 	/**
@@ -69,63 +69,26 @@ class OrderState extends BaseEntity
 	}
 
 	/**
-	 * Performs a transition to the processing state if it is possible.
+	 * Tells if transition to given state is possible.
+	 * @param string $state
+	 * @return bool
 	 */
-	public function transitionProcessing()
+	public function isTransitionPossible($state)
 	{
-		if ($this->slug !== self::POSTPONED || $this->slug !== self::WAITING) {
-			throw new LogicException("Cannot transition from '$this->slug' to 'processing'.");
-		}
-
-		$this->slug = self::PROCESSING;
+		return in_array($state, self::$transitions[$this->slug]);
 	}
 
 	/**
-	 * Performs a transition to the processing state if it is possible.
+	 * Performs a transition to given state if it is possible.
+	 * @param string $state
 	 */
-	public function transitionWaiting()
+	public function transition($state)
 	{
-		if ($this->slug !== self::PROCESSING) {
-			throw new LogicException("Cannot transition from '$this->slug' to 'waiting'.");
-		}
-		
-		$this->slug = self::WAITING;
-	}
-
-	/**
-	 * Performs a transition to the processing state if it is possible.
-	 */
-	public function transitionPostponed()
-	{
-		if ($this->slug !== self::PROCESSING) {
-			throw new LogicException("Cannot transition from '$this->slug' to 'postponed'.");
+		if (!$this->isTransitionPossible($state)) {
+			throw new LogicException("Cannot transition from '$this->slug' to '$state'.");
 		}
 
-		$this->slug = self::POSTPONED;
-	}
-
-	/**
-	 * Performs a transition to the processing state if it is possible.
-	 */
-	public function transitionCancelled()
-	{
-		if ($this->slug !== self::PROCESSING) {
-			throw new LogicException("Cannot transition from '$this->slug' to 'cancelled'.");
-		}
-
-		$this->slug = self::CANCELLED;
-	}
-
-	/**
-	 * Performs a transition to the processing state if it is possible.
-	 */
-	public function transitionCompleted()
-	{
-		if ($this->slug !== self::PROCESSING) {
-			throw new LogicException("Cannot transition from '$this->slug' to 'completed'.");
-		}
-
-		$this->slug = self::COMPLETED;
+		$this->slug = $state;
 	}
 
 	/**
