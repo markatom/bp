@@ -39,20 +39,26 @@ class Client extends Addressable
 	protected $fullName;
 
 	/**
-	 * @ORM\Column(type="date")
+	 * @ORM\Column(type="date", nullable=true)
 	 * @var \DateTime
 	 */
 	protected $dateOfBirth;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", unique=true, nullable=true)
+	 * @var string
+	 */
+	protected $email;
+
+	/**
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
 	protected $telephone;
 
 	/**
 	 * @ORM\Embedded(class="Address")
-	 * @var string
+	 * @var Address
 	 */
 	protected $address;
 
@@ -78,6 +84,11 @@ class Client extends Addressable
 	 */
 	public function setTelephone($telephone)
 	{
+		if ($telephone === NULL) {
+			$this->telephone = NULL;
+			return;
+		}
+
 		if (!$m = Strings::match($telephone, self::TELEPHONE_PATTERN)) {
 			throw new LogicException('Invalid telephone number.');
 		}
@@ -100,6 +111,21 @@ class Client extends Addressable
 		}
 
 		$this->dateOfBirth = $dateOfBirth;
+	}
+
+	/**
+	 * Sets the email address and validates it only if is not empty.
+	 * @param string $email
+	 * @return string
+	 */
+	public function setEmail($email)
+	{
+		if ($email === NULL) {
+			$this->email = NULL;
+			return;
+		}
+
+		parent::setEmail($email);
 	}
 
 }

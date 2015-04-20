@@ -13,19 +13,19 @@ class Accident extends Event
 {
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
     protected $causedBy;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
 	protected $guilt;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
 	protected $injury;

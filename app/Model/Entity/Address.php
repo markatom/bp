@@ -20,25 +20,25 @@ class Address extends BaseEntity
 	const ZIP_PATTERN = '~^(\d{3}) ?(\d{2})$~';
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
     protected $street;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
 	protected $city;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
 	protected $zip;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
 	protected $country;
@@ -99,6 +99,10 @@ class Address extends BaseEntity
 	 */
 	private function normalizeZip($zip)
 	{
+		if ($zip === NULL) {
+			return NULL;
+		}
+
 		if (!$m = Strings::match($zip, self::ZIP_PATTERN)) {
 			throw new LogicException('Invalid zip code.');
 		}

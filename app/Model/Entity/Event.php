@@ -17,19 +17,19 @@ abstract class Event extends BaseEntity
 {
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 * @var string
 	 */
     protected $place;
 
 	/**
-	 * @ORM\Column(type="date")
+	 * @ORM\Column(type="date", nullable=true)
 	 * @var DateTime
 	 */
 	protected $date;
 
 	/**
-	 * @ORM\Column(type="text")
+	 * @ORM\Column(type="text", nullable=true)
 	 * @var string
 	 */
 	protected $description;
