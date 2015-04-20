@@ -15,5 +15,5 @@
         </label>
     </div>
 
-    <button id="signIn" class="btn btn-primary btn-block" type="submit" ng-disabled="signing">{{signing ? 'Přihlašuji…' : 'Přihlásit'}}</button>
+    <button id="signIn" class="btn btn-primary btn-block" type="submit" ng-disabled="signing"><i ng-if="signing" class="glyphicon glyphicon-refresh spinner"></i>{{signing ? ' Přihlašuji…' : 'Přihlásit'}}</button>
 </form>

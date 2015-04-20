@@ -44,5 +44,5 @@
             </div>
         </div>
     </div>
-    <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending">{{sending ? 'Ukládám…' : 'Uložit'}}</button>
+    <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending"><i ng-if="sending" class="glyphicon glyphicon-refresh spinner"></i>{{sending ? ' Ukládám…' : 'Uložit'}}</button>
 </form>
