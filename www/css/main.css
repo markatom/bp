@@ -369,12 +369,6 @@ h1.page-header {
     opacity: 0.3;
 }
 
-@media only screen and (max-width: 1445px) {
-    .table span.caption {
-        display: none;
-    }
-}
-
 .left-menu {
     width: 100%;
 }
