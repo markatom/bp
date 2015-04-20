@@ -28,8 +28,8 @@ class OrderFixtures extends AbstractFixture
 				'Pracovní úraz',
 				new Accident(
 					'Lhota - výrobní hala','2015-03-27',
-					'Podlahový pás mi vtáhl nohu pod pás. Nebyl jsem poučen o bezpečnosti práce, koordinátor mě nutil
-						podepsat bezpečnost práce po úraze, nepodepsal jsem to.',
+					'Podlahový pás mi vtáhl nohu pod pás. Nebyl jsem poučen o bezpečnosti práce, koordinátor mě nutil '
+						. 'podepsat bezpečnost práce po úraze, nepodepsal jsem to.',
 					'mandant',
 					'neuvedeno',
 					'Utrpěl jsem zlomeniny palce s mírnou dislokací, zlomeninu prstu a zanártní kosti'
@@ -46,9 +46,9 @@ class OrderFixtures extends AbstractFixture
 				new Accident(
 					'Na silnici I. třídy mezi obcemi Chlum - Petrovice',
 					'2015-02-19',
-					'V 14.30 hod. došlo k dopravní nehodě dvou vozidel, vinník dopravní nehody není znám, ujel
-						z místa dopravní nehody. Poškozené vozidlo je firemní, majitelem je firma ZXZS s.r.o.
-						Nehodu šetří policie Petrovice.',
+					'V 14.30 hod. došlo k dopravní nehodě dvou vozidel, vinník dopravní nehody není znám, ujel '
+						. 'z místa dopravní nehody. Poškozené vozidlo je firemní, majitelem je firma ZXZS s.r.o. '
+						. 'Nehodu šetří policie Petrovice.',
 					'neznámý',
 					'není',
 					'Zlomenina klíční kosti, pohmožděniny v oblasti hrudníku.'
@@ -65,8 +65,8 @@ class OrderFixtures extends AbstractFixture
 				new Accident(
 					'V tělocvičně základní školy Nová ves',
 					'2015-03-02',
-					'Má dcera hrála na hodině tělocviku basketbal. Při hře do ní omylem vrazila spolužačka. Má dcera
-						dopadla na zem tak, že si poranila zápěstí rukou.',
+					'Má dcera hrála na hodině tělocviku basketbal. Při hře do ní omylem vrazila spolužačka. Má dcera '
+						. 'dopadla na zem tak, že si poranila zápěstí rukou.',
 					'spolužačka',
 					'neuvedeno',
 					'Pohmožděná zápěstí rukou.'
