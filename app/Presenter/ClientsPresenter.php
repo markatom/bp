@@ -19,16 +19,23 @@ class ClientsPresenter extends SecuredPresenter
 	 */
 	public function actionCreate()
 	{
+		$email     = $this->getPost('email', NULL);
+		$telephone = $this->getPost('telephone', NULL);
+
+		if ($email === NULL && $telephone === NULL) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'emailOrTelephoneRequired');
+		}
+
 		$client = new Client(
 			$this->getPost('fullName'),
-			$this->getPost('dateOfBirth'),
-			$this->getPost('email'),
-			$this->getPost('telephone'),
+			$this->getPost('dateOfBirth', NULL),
+			$email,
+			$telephone,
 			new Address(
-				$this->getPost(['address', 'street']),
-				$this->getPost(['address', 'city']),
-				$this->getPost(['address', 'zip']),
-				$this->getPost(['address', 'country'])
+				$this->getPost(['address', 'street'], NULL),
+				$this->getPost(['address', 'city'], NULL),
+				$this->getPost(['address', 'zip'], NULL),
+				$this->getPost(['address', 'country'], NULL)
 			)
 		);
 
@@ -49,14 +56,22 @@ class ClientsPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownClient');
 		}
 
+		$email     = $this->getPost('email', NULL);
+		$telephone = $this->getPost('telephone', NULL);
+
+		if ($email === NULL && $telephone === NULL) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'emailOrTelephoneRequired');
+		}
+
 		$client->fullName    = $this->getPost('fullName');
-		$client->dateOfBirth = $this->getPost('dateOfBirth');
-		$client->telephone   = $this->getPost('telephone');
+		$client->dateOfBirth = $this->getPost('dateOfBirth', NULL);
+		$client->email       = $email;
+		$client->telephone   = $telephone;
 		$client->address     = new Address(
-			$this->getPost(['address', 'street']),
-			$this->getPost(['address', 'city']),
-			$this->getPost(['address', 'zip']),
-			$this->getPost(['address', 'country'])
+			$this->getPost(['address', 'street'], NULL),
+			$this->getPost(['address', 'city'], NULL),
+			$this->getPost(['address', 'zip'], NULL),
+			$this->getPost(['address', 'country'], NULL)
 		);
 
 		$this->em->flush();
