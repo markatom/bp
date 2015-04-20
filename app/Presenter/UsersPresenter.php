@@ -32,11 +32,21 @@ class UsersPresenter extends SecuredPresenter
 	}
 
 	/**
-	 * Reads all users.
+	 * Reads all users with optional filters.
 	 */
 	public function actionReadAll()
 	{
-		$users = $this->em->getRepository(User::class)->findAll();
+		$qb = $this->em->getRepository(User::class)->createQueryBuilder('u');
+
+		foreach ($this->getQuery('filters', []) as $prop => $value) {
+			if ($value === '') {
+				continue;
+			}
+			$qb->where("u.$prop LIKE :$prop")
+				->setParameter($prop, "%$value%");
+		}
+
+		$users = $qb->getQuery()->getResult();
 
 		$this->sendJson(array_map([self::class, 'mapUser'], $users));
 	}
