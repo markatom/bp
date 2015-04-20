@@ -374,3 +374,7 @@ h1.page-header {
         display: none;
     }
 }
+
+.left-menu {
+    width: 100%;
+}
