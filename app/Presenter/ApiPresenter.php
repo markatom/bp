@@ -16,6 +16,12 @@ use Nette\Utils\Json;
 abstract class ApiPresenter extends Presenter
 {
 
+	/** Format of date used in api responses. */
+	const DATE_FORMAT = 'Y-m-d';
+
+	/** Format of date and time used in api respones. */
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+
 	/** @var IRequest @inject */
 	public $httpRequest;
 

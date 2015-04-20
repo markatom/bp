@@ -80,7 +80,7 @@ class ClientsPresenter extends SecuredPresenter
 	}
 
 	/**
-	 * Reads all users.
+	 * Reads all users with optional sorting and filters.
 	 * @return array
 	 */
 	public function actionReadAll()
@@ -118,7 +118,7 @@ class ClientsPresenter extends SecuredPresenter
 		return [
 			'id'          => $client->id,
 			'fullName'    => $client->fullName,
-			'dateOfBirth' => $client->dateOfBirth->format('Y-m-d'),
+			'dateOfBirth' => $client->dateOfBirth->format(self::DATE_FORMAT),
 			'email'       => $client->email,
 			'telephone'   => $client->telephone,
 			'address'     => [
