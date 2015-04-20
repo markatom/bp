@@ -32,7 +32,7 @@ define(['app/rest', 'app/gui', 'app/user'], function () {
                     // set session value
                     session.start(data.token, data.user);
 
-                    $state.go('app.orders');
+                    $state.go('app.order.grid');
                 })
 
                 .error(function (error) {
@@ -92,7 +92,7 @@ define(['app/rest', 'app/gui', 'app/user'], function () {
                         // set session value
                         session.start(data.token, data.user);
 
-                        $state.go('app.orders');
+                        $state.go('app.order.grid');
                     })
 
             }).error(function (error) {

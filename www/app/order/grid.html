@@ -1,0 +1,79 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                <a id="name" href="#" ng-click="sort('name')">Název kauzy {{indicator('name')}}</a>
+                <div ng-if="search" class="form-group"><input id="search-name" class="form-control" type="text" ng-model="filters.name"></div>
+            </th>
+            <th>
+                <a id="state" href="#" ng-click="sort('state.slug')">Stav {{indicator('state.slug')}}</a>
+                <div ng-if="search" class="form-group">
+                    <select id="search-state" class="form-control" ng-model="filters.state.slug">
+                        <option value=""></option>
+                        <option ng-repeat="state in states" value="{{state.slug}}">{{state.name}}</option>
+                    </select>
+                </div>
+            </th>
+            <th>
+                <a id="client" href="#" ng-click="sort('client.fullName')">Klient {{indicator('client.fullName')}}</a>
+                <div ng-if="search" class="form-group"><input id="search-client" class="form-control" type="text" ng-model="filters.client.fullName"></div>
+            </th>
+            <th>
+                <a id="date" href="#" ng-click="sort('event.date')">Datum události {{indicator('event.date')}}</a>
+                <div ng-if="search" class="form-group">
+                    <p class="input-group">
+                        <input datepicker-popup="mediumDate" id="search-date" type="text" class="form-control" ng-model="filters.event.date" is-open="dateOpened">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDatePicker($event, 'date')"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+            </th>
+            <th>
+                <a id="assignee" href="#" ng-click="sort('assignee.fullName')">Vyřizuje {{indicator('assignee.fullName')}}</a>
+                <div ng-if="search" class="form-group"><input id="search-assignee" class="form-control" type="text" ng-model="filters.assignee.fullName"></div>
+            </th>
+            <th>
+                <a id="createdAt" href="#" ng-click="sort('createdAt')">Vytvořeno {{indicator('createdAt')}}</a>
+                <div ng-if="search" class="form-group">
+                    <p class="input-group">
+                        <input datepicker-popup="mediumDate" id="search-created-at" type="text" class="form-control" ng-model="filters.createdAt" is-open="createdAtOpened">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDatePicker($event, 'createdAt')"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+            </th>
+            <th>
+                <div ng-class="{search: search}">
+                    <a id="search" class="btn btn-default" href="#" ng-click="searchClicked()"><i class="glyphicon glyphicon-search"></i> Hledat</a>
+                    <a id="add" class="btn btn-info" href="#" ui-sref="app.order.add"><i class="glyphicon glyphicon-plus"></i> Nová objednávka</a>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody ng-class="{loading: loading}">
+        <tr ng-repeat="order in orders" class="{{rowColor(order.state)}}">
+            <td>{{order.name}}</td>
+            <td>{{order.state.name}}</td>
+            <td>{{order.client.fullName}}</td>
+            <td>{{order.event.date|date:'d. M. yyyy'}}</td>
+            <td>{{order.assignee.fullName}}</td>
+            <td>{{order.createdAt|date:'d. M. yyyy'}}</td>
+            <td>
+                <a class="btn btn-default" href="#" ui-sref="app.order.detail({id: order.id})">
+                    <i class="glyphicon glyphicon-eye-open"></i> Detail
+                </a>
+                <a class="btn btn-default" href="#" ui-sref="app.order.communication({id: order.id})">
+                    <i class="glyphicon glyphicon-envelope"></i> Komunikace
+                </a>
+                <a class="btn btn-default" href="#" ui-sref="app.order.documents({id: order.id})">
+                    <i class="glyphicon glyphicon-file"></i> Dokumenty
+                </a>
+                <a class="btn btn-default" href="#" ui-sref="app.order.edit({id: order.id})">
+                    <i class="glyphicon glyphicon-pencil"></i> Upravit
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

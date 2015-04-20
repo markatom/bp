@@ -47,7 +47,7 @@ define(['app/welcome', 'app/gui'], function () {
 
                 if (session.isActive()) {
                     if (section === 'welcome') {
-                        $state.go('app.orders');
+                        $state.go('app.order.grid');
                         event.preventDefault();
                     }
                     return;
@@ -72,7 +72,7 @@ define(['app/welcome', 'app/gui'], function () {
                 sessions.read('current').success(function (data, code) {
                     if (code === 200) { // session is active
                         session.start(data.token, data.user);
-                        $state.go(section === 'welcome' ? 'app.orders' : state, params);
+                        $state.go(section === 'welcome' ? 'app.order.grid' : state, params);
                         event.preventDefault();
 
                     } else { // session not found or expired
