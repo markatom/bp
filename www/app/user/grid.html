@@ -4,7 +4,11 @@
             <th>Jméno</th>
             <th>E-mail</th>
             <th>Role</th>
-            <th><a class="btn btn-info" href="#" ui-sref="app.user.add"><i class="glyphicon glyphicon-plus"></i> Nový uživatel</a></th>
+            <th>
+                <a class="btn btn-info" href="#" ui-sref="app.user.add">
+                    <i class="glyphicon glyphicon-plus"></i><span class="caption"> Nový uživatel</span>
+                </a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -15,10 +19,10 @@
             <td>
                 <div class="btn-group">
                     <a class="btn btn-default" href="#" ui-sref="app.user.edit({id: user.id})">
-                        <i class="glyphicon glyphicon-pencil"></i> Upravit
+                        <i class="glyphicon glyphicon-pencil"></i><span class="caption"> Upravit</span>
                     </a>
                     <a ng-if="session.user.id !== user.id" class="btn btn-danger" ng-class="{disabled: deleting[user.id]}" href="#" ng-click="delete(user.id)">
-                        <i class="glyphicon glyphicon-remove"></i> {{deleting[user.id] ? 'Mažu…' : 'Smazat'}}
+                        <i class="glyphicon glyphicon-remove"></i><span class="caption"> {{deleting[user.id] ? 'Mažu…' : 'Smazat'}}</span>
                     </a>
                 </div>
             </td>
