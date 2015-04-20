@@ -13,12 +13,14 @@
             <td>{{user.email}}</td>
             <td>{{user.role.name}}</td>
             <td>
-                <a class="btn btn-default" href="#" ui-sref="app.user.edit({id: user.id})">
-                    <i class="glyphicon glyphicon-pencil"></i> Upravit
-                </a>
-                <a ng-if="session.user.id !== user.id" class="btn btn-danger" ng-class="{disabled: deleting[user.id]}" href="#" ng-click="delete(user.id)">
-                    <i class="glyphicon glyphicon-remove"></i> {{deleting[user.id] ? 'Mažu…' : 'Smazat'}}
-                </a>
+                <div class="btn-group">
+                    <a class="btn btn-default" href="#" ui-sref="app.user.edit({id: user.id})">
+                        <i class="glyphicon glyphicon-pencil"></i> Upravit
+                    </a>
+                    <a ng-if="session.user.id !== user.id" class="btn btn-danger" ng-class="{disabled: deleting[user.id]}" href="#" ng-click="delete(user.id)">
+                        <i class="glyphicon glyphicon-remove"></i> {{deleting[user.id] ? 'Mažu…' : 'Smazat'}}
+                    </a>
+                </div>
             </td>
         </tr>
     </tbody>
