@@ -18,11 +18,7 @@ class OrderStatesPresenter extends SecuredPresenter
 	 */
 	public function actionReadAll()
 	{
-		$states = array_map(function ($state) {
-			$orderState = new OrderState;
-			$orderState->forceTransition($state);
-			return $orderState;
-		}, OrderState::$states);
+		$states = self::createFromSlugs(array_keys(OrderState::$transitions));
 
 		$this->sendJson(array_map([self::class, 'mapOrderState'], $states));
     }
@@ -37,7 +33,26 @@ class OrderStatesPresenter extends SecuredPresenter
 		return [
 			'name' => $orderState->name,
 			'slug' => $orderState->slug,
+			'next' => array_map(function (OrderState $state) {
+				return [
+					'name' => $state->name,
+					'slug' => $state->slug,
+				];
+			}, self::createFromSlugs(OrderState::$transitions[$orderState->slug])),
 		];
+	}
+
+	/**
+	 * @param array $slugs
+	 * @return OrderState[]
+	 */
+	private static function createFromSlugs(array $slugs)
+	{
+		return array_map(function ($state) {
+			$orderState = new OrderState;
+			$orderState->forceTransition($state);
+			return $orderState;
+		}, $slugs);
 	}
 
 }
