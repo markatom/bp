@@ -1,6 +1,6 @@
 'use strict';
 
-define(['app/rest', 'app/gui'], function () {
+define(['app/rest', 'app/gui', 'app/order'], function () {
 
     // Controllers
 
@@ -81,7 +81,7 @@ define(['app/rest', 'app/gui'], function () {
         };
     }
 
-    function FormCtrl($scope, $state, clients, alerts) {
+    function FormCtrl($scope, $state, clients, alerts, orderDraft) {
         $scope.client = {
             address: {
                 country: 'Česká republika' // default value
@@ -105,6 +105,11 @@ define(['app/rest', 'app/gui'], function () {
         };
 
         $scope.save = function () {
+            if ($scope.client.email == '' && $scope.client.telephone == '') {
+                alert('Vyplňte prosím alespoň jeden kontaktní údaj (telefon, e-mail) na klienta.');
+                document.getElementById('email').focus();
+            }
+
             $scope.sending = true;
 
             if ($scope.client.dateOfBirth instanceof Date) {
@@ -124,9 +129,14 @@ define(['app/rest', 'app/gui'], function () {
 
             } else {
                 clients.create($scope.client)
-                    .success(function () {
+                    .success(function (data) {
                         alerts.prepareSuccess('Nový klient byl úspěšně vytvořen.');
-                        $state.go('app.client.grid');
+                        if (orderDraft.order) {
+                            orderDraft.order.client = data;
+                            $state.go('app.order.add');
+                        } else {
+                            $state.go('app.client.grid');
+                        }
                     })
                     .finally(function () {
                         $scope.sending = false;
@@ -147,7 +157,7 @@ define(['app/rest', 'app/gui'], function () {
 
     // Configuration
 
-    angular.module('app.client', ['ui.router', 'ui.bootstrap', 'app.rest', 'app.gui'])
+    angular.module('app.client', ['ui.router', 'ui.bootstrap', 'app.rest', 'app.gui', 'app.order'])
 
         .config(function ($stateProvider) {
             $stateProvider

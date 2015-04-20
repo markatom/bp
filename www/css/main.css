@@ -378,3 +378,9 @@ h1.page-header {
 .left-menu {
     width: 100%;
 }
+
+.typeahead-loading {
+    color: #31708f;
+    position: relative;
+    left: 2px;
+}

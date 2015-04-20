@@ -1,6 +1,6 @@
 'use strict';
 
-define(['app/rest', 'app/gui'], function () {
+define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
 
     // Controllers
 
@@ -106,9 +106,98 @@ define(['app/rest', 'app/gui'], function () {
         }
     }
 
+    function FormCtrl($scope, $state, orders, alerts, clients, $q, users, orderDraft) {
+        $scope.order = orderDraft.order
+            ? orderDraft.order
+            : {
+                event: {},
+                state: {
+                    name: 'Zpracovává se',
+                    slug: 'processing'
+                }
+            };
+        $scope.sending = false;
+        $scope.editation = $state.current.name === 'app.order.edit';
+        $scope.loading = $scope.editation;
+        $scope.originalState = 'processing';
+
+        if ($scope.editation) {
+            orders.read($state.params.id).success(function (data) {
+                $scope.order = data;
+                $scope.originalState = data.state.slug;
+                $scope.loading = false;
+            });
+        }
+
+        $scope.openDatePicker = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.opened = true;
+        };
+
+        $scope.loadClients = function (value) {
+            return $q(function (resolve) {
+                clients.readAll({'filters[fullName]': value})
+                    .success(function (data) {
+                        resolve(data);
+                    });
+            });
+        };
+
+        $scope.loadUsers = function (value) {
+            return $q(function (resolve) {
+                users.readAll({'filters[fullName]': value})
+                    .success(function (data) {
+                        resolve(data);
+                    });
+            });
+        };
+
+        $scope.addClient = function () {
+            orderDraft.order = $scope.order;
+            $state.go('app.client.add');
+        };
+
+        $scope.save = function () {
+            if (!$scope.order.client) {
+                alert('Vyberte prosím klienta ze seznamu.');
+                document.getElementById('client').focus();
+                return;
+            }
+
+            $scope.sending = true;
+
+            if ($scope.order.event.date instanceof Date) {
+                $scope.order.event.date.setHours(2); // fixes https://github.com/angular-ui/bootstrap/issues/2072
+                $scope.order.event.date = $scope.order.event.date.toString();
+            }
+
+            if ($scope.editation) {
+                orders.update($state.params.id, $scope.order)
+                    .success(function () {
+                        alerts.prepareSuccess('Změny byly úspěšně uloženy.');
+                        $state.go('app.order.grid');
+                    })
+                    .finally(function () {
+                        $scope.sending = false;
+                    });
+
+            } else {
+                orders.create($scope.order)
+                    .success(function () {
+                        alerts.prepareSuccess('Nová objednávka byla úspěšně vytvořena.');
+                        $state.go('app.order.grid');
+                    })
+                    .finally(function () {
+                        $scope.sending = false;
+                    });
+            }
+        };
+    }
+
     // Configuration
 
-    angular.module('app.order', ['ui.router', 'ui.bootstrap', 'app.rest', 'app.gui'])
+    angular.module('app.order', ['ui.router', 'ui.bootstrap', 'app.rest', 'app.gui', 'app.client', 'app.user'])
 
         .config(function ($stateProvider) {
             $stateProvider
@@ -123,6 +212,18 @@ define(['app/rest', 'app/gui'], function () {
                     templateUrl: 'app/order/grid.html',
                     controller: GridCtrl
                 })
+
+                .state('app.order.edit', {
+                    url: '/edit/{id}',
+                    templateUrl: 'app/order/form.html',
+                    controller: FormCtrl
+                })
+
+                .state('app.order.add', {
+                    url: '/add',
+                    templateUrl: 'app/order/form.html',
+                    controller: FormCtrl
+                });
         })
 
         .factory('orders', function (resourceFactory) {
@@ -131,6 +232,16 @@ define(['app/rest', 'app/gui'], function () {
 
         .factory('orderStates', function (resourceFactory) {
             return resourceFactory.create('api/order-states');
+        })
+
+        .value('orderDraft', {order: null})
+
+        .run(function ($rootScope, orderDraft) {
+            $rootScope.$on('$stateChangeSuccess', function (event, toState) { // draft saved only between order form and client addition
+                if (toState.name !== 'app.order.add' && toState.name !== 'app.order.edit' && toState.name !== 'app.client.add') {
+                    orderDraft.order = null;
+                }
+            });
         });
 
 });
