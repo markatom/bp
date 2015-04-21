@@ -19,7 +19,7 @@ class Token extends BaseEntity
     use Identifier;
 
 	/**
-	 * @ORM\Column(type="string", unique=true)
+	 * @ORM\Column(type="string", unique=true, name="`key`")
 	 * @var string
 	 */
 	protected $key;
