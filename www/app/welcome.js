@@ -68,9 +68,7 @@ define(['app/rest', 'app/gui', 'app/user'], function () {
             users.updateAll({
                 password: $scope.password
             }, {
-                token: {
-                    key: $state.params.token
-                }
+                'token[key]': $state.params.token
             }).success(function (user) {
                 sessions.create({
                         user: {
