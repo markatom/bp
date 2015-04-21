@@ -81,7 +81,7 @@ define(['app/rest', 'app/gui', 'app/order'], function () {
         };
     }
 
-    function FormCtrl($scope, $state, clients, alerts, orderDraft) {
+    function FormCtrl($scope, $state, clients, alerts, orderDraft, Response) {
         $scope.client = {
             address: {
                 country: 'Česká republika' // default value
@@ -105,9 +105,10 @@ define(['app/rest', 'app/gui', 'app/order'], function () {
         };
 
         $scope.save = function () {
-            if ($scope.client.email == '' && $scope.client.telephone == '') {
-                alert('Vyplňte prosím alespoň jeden kontaktní údaj (telefon, e-mail) na klienta.');
+            if (!$scope.client.email && !$scope.client.telephone) {
+                alert('Vyplňte prosím alespoň jeden kontaktní údaj (telefon nebo e-mail).');
                 document.getElementById('email').focus();
+                return;
             }
 
             $scope.sending = true;
@@ -123,6 +124,14 @@ define(['app/rest', 'app/gui', 'app/order'], function () {
                         alerts.prepareSuccess('Změny byly úspěšně uloženy.');
                         $state.go('app.client.grid');
                     })
+                    .error(function (code) {
+                        if (code === 409) { // conflict
+                            alerts.clear();
+                            alerts.showWarning('Klient se stejnými kontaktními údaji je již evidován.');
+                        } else {
+                            Response.defaultErrorHandler();
+                        }
+                    })
                     .finally(function () {
                         $scope.sending = false;
                     });
@@ -136,6 +145,14 @@ define(['app/rest', 'app/gui', 'app/order'], function () {
                             $state.go('app.order.add');
                         } else {
                             $state.go('app.client.grid');
+                        }
+                    })
+                    .error(function (error, code) {
+                        if (code === 409) { // conflict
+                            alerts.clear();
+                            alerts.showWarning('Klient se stejnými kontaktními údaji je již evidován.');
+                        } else {
+                            Response.defaultErrorHandler();
                         }
                     })
                     .finally(function () {

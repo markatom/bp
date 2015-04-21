@@ -2,6 +2,7 @@
 
 namespace Presenter;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Model\Entity\Address;
 use Model\Entity\Client;
 use Nette\Http\IResponse;
@@ -39,7 +40,12 @@ class ClientsPresenter extends SecuredPresenter
 			)
 		);
 
-		$this->em->persist($client)->flush();
+		try {
+			$this->em->persist($client)->flush();
+
+		} catch (UniqueConstraintViolationException $e) {
+			$this->sendError(IResponse::S409_CONFLICT, 'duplicateContact');
+		}
 
 		$this->sendJson(self::mapClient($client), IResponse::S201_CREATED);
 	}
@@ -74,7 +80,12 @@ class ClientsPresenter extends SecuredPresenter
 			$this->getPost(['address', 'country'], NULL)
 		);
 
-		$this->em->flush();
+		try {
+			$this->em->flush();
+
+		} catch (UniqueConstraintViolationException $e) {
+			$this->sendError(IResponse::S409_CONFLICT, 'duplicateContact');
+		}
 
 		$this->sendJson(self::mapClient($client));
 	}
