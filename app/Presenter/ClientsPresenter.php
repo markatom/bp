@@ -133,7 +133,7 @@ class ClientsPresenter extends SecuredPresenter
 		return [
 			'id'          => $client->id,
 			'fullName'    => $client->fullName,
-			'dateOfBirth' => $client->dateOfBirth->format(self::DATE_FORMAT),
+			'dateOfBirth' => $client->dateOfBirth ? $client->dateOfBirth->format(self::DATE_FORMAT) : NULL,
 			'email'       => $client->email,
 			'telephone'   => $client->telephone,
 			'address'     => [

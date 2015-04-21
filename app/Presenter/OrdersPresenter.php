@@ -171,7 +171,7 @@ class OrdersPresenter extends SecuredPresenter
 	{
 		$mapped = [
 			'place'       => $event->place,
-			'date'        => $event->date->format(self::DATE_FORMAT),
+			'date'        => $event->date ? $event->date->format(self::DATE_FORMAT) : NULL,
 			'description' => $event->description
 		];
 

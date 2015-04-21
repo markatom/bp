@@ -52,6 +52,11 @@ abstract class Event extends BaseEntity
 	 */
 	public function setDate($date)
 	{
+		if ($date === NULL) {
+			$this->date = NULL;
+			return;
+		}
+
 		try {
 			$date = DateTime::from($date);
 

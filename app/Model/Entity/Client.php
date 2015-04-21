@@ -103,6 +103,11 @@ class Client extends Addressable
 	 */
 	public function setDateOfBirth($dateOfBirth)
 	{
+		if ($dateOfBirth === NULL) {
+			$this->dateOfBirth = NULL;
+			return;
+		}
+
 		try {
 			$dateOfBirth = DateTime::from($dateOfBirth);
 
