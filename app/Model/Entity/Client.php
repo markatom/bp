@@ -51,7 +51,7 @@ class Client extends Addressable
 	protected $email;
 
 	/**
-	 * @ORM\Column(type="string", nullable=true)
+	 * @ORM\Column(type="string", unique=true, nullable=true)
 	 * @var string
 	 */
 	protected $telephone;
