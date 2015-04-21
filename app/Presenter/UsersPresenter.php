@@ -3,8 +3,8 @@
 namespace Presenter;
 
 use DateTime;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Email\UserCreated\UserCreatedSender;
-use Kdyby\Doctrine\Tools\NonLockingUniqueInserter;
 use Model\Entity\Role;
 use Model\Entity\Token;
 use Model\Entity\User;
@@ -62,17 +62,18 @@ class UsersPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownRole');
 		}
 
-		$user     = new User($this->getPost('fullName'), $this->getPost('email'), $role);
-		$inserter = new NonLockingUniqueInserter($this->em);
-		$user     = $inserter->persist($user);
+		try {
+			$this->em->persist($user = new User($this->getPost('fullName'), $this->getPost('email'), $role));
 
-		if (!$user) {
+		} catch (UniqueConstraintViolationException $e) {
 			$this->sendError(IResponse::S409_CONFLICT, 'emailConflict');
 		}
 
 		$this->em->persist($token = new Token($user, 'setPassword', new DateTime('+24 hours')));
 
 		$this->userCreatedSender->send($token->key, $user->email);
+
+		$this->em->flush();
 
 		$this->sendJson(self::mapUser($user), IResponse::S201_CREATED);
 	}
