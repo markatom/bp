@@ -27,6 +27,7 @@ class UserCreatedSender extends BaseEmail
 
 		$message = new Message;
 		$message->addTo($recipient);
+		$message->setFrom('novak-svoboda@markacz.com');
 		$message->setSubject('Nový uživatelský učet');
 		$message->setHtmlBody($template);
 
