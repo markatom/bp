@@ -3,6 +3,8 @@
 namespace Email\UserCreated;
 
 use Email\BaseEmail;
+use Nette\Application\UI\ITemplateFactory;
+use Nette\Mail\IMailer;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
 
@@ -13,6 +15,21 @@ use Nette\Mail\SendmailMailer;
  */
 class UserCreatedSender extends BaseEmail
 {
+
+	/** @var string */
+	private $sender;
+
+	/**
+	 * @param ITemplateFactory $templateFactory
+	 * @param IMailer $mailer
+	 * @param string $sender
+	 */
+	public function __construct(ITemplateFactory $templateFactory, IMailer $mailer, $sender)
+	{
+		$this->sender = $sender;
+
+		parent::__construct($templateFactory, $mailer);
+	}
 
 	/**
 	 * Sends an email.
@@ -27,7 +44,7 @@ class UserCreatedSender extends BaseEmail
 
 		$message = new Message;
 		$message->addTo($recipient);
-		$message->setFrom('novak-svoboda@markacz.com');
+		$message->setFrom($this->sender);
 		$message->setSubject('Nový uživatelský učet');
 		$message->setHtmlBody($template);
 
