@@ -4,6 +4,10 @@
 #
 parameters:
 	sender: novak-svoboda@markacz.com
+	mailboxNames:
+		inbox: INBOX
+		accepted: Přijato systémem
+		rejected: Odmítnuto systémem
 
 
 php:
@@ -25,6 +29,7 @@ extensions:
 	events: Kdyby\Events\DI\EventsExtension
 	annotations: Kdyby\Annotations\DI\AnnotationsExtension
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
+	mailLibrary: greeny\MailLibrary\Extensions\MailLibraryExtension
 
 
 doctrine:
@@ -47,4 +52,5 @@ services:
 
 	- Email\UserCreated\UserCreatedSender(..., ..., %sender%)
 	- Email\UserCreated\ClientMessageSender(..., ..., %sender%)
+	- Model\Service\MessageFetcher(%mailboxNames%)
 

@@ -8,12 +8,18 @@
 			"email": "tomas@markacz.com"
 		}
 	],
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/markatom/MailLibrary"
+		}
+	],
 	"require": {
 		"php": ">= 5.5",
 		"nette/nette": "~2.3.0",
 		"kdyby/doctrine": "~3.0@dev",
 		"kdyby/console": "~2.3",
-	  	"greeny/maillibrary": "~3.2"
+	  	"greeny/maillibrary": "dev-master"
 	},
 	"require-dev": {
 		"behat/mink-extension": "2.0.1",

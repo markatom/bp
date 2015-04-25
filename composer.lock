@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5a30390bfbd965a3000494882ee06de4",
+    "hash": "28fe5d37b544929f6f7352371a77fc5b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -608,16 +608,16 @@
         },
         {
             "name": "greeny/maillibrary",
-            "version": "3.2.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/greeny/MailLibrary.git",
-                "reference": "976a4d082cd26d25cacabd0533fbc20cc913f0d3"
+                "url": "https://github.com/markatom/MailLibrary.git",
+                "reference": "74c862a01495e5de86cc369dc65e6cd818fcca4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/greeny/MailLibrary/zipball/976a4d082cd26d25cacabd0533fbc20cc913f0d3",
-                "reference": "976a4d082cd26d25cacabd0533fbc20cc913f0d3",
+                "url": "https://api.github.com/repos/markatom/MailLibrary/zipball/74c862a01495e5de86cc369dc65e6cd818fcca4f",
+                "reference": "74c862a01495e5de86cc369dc65e6cd818fcca4f",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +632,6 @@
                     "MailLibrary/loader.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -643,7 +642,10 @@
                 }
             ],
             "description": "This library allows you to get mails from mail server.",
-            "time": "2014-08-11 14:48:06"
+            "support": {
+                "source": "https://github.com/markatom/MailLibrary/tree/master"
+            },
+            "time": "2015-04-25 22:04:42"
         },
         {
             "name": "kdyby/annotations",
@@ -820,12 +822,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kdyby/Doctrine.git",
-                "reference": "1f0759b8357f6a596bfb8e61e6641f54ec6aad1d"
+                "reference": "2bc5573a08d619d0b96bbfe49578b34c39bb60ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kdyby/Doctrine/zipball/1f0759b8357f6a596bfb8e61e6641f54ec6aad1d",
-                "reference": "1f0759b8357f6a596bfb8e61e6641f54ec6aad1d",
+                "url": "https://api.github.com/repos/Kdyby/Doctrine/zipball/2bc5573a08d619d0b96bbfe49578b34c39bb60ec",
+                "reference": "2bc5573a08d619d0b96bbfe49578b34c39bb60ec",
                 "shasum": ""
             },
             "require": {
@@ -903,7 +905,7 @@
                 "nette",
                 "orm"
             ],
-            "time": "2015-04-20 14:58:49"
+            "time": "2015-04-25 18:08:29"
         },
         {
             "name": "kdyby/doctrine-cache",
@@ -3352,7 +3354,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kdyby/doctrine": 20
+        "kdyby/doctrine": 20,
+        "greeny/maillibrary": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
