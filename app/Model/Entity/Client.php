@@ -17,8 +17,6 @@ use Nette\Utils\Strings;
 class Client extends Addressable
 {
 
-	use Identifier;
-
 	const TELEPHONE_PATTERN = '~^
 		(                # begin of optional country code
 			(00|\+)      # 00 or +

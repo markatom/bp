@@ -15,8 +15,6 @@ use LogicException;
 class User extends Addressable
 {
 
-    use Identifier;
-
 	/**
 	 * @ORM\Column(type="string")
 	 * @var string
