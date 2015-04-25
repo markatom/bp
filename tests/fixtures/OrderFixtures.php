@@ -3,6 +3,7 @@
 namespace Tests\Fixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Model\Entity\Accident;
 use Model\Entity\Order;
@@ -13,8 +14,19 @@ use Model\Entity\OrderState;
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
-class OrderFixtures extends AbstractFixture
+class OrderFixtures extends AbstractFixture implements DependentFixtureInterface
 {
+
+	/**
+	 * This method must return an array of fixtures classes
+	 * on which the implementing class depends on
+	 *
+	 * @return array
+	 */
+	function getDependencies()
+	{
+		return [ClientFixtures::class, UserFixtures::class];
+	}
 
 	/**
 	 * Load data fixtures with the passed EntityManager
@@ -24,7 +36,7 @@ class OrderFixtures extends AbstractFixture
 	public function load(ObjectManager $manager)
 	{
 		$manager->persist(
-			$order = new Order(
+			$workAccident = new Order(
 				'Pracovní úraz',
 				new Accident(
 					'Lhota - výrobní hala','2015-03-27',
@@ -38,10 +50,10 @@ class OrderFixtures extends AbstractFixture
 				$this->getReference('client.karelKos')
 			)
 		);
-		$order->state->forceTransition(OrderState::POSTPONED);
+		$workAccident->state->forceTransition(OrderState::POSTPONED);
 
 		$manager->persist(
-			new Order(
+			$carAccident = new Order(
 				'Dopravní nehoda',
 				new Accident(
 					'Na silnici I. třídy mezi obcemi Chlum - Petrovice',
@@ -60,7 +72,7 @@ class OrderFixtures extends AbstractFixture
 		);
 
 		$manager->persist(
-			$order = new Order(
+			$schoolAccident = new Order(
 				'Úraz ve škole',
 				new Accident(
 					'V tělocvičně základní školy Nová ves',
@@ -75,7 +87,11 @@ class OrderFixtures extends AbstractFixture
 				$this->getReference('client.ondrejHubeny')
 			)
 		);
-		$order->state->forceTransition(OrderState::WAITING);
+		$schoolAccident->state->forceTransition(OrderState::WAITING);
+
+		$this->addReference('order.workAccident', $workAccident);
+		$this->addReference('order.carAccident', $carAccident);
+		$this->addReference('order.schoolAccident', $schoolAccident);
 
 		$manager->flush();
 	}
