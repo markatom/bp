@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cedb4186aae74d37336b6c86007fa857",
+    "hash": "5a30390bfbd965a3000494882ee06de4",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -607,6 +607,45 @@
             "time": "2015-04-02 20:40:18"
         },
         {
+            "name": "greeny/maillibrary",
+            "version": "3.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/greeny/MailLibrary.git",
+                "reference": "976a4d082cd26d25cacabd0533fbc20cc913f0d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/greeny/MailLibrary/zipball/976a4d082cd26d25cacabd0533fbc20cc913f0d3",
+                "reference": "976a4d082cd26d25cacabd0533fbc20cc913f0d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.3.0"
+            },
+            "require-dev": {
+                "nette/tester": "@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "MailLibrary/loader.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tomáš Blatný",
+                    "homepage": "https://github.com/greeny"
+                }
+            ],
+            "description": "This library allows you to get mails from mail server.",
+            "time": "2014-08-11 14:48:06"
+        },
+        {
             "name": "kdyby/annotations",
             "version": "v2.2.0",
             "source": {
@@ -781,12 +820,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kdyby/Doctrine.git",
-                "reference": "b25f2b50ef7a73bbe308c92444fc7f5501137d7c"
+                "reference": "1f0759b8357f6a596bfb8e61e6641f54ec6aad1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kdyby/Doctrine/zipball/b25f2b50ef7a73bbe308c92444fc7f5501137d7c",
-                "reference": "b25f2b50ef7a73bbe308c92444fc7f5501137d7c",
+                "url": "https://api.github.com/repos/Kdyby/Doctrine/zipball/1f0759b8357f6a596bfb8e61e6641f54ec6aad1d",
+                "reference": "1f0759b8357f6a596bfb8e61e6641f54ec6aad1d",
                 "shasum": ""
             },
             "require": {
@@ -864,7 +903,7 @@
                 "nette",
                 "orm"
             ],
-            "time": "2015-04-16 16:20:47"
+            "time": "2015-04-20 14:58:49"
         },
         {
             "name": "kdyby/doctrine-cache",

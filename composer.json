@@ -12,7 +12,8 @@
 		"php": ">= 5.5",
 		"nette/nette": "~2.3.0",
 		"kdyby/doctrine": "~3.0@dev",
-		"kdyby/console": "~2.3"
+		"kdyby/console": "~2.3",
+	  	"greeny/maillibrary": "~3.2"
 	},
 	"require-dev": {
 		"behat/mink-extension": "2.0.1",
