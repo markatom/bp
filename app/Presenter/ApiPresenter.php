@@ -69,7 +69,7 @@ abstract class ApiPresenter extends Presenter
 	 * Returns data sent as query parameters.
 	 * Can to iterate nested structures if given name is an array.
 	 * Sends error with description if default value is not provided and requested value is missing.
-	 * @param string $name
+	 * @param array|string $name
 	 * @param mixed $default
 	 * @return mixed
 	 */
