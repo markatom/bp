@@ -3,6 +3,7 @@
 # http://nette.org/security-warning
 #
 parameters:
+	sender: novak-svoboda@markacz.com
 
 
 php:
@@ -44,5 +45,6 @@ services:
 			- enable(expiredTokenFilter)
 		tags: [run]
 
-	- Email\UserCreated\UserCreatedSender
+	- Email\UserCreated\UserCreatedSender(..., ..., %sender%)
+	- Email\UserCreated\ClientMessageSender(..., ..., %sender%)
 
