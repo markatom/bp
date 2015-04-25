@@ -1,4 +1,18 @@
 doctrine:
-	user: root
+	user:
 	password:
-	dbname: bp
+	dbname: 
+
+mailLibrary:
+	imap:
+		username:
+		password:
+		host:
+		ssl: true
+
+mail:
+	username:
+	password:
+	host:
+	secure: ssl
+	smtp: true
