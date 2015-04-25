@@ -9,14 +9,15 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MessageRepository")
+ * @ORM\InheritanceType("JOINED")
  *
  * @author Tomáš Markacz <tomas@markacz.com>
  */
-class Message extends BaseEntity
+abstract class Message extends BaseEntity
 {
 
-    use Identifier;
+	use Identifier;
 
 	/**
 	 * @ORM\Column(type="string")
@@ -35,6 +36,11 @@ class Message extends BaseEntity
 	 * @var DateTime
 	 */
 	protected $createdAt;
+	/**
+	 * @ORM\ManyToOne(targetEntity="Order")
+	 * @var Order
+	 */
+	protected $order;
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="Document", inversedBy="messages")
@@ -43,40 +49,22 @@ class Message extends BaseEntity
 	protected $documents;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="Addressable")
-	 * @var Addressable
-	 */
-	protected $sender;
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="Addressable")
-	 * @var Addressable
-	 */
-	protected $recipient;
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="Order")
-	 * @var Order
-	 */
-	protected $order;
-
-	/**
 	 * @param Order $order
-	 * @param Addressable $sender
-	 * @param Addressable $recipient
 	 * @param string $subject
 	 * @param string $content
-	 * @param Document[] $documents
+	 * @param array $documents
 	 */
-	public function __construct(Order$order, Addressable $sender, Addressable $recipient, $subject, $content, $documents = [])
+	public function __construct(Order $order, $subject, $content, array $documents)
 	{
 		$this->subject   = $subject;
 		$this->content   = $content;
 		$this->createdAt = new DateTime;
-		$this->sender    = $sender;
-		$this->recipient = $recipient;
-		$this->documents = new ArrayCollection($documents);
 		$this->order     = $order;
+		$this->documents = new ArrayCollection($documents);
+
+		foreach ($documents as $document) {
+			$document->addMessage($this);
+		}
 	}
 
 }
