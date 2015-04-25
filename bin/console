@@ -1,5 +1,4 @@
 #!/usr/bin/env php
-
 <?php
 
 /** @var Nette\DI\Container $container */
