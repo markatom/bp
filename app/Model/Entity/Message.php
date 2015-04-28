@@ -9,7 +9,7 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="MessageRepository")
+ * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  *
  * @author Tomáš Markacz <tomas@markacz.com>
