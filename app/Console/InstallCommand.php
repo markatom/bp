@@ -5,7 +5,6 @@ namespace Console;
 use Kdyby\Doctrine\EntityManager;
 use Model\Entity\Role;
 use Model\Entity\User;
-use Nette\Neon\Neon;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
