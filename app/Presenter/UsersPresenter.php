@@ -2,12 +2,11 @@
 
 namespace Presenter;
 
-use DateTime;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Email\UserCreated\UserCreatedSender;
 use Model\Entity\Role;
-use Model\Entity\Token;
 use Model\Entity\User;
+use Model\Service\Tokens;
 use Nette\Http\IResponse;
 
 /**
@@ -21,6 +20,12 @@ class UsersPresenter extends SecuredPresenter
 	/** @var UserCreatedSender @inject */
 	public $userCreatedSender;
 
+	/** @var Tokens @inject */
+	public $tokens;
+
+	/**
+	 * Lost password will not authenticate.
+	 */
 	public function startup()
 	{
 		if ($this->action === 'updateUserByToken') {
@@ -69,7 +74,7 @@ class UsersPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S409_CONFLICT, 'emailConflict');
 		}
 
-		$this->em->persist($token = new Token($user, 'setPassword', new DateTime('+24 hours')));
+		$token = $this->tokens->create($user, 'setPassword', '+24 hours');
 
 		$this->userCreatedSender->send($token->key, $user->email);
 
@@ -133,23 +138,12 @@ class UsersPresenter extends SecuredPresenter
 	 */
 	public function actionUpdateUserByToken()
 	{
-		$this->removeExpiredTokens();
-
-		/** @var Token $token */
-		$token = $this->em->getRepository(Token::class)->findOneBy(['key' => $this->getQuery(['token', 'key'])]);
-
-		if (!$token) {
-			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownToken', 'Unknown token key. Token maybe expired.');
-		}
-
-		if ($token->type !== 'setPassword') {
-			$this->sendError(IResponse::S400_BAD_REQUEST, 'invalidTokenType');
+		if (!$token = $this->tokens->get($this->getQuery(['token', 'key']), 'setPassword')) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'invalidToken', 'Invalid token key. Token maybe expired.');
 		}
 
 		$token->user->setPassword($this->getPost('password'));
-
-
-		$this->em->remove($token)->flush();
+		$this->tokens->delete($token);
 
 		$this->sendJson($this->mapUser($token->user));
 	}
@@ -188,19 +182,6 @@ class UsersPresenter extends SecuredPresenter
 			'email'    => $user->email,
 			'role'     => RolesPresenter::mapRole($user->role),
 		];
-	}
-
-	/**
-	 * Removes all expired tokens, so they are not cumulating in database.
-	 */
-	private function removeExpiredTokens()
-	{
-		$this->em->getFilters()->disable('expiredTokenFilter');
-
-		$this->em->createQuery('DELETE ' . Token::class . ' t WHERE t.expiration < ?0')
-			->execute([new DateTime]);
-
-		$this->em->getFilters()->enable('expiredTokenFilter');
 	}
 
 }

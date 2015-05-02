@@ -54,3 +54,4 @@ services:
 	- Email\UserCreated\ClientMessageSender(..., ..., %sender%)
 	- Model\Service\MessageFetcher(%mailboxNames%)
 
+	- Model\Service\Tokens
