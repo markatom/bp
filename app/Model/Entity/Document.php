@@ -39,7 +39,7 @@ class Document extends BaseEntity
 
 	/**
 	 * @ORM\Column(type="blob")
-	 * @var string
+	 * @var resource
 	 */
 	protected $data;
 
@@ -66,9 +66,20 @@ class Document extends BaseEntity
 		$this->name      = $name;
 		$this->type      = $type;
 		$this->createdAt = new DateTime;
-		$this->data      = $data;
 		$this->order     = $order;
 		$this->messages  = new ArrayCollection;
+
+		$this->setData($data);
+	}
+
+	/**
+	 * @param string $data
+	 */
+	public function setData($data)
+	{
+		$this->data = fopen('php://temp', 'rb+');
+		fwrite($this->data, $data);
+		fseek($this->data, 0);
 	}
 
 }

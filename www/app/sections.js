@@ -30,6 +30,14 @@ define(['app/welcome', 'app/gui'], function () {
                 })
                 .state('loading', {
                     templateUrl: 'app/sections/loading.html'
+                })
+                .state('downloading', {
+                    url: '/downloading',
+                    templateUrl: 'app/sections/downloading.html'
+                })
+                .state('downloaded', {
+                    url: '/downloaded',
+                    templateUrl: 'app/sections/downloaded.html'
                 });
 
             $urlRouterProvider.otherwise('/');

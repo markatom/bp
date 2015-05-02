@@ -1,0 +1,32 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>
+            <a id="name" href="#" ng-click="sort('name')">Název {{indicator('name')}}</a>
+        </th>
+        <th>
+            <a id="size" href="#" ng-click="sort('size')">Velikost {{indicator('size')}}</a>
+        </th>
+        <th>
+            <a id="createdAt" href="#" ng-click="sort('createdAt')">Vytvořeno {{indicator('createdAt')}}</a>
+        </th>
+        <th>
+            <a id="add" class="btn btn-success" href="#" ngf-select ngf-change="upload($files)" title="Nový dokument" ng-disabled="uploading"><i class="glyphicon" ng-class="{'glyphicon-plus': !uploading, 'glyphicon-refresh': uploading, 'spinner': uploading}"></i></a>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="document in documents">
+        <td>{{document.name}}</td>
+        <td>{{document.formattedSize}}</td>
+        <td>{{document.createdAt|date:'d. M. yyyy'}}</td>
+        <td>
+            <div class="btn-group">
+                <a class="btn btn-default" ng-click="download(document.id)" href="#" title="Stáhnout">
+                    <i class="glyphicon glyphicon-download-alt"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>

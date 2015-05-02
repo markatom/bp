@@ -195,9 +195,51 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         };
     }
 
+    function DocumentCtrl($scope, $state, documents, Upload, Response, $timeout) {
+        $scope.documents = [];
+
+        function loadGrid() {
+            documents.readAll({'order[id]': $state.params.id}).success(function (data) {
+                $scope.documents = data;
+            });
+        }
+        loadGrid();
+
+        $scope.download = function (id) {
+            var tab = window.open('downloading.html', '_blank');
+            documents.read(id, {download: true}).success(function (data) {
+                tab.location.href = 'api/documents/' + id + '?download=true&token[key]=' + data.token.key;
+                $timeout(function () {
+                    tab.location.href = 'downloaded.html';
+                }, 100);
+            });
+        };
+
+        $scope.upload = function (files) {
+            $scope.uploading = true;
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    Upload.upload({
+                        url: 'api/documents',
+                        file: file,
+                        params: {
+                            'order[id]': $state.params.id
+                        }
+                    }).success(function () {
+                        loadGrid();
+                    }).error(Response.defaultErrorHandler)
+                    .finally(function () {
+                        $scope.uploading= false;
+                    });
+                }
+            }
+        };
+    }
+
     // Configuration
 
-    angular.module('app.order', ['ui.router', 'ui.bootstrap', 'app.rest', 'app.gui', 'app.client', 'app.user'])
+    angular.module('app.order', ['ui.router', 'ui.bootstrap', 'app.rest', 'app.gui', 'app.client', 'app.user', 'ngFileUpload'])
 
         .config(function ($stateProvider) {
             $stateProvider
@@ -205,6 +247,12 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
                     abstract: true,
                     url: '/order',
                     template: '<div ui-view></div>'
+                })
+
+                .state('app.order.tabs.documents', {
+                    url: '/document',
+                    templateUrl: 'app/order/documents.html',
+                    controller: DocumentCtrl
                 })
 
                 .state('app.order.grid', {
@@ -232,6 +280,10 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
 
         .factory('orderStates', function (resourceFactory) {
             return resourceFactory.create('api/order-states');
+        })
+
+        .factory('documents', function (resourceFactory) {
+            return resourceFactory.create('api/documents');
         })
 
         .value('orderDraft', {order: null})
