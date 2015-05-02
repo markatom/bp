@@ -22,10 +22,18 @@ abstract class SecuredPresenter extends ApiPresenter
 	protected $user;
 
 	/**
-	 * Validates the session and obtains an entity of signed in user.
+	 * Performs authentication.
 	 */
 	public function startup()
     {
+		$this->authenticate();
+    }
+
+	/**
+	 * Validates the session and obtains an entity of signed in user.
+	 */
+	public function authenticate()
+	{
 		parent::startup();
 
 		$token = $this->httpRequest->getHeader('X-Session-Token');
@@ -45,6 +53,6 @@ abstract class SecuredPresenter extends ApiPresenter
 		$this->em->flush();
 
 		$this->user = $session->user;
-    }
+	}
 
 }
