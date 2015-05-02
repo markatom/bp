@@ -41,7 +41,7 @@ doctrine:
 
 
 services:
-	router: App\RouterFactory::createRouter
+	router: Routing\RouterFactory::createRouter
 
 	filters:
 		factory: @Doctrine\ORM\EntityManagerInterface::getFilters

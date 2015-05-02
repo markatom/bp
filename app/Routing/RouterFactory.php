@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace Routing;
 
 use Nette\Application\Routers\RouteList;
-use Router\ApiRoute;
+use Routing\ApiRoute;
 
 /**
  * Router factory.
@@ -42,6 +42,12 @@ class RouterFactory
 		$router[] = new ApiRoute('orders/<id>', 'Orders:update', ApiRoute::METHOD_PUT);
 
 		$router[] = new ApiRoute('order-states', 'OrderStates:readAll', ApiRoute::METHOD_GET);
+
+		$router[] = new ApiRoute('messages', 'Messages:readAll', ApiRoute::METHOD_GET);
+
+		$router[] = new ApiRoute('documents', 'Documents:create', ApiRoute::METHOD_POST);
+		$router[] = new ApiRoute('documents', 'Documents:readAll', ApiRoute::METHOD_GET);
+		$router[] = new ApiRoute('documents/<id>', 'Documents:read', ApiRoute::METHOD_GET);
 
 		return $router;
 	}
