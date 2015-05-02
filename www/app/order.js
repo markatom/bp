@@ -195,6 +195,10 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         };
     }
 
+    function TabsCtrl($scope, $state) {
+        $scope.id = $state.params.id;
+    }
+
     function DocumentCtrl($scope, $state, documents, Upload, Response, $timeout) {
         $scope.documents = [];
 
@@ -247,6 +251,13 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
                     abstract: true,
                     url: '/order',
                     template: '<div ui-view></div>'
+                })
+
+                .state('app.order.tabs', {
+                    abstract: true,
+                    url: '/{id}',
+                    templateUrl: 'app/order/tabs.html',
+                    controller: TabsCtrl
                 })
 
                 .state('app.order.tabs.documents', {
