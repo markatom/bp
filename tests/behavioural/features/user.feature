@@ -4,7 +4,7 @@ Feature: User management
   Scenario: Admin edits user
     Given I am "John Doe"
     When I follow "user-management"
-    And I follow "Upravit James Smith" with xpath "//table/tbody/tr[2]/td[4]/a[1]"
+    And I follow "Upravit James Smith" with xpath "//table/tbody/tr[2]/td[4]/div/a[1]"
     And I fill in "full-name" with "Thomas Smith"
     And I press "save"
     Then I should see "Změny byly úspěšně uloženy."

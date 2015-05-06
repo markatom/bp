@@ -23,5 +23,6 @@ Feature: Sign in/out
     Then I should see "Dashboard"
 
   Scenario: Sign out
+    Given I am "John Doe"
     When I follow "signOut"
     Then I should see "Odhlášení proběhlo úspěšně."
