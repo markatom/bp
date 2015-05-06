@@ -38,7 +38,24 @@ doctrine:
 		expiredTokenFilter: Model\Sql\ExpiredTokenFilter
 	metadata:
 		Model: %appDir%/Model/Entity
+	host: %database.host%
+	user: %database.user%
+	password: %database.password%
+	dbname: %database.name%
 
+mailLibrary:
+	imap:
+		username: %email.address%
+		password: %email.password%
+		host: %email.imap.host%
+		ssl: %email.imap.ssl%
+
+mail:
+	username: %email.address%
+	password: %email.password%
+	host: %email.smtp.host%
+	secure: %email.smtp.secure%
+	smtp: true
 
 services:
 	router: Routing\RouterFactory::createRouter

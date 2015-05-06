@@ -1,18 +1,16 @@
-doctrine:
-	user:
-	password:
-	dbname: 
-
-mailLibrary:
-	imap:
-		username:
+parameters:
+	database:
+		host: localhost
+		user: root
 		password:
-		host:
-		ssl: true
+		name: bp
 
-mail:
-	username:
-	password:
-	host:
-	secure: ssl
-	smtp: true
+	email:
+		address: foobar@example.net
+		password: password
+		smtp:
+			host: smtp.example.net
+			secure: ssl
+		imap:
+			host: imap.example.net
+			ssl: true
