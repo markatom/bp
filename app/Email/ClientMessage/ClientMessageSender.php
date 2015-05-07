@@ -50,7 +50,7 @@ class ClientMessageSender extends BaseEmail
 		$mail->setHtmlBody($template);
 
 		foreach ($message->documents as $document) {
-			$mail->addAttachment($document->name, $document->data, $document->type);
+			$mail->addAttachment($document->name, stream_get_contents($document->data), $document->type);
 		}
 
 		$this->mailer->send($mail);
