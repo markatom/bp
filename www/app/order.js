@@ -224,11 +224,11 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         $scope.fetch();
 
         $scope.download = function (id) {
-            var tab = window.open('downloading.html', '_blank');
+            document.body.className = 'downloading';
             documents.read(id, {download: true}).success(function (data) {
-                tab.location.href = 'api/documents/' + id + '?download=true&token[key]=' + data.token.key;
+                window.location.href = 'api/documents/' + id + '?download=true&token[key]=' + data.token.key;
                 $timeout(function () {
-                    tab.location.href = 'downloaded.html';
+                    document.body.className = '';
                 }, 100);
             });
         };
@@ -299,11 +299,11 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         loadGrid();
 
         $scope.download = function (id) {
-            var tab = window.open('downloading.html', '_blank');
+            document.body.className = 'downloading';
             documents.read(id, {download: true}).success(function (data) {
-                tab.location.href = 'api/documents/' + id + '?download=true&token[key]=' + data.token.key;
+                window.location.href = 'api/documents/' + id + '?download=true&token[key]=' + data.token.key;
                 $timeout(function () {
-                    tab.location.href = 'downloaded.html';
+                    document.body.className = '';
                 }, 100);
             });
         };

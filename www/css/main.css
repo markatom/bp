@@ -471,3 +471,7 @@ div.messages a.label:last-child {
     margin: 12px 12px 0 0;
     padding: 6px;
 }
+
+body.downloading {
+    opacity: 0.3;
+}
