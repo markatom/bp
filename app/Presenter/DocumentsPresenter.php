@@ -103,13 +103,9 @@ class DocumentsPresenter extends SecuredPresenter
 			} else {
 				$this->authenticate();
 
-				$token = $this->tokens->create($this->user, 'downloadImage', '+10 min');
-
-				sleep(1);
-
 				$this->sendJson([
 					'token' => [
-						'key' => $token->key,
+						'key' => $this->tokens->create($this->user, 'downloadImage', '+10 min')->key,
 					],
 				]);
 			}
