@@ -3,6 +3,7 @@
 namespace Presenter;
 
 use Email\UserCreated\ClientMessageSender;
+use Model\Entity\Document;
 use Model\Entity\IncomingMessage;
 use Model\Entity\Order;
 use Model\Entity\OutgoingMessage;
@@ -37,7 +38,17 @@ class MessagesPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownOrder');
 		}
 
-		$message = new OutgoingMessage($order, $this->getPost('subject'), $this->getPost('content'), [], $this->user, $order->client);
+		$documentIds = array_map(function ($document) {
+			return $document['id'];
+		}, $this->getPost('documents'));
+
+		$documents = $this->em->getRepository(Document::class)->findBy(['id' => $documentIds]);
+
+		if (count($documents) !== count($documentIds)) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownDocument');
+		}
+
+		$message = new OutgoingMessage($order, $this->getPost('subject'), $this->getPost('content'), $documents, $this->user, $order->client);
 
 		$this->clientMessageSender->send($message);
 

@@ -424,6 +424,7 @@ ul.nav.nav-tabs {
 }
 
 div.message {
+    border-radius: 0.25em;
     margin: 15px 0;
     padding-bottom: 15px;
     border-bottom: 1px solid #ddd;
@@ -452,4 +453,21 @@ div.loader {
 div.messages div.pull-right a.btn {
     position: relative;
     bottom: 7px;
+}
+
+div.messages a.label {
+    font-size: 80%;
+    font-weight: normal;
+    float: left;
+    display: block;
+    margin: 12px 12px 0 0;
+}
+
+div.messages a.label:last-child {
+    color: #222;
+    background-color: #f5f5f5;
+    float: left;
+    display: block;
+    margin: 12px 12px 0 0;
+    padding: 6px;
 }

@@ -11,7 +11,29 @@
                     <textarea id="message" class="form-control" rows="10" ng-model="message.content" required></textarea>
                     <p class="help-block">Na konec zprávy bude automaticky přidán podpis.</p>
                 </div>
-                <a href="#" class="btn btn-default" ui-sref="app.order.tabs.message.grid">
+                <label ng-if="message.documents.length">Dokumenty</label>
+                <div class="form-group form-inline" ng-repeat="document in message.documents track by $index">
+                    <div class="form-group">
+                        <select id="document-{{$index}}" class="form-control" ng-model="message.documents[$index]" ng-options="document.name for document in availableDocuments track by document.id" required>
+                            <option value="">Vyberte dokument…</option>
+                        </select>
+                        <a class="btn btn-danger" title="Odebrat" ng-click="remove($index)">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a class="btn btn-default" ngf-select ngf-change="upload($files)" ng-disabled="uploading">
+                        <i class="glyphicon glyphicon-refresh spinner" ng-if="uploading"></i>
+                        <i class="glyphicon glyphicon-open" ng-if="!uploading"></i>
+                        {{uploading ? 'Nahrávám dokument' : 'Nahrát dokument'}}
+                    </a>
+                    <a class="btn btn-default" ng-click="select()">
+                        <i class="glyphicon glyphicon-file"></i>
+                        Vybrat dokument
+                    </a>
+                </div>
+                <a class="btn btn-default" ui-sref="app.order.tabs.message.grid">
                     <i class="glyphicon glyphicon-arrow-left"></i>
                     Zpět na zprávy
                 </a>

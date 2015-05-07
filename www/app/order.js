@@ -199,7 +199,7 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         $scope.id = $state.params.id;
     }
 
-    function MessagesCtrl($scope, $state, messages, $sce) {
+    function MessagesCtrl($scope, $state, messages, $sce, documents, $timeout) {
         $scope.messages = [];
 
         function show(data) {
@@ -222,10 +222,30 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         };
 
         $scope.fetch();
+
+        $scope.download = function (id) {
+            var tab = window.open('downloading.html', '_blank');
+            documents.read(id, {download: true}).success(function (data) {
+                tab.location.href = 'api/documents/' + id + '?download=true&token[key]=' + data.token.key;
+                $timeout(function () {
+                    tab.location.href = 'downloaded.html';
+                }, 100);
+            });
+        };
     }
 
-    function SendMessageCtrl($scope, $state, messages, alerts) {
-        $scope.message = {};
+    function SendMessageCtrl($scope, $state, messages, alerts, documents, Upload, Response) {
+        $scope.message = {
+            documents: []
+        };
+        $scope.availableDocuments = [];
+
+        function loadAvailableDocuments() {
+            documents.readAll({'order[id]': $state.params.id}).success(function (data) {
+                $scope.availableDocuments = data;
+            });
+        }
+        loadAvailableDocuments();
 
         $scope.send = function () {
             $scope.sending = true;
@@ -235,6 +255,36 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
             }).finally(function () {
                 $scope.sending = false;
             });
+        };
+
+        $scope.select = function () {
+            $scope.message.documents.push({});
+        };
+
+        $scope.remove = function (index) {
+            $scope.message.documents.splice(index, 1);
+        };
+
+        $scope.upload = function (files) {
+            $scope.uploading = true;
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    Upload.upload({
+                        url: 'api/documents',
+                        file: file,
+                        params: {
+                            'order[id]': $state.params.id
+                        }
+                    }).success(function (data) {
+                        loadAvailableDocuments();
+                        $scope.message.documents.push(data);
+                    }).error(Response.defaultErrorHandler)
+                        .finally(function () {
+                            $scope.uploading= false;
+                        });
+                }
+            }
         };
     }
 

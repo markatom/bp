@@ -10,19 +10,23 @@
             Odeslat novou zprávu
         </a>
     </div>
-    <div ng-repeat="message in messages">
-        <div class="message">
-            <h4 class="media-heading">
-                {{message.subject}}
-                <small>
-                    <span class="label sm" ng-class="{'label-info': message.type === 'outgoing', 'label-warning': message.type === 'incoming'}">
-                        {{message.sender.fullName}}
-                    </span>
-                    &nbsp;
-                    {{message.createdAt|date:'d. M. yyyy'}}
-                </small>
-            </h4>
-            <div class="content" ng-bind-html="message.content"></div>
+    <div class="message" ng-repeat="message in messages">
+        <h4 class="media-heading">
+            {{message.subject}}
+            <small>
+                <span class="label sm" ng-class="{'label-info': message.type === 'outgoing', 'label-warning': message.type === 'incoming'}">
+                    {{message.sender.fullName}}
+                </span>
+                &nbsp;
+                {{message.createdAt|date:'d. M. yyyy'}}
+            </small>
+        </h4>
+        <div class="content" ng-bind-html="message.content"></div>
+        <div class="clearfix">
+            <a ng-click="download(document.id)" class="label label-default" ng-repeat="document in message.documents">
+                <i class="glyphicon glyphicon-file"></i>
+                {{document.name}} ({{document.formattedSize}})
+            </a>
         </div>
     </div>
 </div>
