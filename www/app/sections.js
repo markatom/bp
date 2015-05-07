@@ -2,11 +2,12 @@
 
 define(['app/welcome', 'app/gui'], function () {
 
-    function AppCtrl($scope, session, $state, sessions, alerts) {
+    function AppCtrl($scope, session, $state, sessions, alerts, $cookies) {
         $scope.session = session;
 
         $scope.signOut = function () {
             sessions.delete('current').success(function () {
+                $cookies.remove('session-token');
                 session.terminate();
                 alerts.prepareSuccess('Odhlášení proběhlo úspěšně.');
                 $state.go('welcome.signIn');
