@@ -32,16 +32,16 @@ class MessageFetcher extends Object
 	/** @var Connection */
 	private $imap;
 
-	/** @var HtmlToPlain */
-	private $htmlToPlain;
+	/** @var EmailNormalizer */
+	private $emailNormalizer;
 
 	/**
 	 * @param array $mailboxNames
 	 * @param EntityManager $em
 	 * @param Connection $imap
-	 * @param HtmlToPlain $htmlToPlain
+	 * @param EmailNormalizer $htmlToPlain
 	 */
-    public function __construct(array $mailboxNames, EntityManager $em, Connection $imap, HtmlToPlain $htmlToPlain)
+    public function __construct(array $mailboxNames, EntityManager $em, Connection $imap, EmailNormalizer $htmlToPlain)
     {
 		if (!isset($mailboxNames['inbox']) || !isset($mailboxNames['accepted']) || !isset($mailboxNames['rejected'])) {
 			throw new LogicException('Please supply names of mailboxes (inbox, accepted and rejected).');
@@ -50,7 +50,7 @@ class MessageFetcher extends Object
 		$this->mailboxNames = $mailboxNames;
 		$this->em           = $em;
 		$this->imap         = $imap;
-		$this->htmlToPlain  = $htmlToPlain;
+		$this->emailNormalizer  = $htmlToPlain;
 	}
 
 	/**
@@ -78,7 +78,8 @@ class MessageFetcher extends Object
 				return new Document($attachment->getName(), $attachment->getType(), $attachment->getContent(), $order);
 			}, $mail->getAttachments());
 
-			$body = $mail->getTextBody() ?: $this->htmlToPlain->convert($mail->getHtmlBody());
+			$body = $mail->getTextBody();
+			$body = $this->emailNormalizer->normalize($body);
 
 			$this->em->persist($documents);
 			$this->em->persist(new IncomingMessage($order, $mail->subject, $body, $documents, $sender));
