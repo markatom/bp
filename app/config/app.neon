@@ -70,5 +70,5 @@ services:
 	- Email\UserCreated\UserCreatedSender(..., ..., %sender%)
 	- Email\UserCreated\ClientMessageSender(..., ..., %sender%)
 	- Model\Service\MessageFetcher(%mailboxNames%)
-
+	- Model\Service\HtmlToPlain
 	- Model\Service\Tokens

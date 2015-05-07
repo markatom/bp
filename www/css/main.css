@@ -429,6 +429,11 @@ div.message {
     border-bottom: 1px solid #ddd;
 }
 
+div.message:last-child {
+    border: none;
+    padding: 0;
+}
+
 div.message h4 {
     margin-bottom: 15px;
 }
@@ -442,4 +447,9 @@ div.loader {
     text-align: center;
     font-size: 200%;
     margin-top: 15px;
+}
+
+div.messages div.pull-right a.btn {
+    position: relative;
+    bottom: 7px;
 }

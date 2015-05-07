@@ -199,6 +199,45 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         $scope.id = $state.params.id;
     }
 
+    function MessagesCtrl($scope, $state, messages, $sce) {
+        $scope.messages = [];
+
+        function show(data) {
+            for (var i = 0; i < data.length; i++) {
+                data[i].content = $sce.trustAsHtml(data[i].content.replace(/\n/g, '<br>'));
+            }
+            $scope.messages = data;
+        }
+
+        $scope.fetch = function () {
+            $scope.fetching = true;
+            messages.readAll({'order[id]': $state.params.id}).success(function (data) {
+                show(data);
+                messages.readAll({'order[id]': $state.params.id, fetch: true}).success(function (data) {
+                    show(data);
+                }).finally(function () {
+                    $scope.fetching = false;
+                });
+            });
+        };
+
+        $scope.fetch();
+    }
+
+    function SendMessageCtrl($scope, $state, messages, alerts) {
+        $scope.message = {};
+
+        $scope.send = function () {
+            $scope.sending = true;
+            messages.create($scope.message, {'order[id]': $state.params.id}).success(function () {
+                alerts.prepareSuccess('Zpráva byla úspěšně odeslána.');
+                $state.go('app.order.tabs.message.grid');
+            }).finally(function () {
+                $scope.sending = false;
+            });
+        };
+    }
+
     function DocumentCtrl($scope, $state, documents, Upload, Response, $timeout) {
         $scope.documents = [];
 
@@ -260,6 +299,23 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
                     controller: TabsCtrl
                 })
 
+                .state('app.order.tabs.message', {
+                    abstract: true,
+                    template: '<div ui-view></div>'
+                })
+
+                .state('app.order.tabs.message.grid', {
+                    url: '/message',
+                    templateUrl: 'app/order/messages.html',
+                    controller: MessagesCtrl
+                })
+
+                .state('app.order.tabs.message.send', {
+                    url: '/message/send',
+                    templateUrl: 'app/order/sendMessage.html',
+                    controller: SendMessageCtrl
+                })
+
                 .state('app.order.tabs.documents', {
                     url: '/document',
                     templateUrl: 'app/order/documents.html',
@@ -291,6 +347,10 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
 
         .factory('orderStates', function (resourceFactory) {
             return resourceFactory.create('api/order-states');
+        })
+
+        .factory('messages', function (resourceFactory) {
+            return resourceFactory.create('api/messages');
         })
 
         .factory('documents', function (resourceFactory) {

@@ -32,12 +32,16 @@ class MessageFetcher extends Object
 	/** @var Connection */
 	private $imap;
 
+	/** @var HtmlToPlain */
+	private $htmlToPlain;
+
 	/**
 	 * @param array $mailboxNames
 	 * @param EntityManager $em
 	 * @param Connection $imap
+	 * @param HtmlToPlain $htmlToPlain
 	 */
-    public function __construct(array $mailboxNames, EntityManager $em, Connection $imap)
+    public function __construct(array $mailboxNames, EntityManager $em, Connection $imap, HtmlToPlain $htmlToPlain)
     {
 		if (!isset($mailboxNames['inbox']) || !isset($mailboxNames['accepted']) || !isset($mailboxNames['rejected'])) {
 			throw new LogicException('Please supply names of mailboxes (inbox, accepted and rejected).');
@@ -46,13 +50,16 @@ class MessageFetcher extends Object
 		$this->mailboxNames = $mailboxNames;
 		$this->em           = $em;
 		$this->imap         = $imap;
-    }
+		$this->htmlToPlain  = $htmlToPlain;
+	}
 
 	/**
 	 * Fetches all messages from remote inbox via IMAP.
 	 */
 	public function fetchMessages()
 	{
+		$this->createMailboxes();
+
 		$mails = $this->imap->getMailbox($this->mailboxNames['inbox'])->getMails();
 
 		$mails->order(Mail::ORDER_DATE);
@@ -71,14 +78,30 @@ class MessageFetcher extends Object
 				return new Document($attachment->getName(), $attachment->getType(), $attachment->getContent(), $order);
 			}, $mail->getAttachments());
 
+			$body = $mail->getTextBody() ?: $this->htmlToPlain->convert($mail->getHtmlBody());
+
 			$this->em->persist($documents);
-			$this->em->persist(new IncomingMessage($order, $mail->subject, $mail->getBody(), $documents, $sender));
+			$this->em->persist(new IncomingMessage($order, $mail->subject, $body, $documents, $sender));
 
 			$this->accept($mail);
 		}
 
 		$this->em->flush();
 		$this->imap->flush();
+	}
+
+	/**
+	 * Creates mailboxes if they do not exist.
+	 */
+	private function createMailboxes()
+	{
+		$mailboxes = $this->imap->getMailboxes();
+
+		foreach ($this->mailboxNames as $key => $name) {
+			if (!isset($mailboxes[$name])) {
+				$this->imap->createMailbox($name);
+			}
+		}
 	}
 
 	/**

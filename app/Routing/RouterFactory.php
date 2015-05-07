@@ -44,6 +44,7 @@ class RouterFactory
 		$router[] = new ApiRoute('order-states', 'OrderStates:readAll', ApiRoute::METHOD_GET);
 
 		$router[] = new ApiRoute('messages', 'Messages:readAll', ApiRoute::METHOD_GET);
+		$router[] = new ApiRoute('messages', 'Messages:create', ApiRoute::METHOD_POST);
 
 		$router[] = new ApiRoute('documents', 'Documents:create', ApiRoute::METHOD_POST);
 		$router[] = new ApiRoute('documents', 'Documents:readAll', ApiRoute::METHOD_GET);

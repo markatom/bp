@@ -1,0 +1,22 @@
+<div>
+    <div class="row">
+        <div class="col-md-6">
+            <form ng-submit="send()">
+                <div class="form-group">
+                    <label for="subject">Předmět</label>
+                    <input id="subject" class="form-control" type="text" ng-model="message.subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Zpráva</label>
+                    <textarea id="message" class="form-control" rows="10" ng-model="message.content" required></textarea>
+                    <p class="help-block">Na konec zprávy bude automaticky přidán podpis.</p>
+                </div>
+                <a href="#" class="btn btn-default" ui-sref="app.order.tabs.message.grid">
+                    <i class="glyphicon glyphicon-arrow-left"></i>
+                    Zpět na zprávy
+                </a>
+                <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending"><i ng-if="sending" class="glyphicon glyphicon-refresh spinner"></i><i ng-if="!sending" class="glyphicon glyphicon-send"></i>{{sending ? ' Odesílám…' : ' Odeslat'}}</button>
+            </form>
+        </div>
+    </div>
+</div>

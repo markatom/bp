@@ -53,7 +53,7 @@ class ClientMessageSender extends BaseEmail
 			$mail->addAttachment($document->name, $document->data, $document->type);
 		}
 
-		$this->mailer->send($message);
+		$this->mailer->send($mail);
 	}
 
 }
