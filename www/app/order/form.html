@@ -1,65 +1,73 @@
-<form ng-submit="save()" ng-class="{loading: loading}">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="name">Jméno kauzy</label>
-                <input id="name" class="form-control" type="text" ng-model="order.name" required>
-            </div>
-            <div class="form-group">
-                <label for="client">Klient</label>
-                <span ng-show="loadingClients" class="typeahead-loading"><i class="glyphicon glyphicon-refresh spinner"></i> Načítám klienty…</span>
-                <div class="input-group">
-                    <input id="client" class="form-control" type="text" autocomplete="off" ng-model="order.client" typeahead="client as client.fullName for client in loadClients($viewValue)" typeahead-editable="false" typeahead-loading="loadingClients" typeahead-wait-ms="300">
-                    <span class="input-group-btn">
-                        <button ng-click="addClient()" class="btn btn-success" type="button"><i class="glyphicon glyphicon-plus"></i> Nový klient</button>
-                    </span>
+<div class="panel-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="app.order.grid">Objednávky</a></li>
+        <li class="active">{{editation ? 'Editace' : 'Nová'}}</li>
+    </ol>
+</div>
+<div class="panel-body">
+    <form ng-submit="save()" ng-class="{loading: loading}">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Jméno kauzy</label>
+                    <input id="name" class="form-control" type="text" ng-model="order.name" required>
+                </div>
+                <div class="form-group">
+                    <label for="client">Klient</label>
+                    <span ng-show="loadingClients" class="typeahead-loading"><i class="glyphicon glyphicon-refresh spinner"></i> Načítám klienty…</span>
+                    <div class="input-group">
+                        <input id="client" class="form-control" type="text" autocomplete="off" ng-model="order.client" typeahead="client as client.fullName for client in loadClients($viewValue)" typeahead-editable="false" typeahead-loading="loadingClients" typeahead-wait-ms="300">
+                        <span class="input-group-btn">
+                            <button ng-click="addClient()" class="btn btn-success" type="button"><i class="glyphicon glyphicon-plus"></i> Nový klient</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="assignee">Vyřizuje</label>
+                    <span ng-show="loadingUsers" class="typeahead-loading"><i class="glyphicon glyphicon-refresh spinner"></i> Načítám uživatele…</span>
+                    <input id="assignee" class="form-control" type="text" autocomplete="off" ng-model="order.assignee" typeahead="assignee as assignee.fullName for assignee in loadUsers($viewValue)" typeahead-editable="false" typeahead-loading="loadingUsers" typeahead-wait-ms="300">
+                </div>
+                <div class="form-group">
+                    <label>Stav</label><br>
+                    <div class="btn-group">
+                        <label class="btn btn-default" ng-model="order.state.slug" btn-radio="originalState">{{order.state.name}}</label>
+                        <label ng-repeat="state in order.state.next" class="btn btn-default" ng-model="order.state.slug" btn-radio="state.slug">{{state.name}}</label>
+                    </div
+                    <input id="state" class="form-control" type="text" ng-model="order.state.slug">
+                </div>
+                <div class="form-group">
+                    <label for="place">Místo</label>
+                    <input id="place" class="form-control" type="text" ng-model="order.event.place">
+                </div>
+                <div class="form-group">
+                    <label for="date">Datum</label>
+                    <p class="input-group">
+                        <input id="date" datepicker-popup="mediumDate" is-open="opened" class="form-control" type="text" ng-model="order.event.date">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="assignee">Vyřizuje</label>
-                <span ng-show="loadingUsers" class="typeahead-loading"><i class="glyphicon glyphicon-refresh spinner"></i> Načítám uživatele…</span>
-                <input id="assignee" class="form-control" type="text" autocomplete="off" ng-model="order.assignee" typeahead="assignee as assignee.fullName for assignee in loadUsers($viewValue)" typeahead-editable="false" typeahead-loading="loadingUsers" typeahead-wait-ms="300">
-            </div>
-            <div class="form-group">
-                <label>Stav</label><br>
-                <div class="btn-group">
-                    <label class="btn btn-default" ng-model="order.state.slug" btn-radio="originalState">{{order.state.name}}</label>
-                    <label ng-repeat="state in order.state.next" class="btn btn-default" ng-model="order.state.slug" btn-radio="state.slug">{{state.name}}</label>
-                </div
-                <input id="state" class="form-control" type="text" ng-model="order.state.slug">
-            </div>
-            <div class="form-group">
-                <label for="place">Místo</label>
-                <input id="place" class="form-control" type="text" ng-model="order.event.place">
-            </div>
-            <div class="form-group">
-                <label for="date">Datum</label>
-                <p class="input-group">
-                    <input id="date" datepicker-popup="mediumDate" is-open="opened" class="form-control" type="text" ng-model="order.event.date">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                </p>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="description">Popis</label>
+                    <textarea id="description" class="form-control" rows="5" ng-model="order.event.description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="caused-by">Způsobil</label>
+                    <input id="caused-by" class="form-control" type="text" ng-model="order.event.causedBy">
+                </div>
+                <div class="form-group">
+                    <label for="guilt">Zavinění</label>
+                    <input id="guilt" class="form-control" type="text" ng-model="order.event.guilt">
+                </div>
+                <div class="form-group">
+                    <label for="injury">Zranění</label>
+                    <textarea id="injury" class="form-control" rows="3" ng-model="order.event.injury"></textarea>
+                </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="description">Popis</label>
-                <textarea id="description" class="form-control" rows="5" ng-model="order.event.description"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="caused-by">Způsobil</label>
-                <input id="caused-by" class="form-control" type="text" ng-model="order.event.causedBy">
-            </div>
-            <div class="form-group">
-                <label for="guilt">Zavinění</label>
-                <input id="guilt" class="form-control" type="text" ng-model="order.event.guilt">
-            </div>
-            <div class="form-group">
-                <label for="injury">Zranění</label>
-                <textarea id="injury" class="form-control" rows="3" ng-model="order.event.injury"></textarea>
-            </div>
-        </div>
-    </div>
-    <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending"><i ng-if="sending" class="glyphicon glyphicon-refresh spinner"></i>{{sending ? ' Ukládám…' : 'Uložit'}}</button>
-</form>
+        <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending"><i ng-if="sending" class="glyphicon glyphicon-refresh spinner"></i>{{sending ? ' Ukládám…' : 'Uložit'}}</button>
+    </form>
+</div>

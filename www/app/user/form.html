@@ -1,23 +1,31 @@
-<form ng-submit="save()">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="full-name">Celé jméno</label>
-                <input id="full-name" class="form-control" type="text" ng-model="user.fullName" required>
-            </div>
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input id="email" class="form-control" type="email" ng-disabled="editation" ng-model="user.email" required>
-                <p ng-if="editation" class="help-block">E-mail nelze změnit.</p>
-            </div>
-            <div class="form-group">
-                <label for="role">Role</label>
-                <select id="role" class="form-control" ng-model="user.role" ng-options="role.name for role in roles track by role.id" required>
-                    <option value="">Vyberte roli…</option>
-                </select>
+<div class="panel-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="app.user.grid">Uživatelé</a></li>
+        <li class="active">{{editation ? 'Editace' : 'Nový'}}</li>
+    </ol>
+</div>
+<div class="panel-body">
+    <form ng-submit="save()">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="full-name">Celé jméno</label>
+                    <input id="full-name" class="form-control" type="text" ng-model="user.fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input id="email" class="form-control" type="email" ng-disabled="editation" ng-model="user.email" required>
+                    <p ng-if="editation" class="help-block">E-mail nelze změnit.</p>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" class="form-control" ng-model="user.role" ng-options="role.name for role in roles track by role.id" required>
+                        <option value="">Vyberte roli…</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
 
-    <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending"><i ng-if="sending" class="glyphicon glyphicon-refresh spinner"></i>{{sending ? ' Ukládám…' : 'Uložit'}}</button>
-</form>
+        <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending"><i ng-if="sending" class="glyphicon glyphicon-refresh spinner"></i>{{sending ? ' Ukládám…' : 'Uložit'}}</button>
+    </form>
+</div>

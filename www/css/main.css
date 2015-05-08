@@ -483,3 +483,14 @@ a[ng-click] {
 div.dropdown {
     display: inline-block;
 }
+
+ol.breadcrumb {
+    margin: 0;
+    padding: 0;
+}
+
+.panel-default .panel-heading {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    color: #333;
+}

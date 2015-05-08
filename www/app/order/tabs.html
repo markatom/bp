@@ -1,13 +1,21 @@
-<ul class="nav nav-tabs">
-    <li ui-sref-active="active">
-        <a ui-sref="app.order.tabs.detail({id: id})">Detail</a>
-    </li>
-    <li ui-sref-active="active">
-        <a ui-sref="app.order.tabs.message.grid({id: id})">Komunikace</a>
-    </li>
-    <li ui-sref-active="active">
-        <a ui-sref="app.order.tabs.documents({id: id})">Dokumenty</a>
-    </li>
-</ul>
+<div class="panel-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="app.order.grid">Objednávky</a></li>
+        <li class="active">Detail</li>
+    </ol>
+</div>
+<div class="panel-body">
+    <ul class="nav nav-tabs">
+        <li ui-sref-active="active">
+            <a ui-sref="app.order.tabs.detail({id: id})">Detail</a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.order.tabs.message.grid({id: id})">Komunikace</a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.order.tabs.documents({id: id})">Dokumenty</a>
+        </li>
+    </ul>
 
-<div ui-view></div>
+    <div ui-view></div>
+</div>

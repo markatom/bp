@@ -1,48 +1,56 @@
-<form ng-submit="save()" ng-class="{loading: loading}">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="fullName">Celé jméno</label>
-                <input id="fullName" class="form-control" type="text" ng-model="client.fullName" required>
+<div class="panel-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="app.client.grid">Klienti</a></li>
+        <li class="active">{{editation ? 'Editace' : 'Nový'}}</li>
+    </ol>
+</div>
+<div class="panel-body">
+    <form ng-submit="save()" ng-class="{loading: loading}">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="fullName">Celé jméno</label>
+                    <input id="fullName" class="form-control" type="text" ng-model="client.fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateOfBirth">Datum narození</label>
+                    <p class="input-group">
+                        <input id="dateOfBirth" datepicker-popup="mediumDate" is-open="opened" datepicker-mode="'year'" class="form-control" type="text" ng-model="client.dateOfBirth">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input id="email" class="form-control" type="email" ng-model="client.email">
+                </div>
+                <div class="form-group">
+                    <label for="telephone">Telefon</label>
+                    <input id="telephone" class="form-control" type="string" ng-model="client.telephone">
+                    <p class="help-block">Telefon lze zadávat s mezinárodní předvolbou i bez. Trojice číslic je možné oddělit mezerou.</p>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="dateOfBirth">Datum narození</label>
-                <p class="input-group">
-                    <input id="dateOfBirth" datepicker-popup="mediumDate" is-open="opened" datepicker-mode="'year'" class="form-control" type="text" ng-model="client.dateOfBirth">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                </p>
-            </div>
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input id="email" class="form-control" type="email" ng-model="client.email">
-            </div>
-            <div class="form-group">
-                <label for="telephone">Telefon</label>
-                <input id="telephone" class="form-control" type="string" ng-model="client.telephone">
-                <p class="help-block">Telefon lze zadávat s mezinárodní předvolbou i bez. Trojice číslic je možné oddělit mezerou.</p>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="street">Ulice</label>
+                    <input id="street" class="form-control" type="string" ng-model="client.address.street">
+                </div>
+                <div class="form-group">
+                    <label for="city">Město</label>
+                    <input id="city" class="form-control" type="string" ng-model="client.address.city">
+                </div>
+                <div class="form-group">
+                    <label for="zip">PSČ</label>
+                    <input id="zip" class="form-control" type="string" ng-model="client.address.zip">
+                </div>
+                <div class="form-group">
+                    <label for="country">Země</label>
+                    <input id="country" class="form-control" type="string" ng-model="client.address.country">
+                    <p ng-if="!editation" class="help-block">Pokud je klient z jiné země než z České republiky, přepiště hodnotu tohoto pole.</p>
+                </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="street">Ulice</label>
-                <input id="street" class="form-control" type="string" ng-model="client.address.street">
-            </div>
-            <div class="form-group">
-                <label for="city">Město</label>
-                <input id="city" class="form-control" type="string" ng-model="client.address.city">
-            </div>
-            <div class="form-group">
-                <label for="zip">PSČ</label>
-                <input id="zip" class="form-control" type="string" ng-model="client.address.zip">
-            </div>
-            <div class="form-group">
-                <label for="country">Země</label>
-                <input id="country" class="form-control" type="string" ng-model="client.address.country">
-                <p ng-if="!editation" class="help-block">Pokud je klient z jiné země než z České republiky, přepiště hodnotu tohoto pole.</p>
-            </div>
-        </div>
-    </div>
-    <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending"><i ng-if="sending" class="glyphicon glyphicon-refresh spinner"></i>{{sending ? ' Ukládám…' : 'Uložit'}}</button>
-</form>
+        <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending"><i ng-if="sending" class="glyphicon glyphicon-refresh spinner"></i>{{sending ? ' Ukládám…' : 'Uložit'}}</button>
+    </form>
+</div>

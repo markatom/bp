@@ -1,57 +1,64 @@
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>
-                <a id="fullName" href="#" ng-click="sort('fullName')">Jméno {{indicator('fullName')}}</a>
-                <div ng-if="search" class="form-group"><input id="search-fullName" class="form-control" type="text" ng-model="filters.fullName"></div>
-            </th>
-            <th>
-                <a id="dateOfBirth" href="#" ng-click="sort('dateOfBirth')">Datum narození {{indicator('dateOfBirth')}}</a>
-                <div ng-if="search" class="form-group">
-                    <p class="input-group">
-                        <input datepicker-popup="mediumDate" datepicker-mode="'year'" id="search-date-of-birth" type="text" class="form-control" ng-model="filters.dateOfBirth" is-open="opened">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </p>
-                </div>
-            </th>
-            <th>
-                <a id="email" href="#" ng-click="sort('email')">E-mail {{indicator('email')}}</a>
-                <div ng-if="search" class="form-group"><input id="search-email" class="form-control" type="text" ng-model="filters.email"></div>
-            </th>
-            <th>
-                <a id="telephone" href="#" ng-click="sort('telephone')">Telefon {{indicator('telephone')}}</a>
-                <div ng-if="search" class="form-group"><input id="search-telephone" class="form-control" type="text" ng-model="filters.telephone"></div>
-            </th>
-            <th>
-                <div ng-class="{search: search}">
-                    <a id="search" class="btn btn-default" href="#" ng-click="searchClicked()" title="Hledat">
-                        <i class="glyphicon glyphicon-search"></i>
-                    </a>
-                    <a id="add" class="btn btn-success" href="#" ui-sref="app.client.add" title="Nový klient">
-                        <i class="glyphicon glyphicon-plus"></i>
-                    </a>
-                </div>
-            </th>
-        </tr>
-    </thead>
-    <tbody ng-class="{loading: loading}">
-        <tr ng-repeat="client in clients">
-            <td>{{client.fullName}}</td>
-            <td>{{client.dateOfBirth|date:'d. M. yyyy'}}</td>
-            <td>{{client.email}}</td>
-            <td>{{client.telephone}}</td>
-            <td>
-                <div class="btn-group">
-                    <a class="btn btn-default" href="#" ui-sref="app.client.detail({id: client.id})" title="Detail">
-                        <i class="glyphicon glyphicon-eye-open"></i>
-                    </a>
-                    <a class="btn btn-default" href="#" ui-sref="app.client.edit({id: client.id})" title="Editovat">
-                        <i class="glyphicon glyphicon-pencil"></i>
-                    </a>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="panel-heading">
+    <ol class="breadcrumb">
+        <li class="active">Klienti</li>
+    </ol>
+</div>
+<div class="panel-body">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <a id="fullName" href="#" ng-click="sort('fullName')">Jméno {{indicator('fullName')}}</a>
+                    <div ng-if="search" class="form-group"><input id="search-fullName" class="form-control" type="text" ng-model="filters.fullName"></div>
+                </th>
+                <th>
+                    <a id="dateOfBirth" href="#" ng-click="sort('dateOfBirth')">Datum narození {{indicator('dateOfBirth')}}</a>
+                    <div ng-if="search" class="form-group">
+                        <p class="input-group">
+                            <input datepicker-popup="mediumDate" datepicker-mode="'year'" id="search-date-of-birth" type="text" class="form-control" ng-model="filters.dateOfBirth" is-open="opened">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </th>
+                <th>
+                    <a id="email" href="#" ng-click="sort('email')">E-mail {{indicator('email')}}</a>
+                    <div ng-if="search" class="form-group"><input id="search-email" class="form-control" type="text" ng-model="filters.email"></div>
+                </th>
+                <th>
+                    <a id="telephone" href="#" ng-click="sort('telephone')">Telefon {{indicator('telephone')}}</a>
+                    <div ng-if="search" class="form-group"><input id="search-telephone" class="form-control" type="text" ng-model="filters.telephone"></div>
+                </th>
+                <th>
+                    <div ng-class="{search: search}">
+                        <a id="search" class="btn btn-default" href="#" ng-click="searchClicked()" title="Hledat">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </a>
+                        <a id="add" class="btn btn-success" href="#" ui-sref="app.client.add" title="Nový klient">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody ng-class="{loading: loading}">
+            <tr ng-repeat="client in clients">
+                <td>{{client.fullName}}</td>
+                <td>{{client.dateOfBirth|date:'d. M. yyyy'}}</td>
+                <td>{{client.email}}</td>
+                <td>{{client.telephone}}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-default" href="#" ui-sref="app.client.detail({id: client.id})" title="Detail">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                        </a>
+                        <a class="btn btn-default" href="#" ui-sref="app.client.edit({id: client.id})" title="Editovat">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

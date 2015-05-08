@@ -1,38 +1,46 @@
-<div class="row" ng-class="{loading: loading}">
-    <div class="col-md-6">
-        <div class="form-group">
-            <label>Celé jméno</label>
-            <p class="form-control-static">{{client.fullName}}</p>
+<div class="panel-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="app.client.grid">Klienti</a></li>
+        <li class="active">Detail</li>
+    </ol>
+</div>
+<div class="panel-body">
+    <div class="row" ng-class="{loading: loading}">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Celé jméno</label>
+                <p class="form-control-static">{{client.fullName}}</p>
+            </div>
+            <div class="form-group">
+                <label>Datum narození</label>
+                <p class="form-control-static">{{client.dateOfBirth|date:'mediumDate'}}</p>
+            </div>
+            <div class="form-group">
+                <label>E-mail</label>
+                <p class="form-control-static">{{client.email}}</p>
+            </div>
+            <div class="form-group">
+                <label>Telefon</label>
+                <p class="form-control-static">{{client.telephone}}</p>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Datum narození</label>
-            <p class="form-control-static">{{client.dateOfBirth|date:'mediumDate'}}</p>
-        </div>
-        <div class="form-group">
-            <label>E-mail</label>
-            <p class="form-control-static">{{client.email}}</p>
-        </div>
-        <div class="form-group">
-            <label>Telefon</label>
-            <p class="form-control-static">{{client.telephone}}</p>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label>Ulice</label>
-            <p class="form-control-static">{{client.address.street}}</p>
-        </div>
-        <div class="form-group">
-            <label>Město</label>
-            <p class="form-control-static">{{client.address.city}}</p>
-        </div>
-        <div class="form-group">
-            <label>PSČ</label>
-            <p class="form-control-static">{{client.address.zip}}</p>
-        </div>
-        <div class="form-group">
-            <label>Země</label>
-            <p class="form-control-static">{{client.address.country}}</p>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Ulice</label>
+                <p class="form-control-static">{{client.address.street}}</p>
+            </div>
+            <div class="form-group">
+                <label>Město</label>
+                <p class="form-control-static">{{client.address.city}}</p>
+            </div>
+            <div class="form-group">
+                <label>PSČ</label>
+                <p class="form-control-static">{{client.address.zip}}</p>
+            </div>
+            <div class="form-group">
+                <label>Země</label>
+                <p class="form-control-static">{{client.address.country}}</p>
+            </div>
         </div>
     </div>
 </div>
