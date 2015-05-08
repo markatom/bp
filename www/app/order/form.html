@@ -9,7 +9,7 @@
                 <label for="client">Klient</label>
                 <span ng-show="loadingClients" class="typeahead-loading"><i class="glyphicon glyphicon-refresh spinner"></i> Načítám klienty…</span>
                 <div class="input-group">
-                    <input id="client" class="form-control" type="text" ng-model="order.client" typeahead="client as client.fullName for client in loadClients($viewValue)" typeahead-editable="false" typeahead-loading="loadingClients" typeahead-wait-ms="300">
+                    <input id="client" class="form-control" type="text" autocomplete="off" ng-model="order.client" typeahead="client as client.fullName for client in loadClients($viewValue)" typeahead-editable="false" typeahead-loading="loadingClients" typeahead-wait-ms="300">
                     <span class="input-group-btn">
                         <button ng-click="addClient()" class="btn btn-success" type="button"><i class="glyphicon glyphicon-plus"></i> Nový klient</button>
                     </span>
@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label for="assignee">Vyřizuje</label>
                 <span ng-show="loadingUsers" class="typeahead-loading"><i class="glyphicon glyphicon-refresh spinner"></i> Načítám uživatele…</span>
-                <input id="assignee" class="form-control" type="text" ng-model="order.assignee" typeahead="assignee as assignee.fullName for assignee in loadUsers($viewValue)" typeahead-editable="false" typeahead-loading="loadingUsers" typeahead-wait-ms="300">
+                <input id="assignee" class="form-control" type="text" autocomplete="off" ng-model="order.assignee" typeahead="assignee as assignee.fullName for assignee in loadUsers($viewValue)" typeahead-editable="false" typeahead-loading="loadingUsers" typeahead-wait-ms="300">
             </div>
             <div class="form-group">
                 <label>Stav</label><br>
