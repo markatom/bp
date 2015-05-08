@@ -200,6 +200,7 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
     }
 
     function TabsCtrl($scope, $state) {
+        $scope.$state = $state;
         $scope.id = $state.params.id;
     }
 

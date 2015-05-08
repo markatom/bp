@@ -39,9 +39,9 @@
                     <!-- Main Menu -->
                     <div class="side-menu-container">
                         <ul class="left-menu nav navbar-nav">
-                            <li ui-sref-active="active"><a id="orders" href="#" ui-sref="app.order.grid"><span class="glyphicon glyphicon-briefcase"></span> Objednávky</a></li>
-                            <li ui-sref-active="active"><a id="clients" href="#" ui-sref="app.client.grid"><span class="glyphicon glyphicon-user"></span> Klienti</a></li>
-                            <li ng-if="session.user.role.slug === 'admin'" ui-sref-active="active"><a id="user-management" href="#" ui-sref="app.user.grid"><span class="glyphicon glyphicon-cog"></span> Správa uživatelů</a></li>
+                            <li ng-class="{active: $state.includes('app.order')}"><a id="orders" href="#" ui-sref="app.order.grid"><span class="glyphicon glyphicon-briefcase"></span> Objednávky</a></li>
+                            <li ng-class="{active: $state.includes('app.client')}"><a id="clients" href="#" ui-sref="app.client.grid"><span class="glyphicon glyphicon-user"></span> Klienti</a></li>
+                            <li ng-class="{active: $state.includes('app.user')}" ng-if="session.user.role.slug === 'admin'"><a id="user-management" href="#" ui-sref="app.user.grid"><span class="glyphicon glyphicon-cog"></span> Správa uživatelů</a></li>
                         </ul>
                     </div>
                     <!-- /.navbar-collapse -->

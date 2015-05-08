@@ -6,13 +6,13 @@
 </div>
 <div class="panel-body">
     <ul class="nav nav-tabs">
-        <li ui-sref-active="active">
+        <li ng-class="{active: $state.includes('app.order.tabs.detail')}">
             <a ui-sref="app.order.tabs.detail({id: id})">Detail</a>
         </li>
-        <li ui-sref-active="active">
+        <li ng-class="{active: $state.includes('app.order.tabs.message')}">
             <a ui-sref="app.order.tabs.message.grid({id: id})">Komunikace</a>
         </li>
-        <li ui-sref-active="active">
+        <li ng-class="{active: $state.includes('app.order.tabs.documents')}">
             <a ui-sref="app.order.tabs.documents({id: id})">Dokumenty</a>
         </li>
     </ul>

@@ -4,6 +4,7 @@ define(['app/welcome', 'app/gui'], function () {
 
     function AppCtrl($scope, session, $state, sessions, alerts, $cookies) {
         $scope.session = session;
+        $scope.$state = $state;
 
         $scope.signOut = function () {
             sessions.delete('current').success(function () {
