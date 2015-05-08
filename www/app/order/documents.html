@@ -12,6 +12,19 @@
         </th>
         <th>
             <a id="add" class="btn btn-success" href="#" ngf-select ngf-change="upload($files)" title="Nový dokument" ng-disabled="uploading"><i class="glyphicon" ng-class="{'glyphicon-plus': !uploading, 'glyphicon-refresh': uploading, 'spinner': uploading}"></i></a>
+            <div class="dropdown">
+                <a class="btn btn-default dropdown-toggle" type="button" id="generate" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-file"></i>
+                    Generovat...
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="generate('poa')">Plná moc</a></li>
+                </ul>
+            </div>
+            <script>
+                $('.dropdown-toggle').dropdown();
+            </script>
         </th>
     </tr>
     </thead>

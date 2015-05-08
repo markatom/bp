@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Plná moc</title>
+    <style type="text/css">
+        body {
+            font-family: Helvetica;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        h1 {
+            text-align: center;
+        }
+        p {
+            margin: 3px 0;
+        }
+        div {
+            margin: 17px 0;
+        }
+        table {
+            width: 100%;
+            padding-top: 100px;
+        }
+        td.signature {
+            border-top: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Plná moc</h1>
+
+<div>
+    <p>Já, níže podepsaný</p>
+    <p><b>{$order->client->fullName}</b>,</p>
+    <p>narozen {$order->client->dateOfBirth|date:'j. n. Y'},</p>
+    <p>bytem {$order->client->address->street}, {$order->client->address->zip} {$order->client->address->city},</p>
+    <p>dále jen „Zmocnitel“,</p>
+</div>
+
+<div>
+    <p>uděluji plnou moc</p>
+    <p><b>JUDr. Janu Novákovi</b>,</p>
+    <p>Novák & Svoboda, advokátní kancelář s.r.o.,</p>
+    <p>se sídlem Na Závěrce 42, 169 00 Praha,</p>
+    <p>dále jen „Zmocněnec“,</p>
+</div>
+
+<div>
+    <p>
+        k tomu, aby mne zastupoval ve všech věcech a při jednání s úřady, orgány státní správy a orgány místní samosprávy,
+        právnickými a fyzickými osobami, vůči úřadům, státním orgánům a orgánům místní samosprávy, právnickým i fyzickým
+        osobám, zejména:
+    </p>
+    <ul>
+        <li>činil mým jménem veškeré úkony, včetně úkonů písemných,</li>
+        <li>podával návrhy a žádosti,</li>
+        <li>přijímal veškeré doručované písemnosti,</li>
+        <li>podával řádné i mimořádné opravné prostředky při správních, soudních, či jiných řízeních a vzdával se jich,</li>
+        <li>přijímal plnění nároků, jejich přijetí potvrzoval a případně neplněné nároky vymáhal,</li>
+        <li>uznával uplatněné nároky, případně se nároků vzdával a uzavíral smíry.</li>
+    </ul>
+
+    <p>Zmocněnec je oprávněn ustanovit si za sebe zástupce a pokud jich ustanoví více, Zmocnitel souhlasí, aby každý z nich jednal samostatně.</p>
+
+    <p>Tato plná moc se uděluje na dobu neurčitou.</p>
+</div>
+
+<div>
+    V Praze dne {$today|date:'j. n. Y'}
+</div>
+
+<table>
+    <tr>
+        <td width="5%"></td>
+        <td class="signature">Zmocnitel</td>
+        <td width="15%"></td>
+        <td class="signature">Zmocněc</td>
+        <td width="5%"></td>
+    </tr>
+</table>
+
+</body>
+</html>

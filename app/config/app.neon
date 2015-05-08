@@ -72,3 +72,4 @@ services:
 	- Model\Service\MessageFetcher(%mailboxNames%)
 	- Model\Service\EmailNormalizer
 	- Model\Service\Tokens
+	- Document\Poa\PoaGenerator

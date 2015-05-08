@@ -475,3 +475,11 @@ div.messages a.label:last-child {
 body.downloading {
     opacity: 0.3;
 }
+
+a[ng-click] {
+    cursor: pointer;
+}
+
+div.dropdown {
+    display: inline-block;
+}

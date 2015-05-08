@@ -3,6 +3,7 @@
 namespace Presenter;
 
 use DateTime;
+use Document\Poa\PoaGenerator;
 use Latte\Runtime\Filters;
 use Model\Entity\Document;
 use Model\Entity\Order;
@@ -24,6 +25,9 @@ class DocumentsPresenter extends SecuredPresenter
 	/** @var Tokens @inject */
 	public $tokens;
 
+	/** @var PoaGenerator @inject */
+	public $poaGenerator;
+
 	/**
 	 * Downloading of image is performed with token.
 	 */
@@ -37,6 +41,9 @@ class DocumentsPresenter extends SecuredPresenter
 		}
 	}
 
+	/**
+	 * Creates document from upload or generates document from template.
+	 */
 	public function actionCreate()
 	{
 		$order = $this->em->getRepository(Order::class)->find($this->getQuery(['order', 'id']));
@@ -45,16 +52,29 @@ class DocumentsPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownOrder');
 		}
 
-		/** @var FileUpload[] $files */
-		$files = $this->getHttpRequest()->getFiles();
+		$generate = $this->getQuery('generate', NULL);
+		if ($generate === 'poa') {
+			$content  = $this->poaGenerator->generate($order);
+			$document = new Document('plna-moc.pdf', Document::TYPE_PDF, $content, $order);
 
-		if (!isset($files['file'])) {
-			$this->sendError(IResponse::S400_BAD_REQUEST, 'missingFile');
+		} else {
+			/** @var FileUpload[] $files */
+			$files = $this->getHttpRequest()->getFiles();
+
+			if (!isset($files['file'])) {
+				$this->sendError(IResponse::S400_BAD_REQUEST, 'missingFile');
+			}
+
+			$file = $files['file'];
+
+			if (!$file->isOk()) {
+				$this->sendError(IResponse::S500_INTERNAL_SERVER_ERROR, 'uploadFailed');
+			}
+
+			$document = new Document($file->getName(), $file->getContentType(), $file->getContents(), $order);
 		}
 
-		$file = $files['file'];
-
-		$this->em->persist($document = new Document($file->getName(), $file->getContentType(), $file->getContents(), $order))->flush();
+		$this->em->persist($document)->flush();
 
 		$this->sendJson(self::mapDocument($document));
 	}

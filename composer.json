@@ -19,7 +19,8 @@
 		"nette/nette": "~2.3.0",
 		"kdyby/doctrine": "~3.0@dev",
 		"kdyby/console": "~2.3",
-	  	"greeny/maillibrary": "dev-master"
+	  	"greeny/maillibrary": "dev-master",
+		"mpdf/mpdf": "~6.0"
 	},
 	"require-dev": {
 		"behat/mink-extension": "2.0.1",

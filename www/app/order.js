@@ -288,7 +288,7 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         };
     }
 
-    function DocumentCtrl($scope, $state, documents, Upload, Response, $timeout) {
+    function DocumentCtrl($scope, $state, documents, Upload, Response, $timeout, alerts) {
         $scope.documents = [];
 
         function loadGrid() {
@@ -327,6 +327,20 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
                     });
                 }
             }
+        };
+
+        $scope.generate = function (type) {
+            $scope.generating = true;
+            documents.create('', {
+                'order[id]': $state.params.id,
+                generate: type
+            }).success(function () {
+                alerts.clear();
+                alerts.showSuccess('Dokument byl úspěšně vygenerován. Překontrolujte prosím údaje, které do něj byly doplněny.');
+                loadGrid();
+            }).finally(function () {
+                $scope.generating = false;
+            })
         };
     }
 

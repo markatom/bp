@@ -17,6 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Document extends BaseEntity
 {
 
+	const TYPE_PDF = 'application/pdf';
+
     use Identifier;
 
 	/**
