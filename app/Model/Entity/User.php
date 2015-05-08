@@ -34,6 +34,12 @@ class User extends Addressable
 	protected $role;
 
 	/**
+	 * @ORM\Column(type="boolean")
+	 * @var bool
+	 */
+	private $deleted = FALSE;
+
+	/**
 	 * @param string $fullName
 	 * @param string $email
 	 * @param Role $role
@@ -85,6 +91,13 @@ class User extends Addressable
 		}
 
 		$this->password = $this->hash($newPassword);
+	}
+
+	/**
+	 */
+	public function delete()
+	{
+		$this->deleted = TRUE;
 	}
 
 	/**

@@ -42,12 +42,13 @@ class UsersPresenter extends SecuredPresenter
 	public function actionReadAll()
 	{
 		$qb = $this->em->getRepository(User::class)->createQueryBuilder('u');
+		$qb->andWhere('u.deleted = false');
 
 		foreach ($this->getQuery('filters', []) as $prop => $value) {
 			if ($value === '') {
 				continue;
 			}
-			$qb->where("u.$prop LIKE :$prop")
+			$qb->andWhere("u.$prop LIKE :$prop")
 				->setParameter($prop, "%$value%");
 		}
 
@@ -154,6 +155,7 @@ class UsersPresenter extends SecuredPresenter
 	 */
 	public function actionDelete($id)
 	{
+		/** @var User $user */
 		$user = $this->em->getRepository(User::class)->find($id);
 
 		if (!$user) {
@@ -164,8 +166,8 @@ class UsersPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'cannotDeleteYourself');
 		}
 
-		$this->em->remove($user)->flush();
-
+		$user->delete();
+		$this->em->flush();
 		$this->sendEmpty();
 	}
 
