@@ -4,7 +4,7 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
 
     // Controllers
 
-    function GridCtrl($scope, orders, orderStates, $timeout) {
+    function GridCtrl($scope, orders, orderStates, $timeout, messages) {
         $scope.orders = [];
         $scope.filters = {};
         $scope.states = [];
@@ -36,6 +36,10 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         }
 
         loadGrid();
+
+        messages.readAll({fetch: true}).success(function () {
+            loadGrid();
+        });
 
         orderStates.readAll().success(function (data) {
             $scope.states = data;
