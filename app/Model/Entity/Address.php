@@ -99,7 +99,7 @@ class Address extends BaseEntity
 	 */
 	private function normalizeZip($zip)
 	{
-		if ($zip === NULL) {
+		if (!$zip) {
 			return NULL;
 		}
 
