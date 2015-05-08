@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Jméno kauzy</label>
+            <p class="form-control-static">{{order.name}}</p>
+        </div>
+        <div class="form-group">
+            <label>Klient</label>
+            <p class="form-control-static">{{order.client.fullName}} (<a ui-sref="app.client.detail({id: order.client.id})">detail</a>)</p>
+        </div>
+        <div class="form-group">
+            <label>Vyřizuje</label>
+            <p class="form-control-static">{{order.assignee.fullName}}</p>
+        </div>
+        <div class="form-group">
+            <label>Stav</label>
+            <p class="form-control-static">{{order.state.name}}</p>
+        </div>
+        <div class="form-group">
+            <label>Místo</label>
+            <p class="form-control-static">{{order.event.place}}</p>
+        </div>
+        <div class="form-group">
+            <label>Datum</label>
+            <p class="form-control-static">{{order.event.date|date:'mediumDate'}}</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Popis</label>
+            <p class="form-control-static">{{order.event.description}}</p>
+        </div>
+        <div class="form-group">
+            <label>Způsobil</label>
+            <p class="form-control-static">{{order.event.causedBy}}</p>
+        </div>
+        <div class="form-group">
+            <label>Zavinění</label>
+            <p class="form-control-static">{{order.event.guilt}}</p>
+        </div>
+        <div class="form-group">
+            <label>Zranění</label>
+            <p class="form-control-static">{{order.event.injury}}</p>
+        </div>
+    </div>
+</div>
+<a href="#" class="btn btn-default" ui-sref="app.order.edit({id: order.id})">
+    <i class="glyphicon glyphicon-pencil"></i>
+    Upravit
+</a>

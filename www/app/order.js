@@ -110,6 +110,14 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         }
     }
 
+    function DetailCtrl($scope, $state, orders) {
+        $scope.order = {};
+
+        orders.read($state.params.id).success(function (data) {
+            $scope.order = data;
+        });
+    }
+
     function FormCtrl($scope, $state, orders, alerts, clients, $q, users, orderDraft) {
         $scope.order = orderDraft.order
             ? orderDraft.order
@@ -395,6 +403,12 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
                     url: '/{id}',
                     templateUrl: 'app/order/tabs.html',
                     controller: TabsCtrl
+                })
+
+                .state('app.order.tabs.detail', {
+                    url: '/detail',
+                    templateUrl: 'app/order/detail.html',
+                    controller: DetailCtrl
                 })
 
                 .state('app.order.tabs.message', {
