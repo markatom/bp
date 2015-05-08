@@ -39,7 +39,7 @@ class OrderState extends BaseEntity
 	 * @var array
 	 */
 	private static $names = [
-		self::PROCESSING => 'Zpracovává se',
+		self::PROCESSING => 'Ke zpracování',
 		self::WAITING    => 'Čeká se na klienta',
 		self::POSTPONED  => 'Zatím odloženo',
 		self::CANCELLED  => 'Zrušeno',

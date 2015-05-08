@@ -62,13 +62,15 @@ class MessagesPresenter extends SecuredPresenter
 	 */
 	public function actionReadAll()
     {
-		$orderId = $this->getQuery(['order', 'id']);
-
 		if ($this->getQuery('fetch', FALSE)) {
 			$this->messageFetcher->fetchMessages();
 		}
 
-		$messages = $this->em->getRepository(IncomingMessage::class)->findBy(['order' => $orderId], ['createdAt' => 'DESC']);
+		$criteria = ($orderId = $this->getQuery(['order', 'id'], FALSE))
+			? ['order' => $orderId]
+			: [];
+
+		$messages = $this->em->getRepository(IncomingMessage::class)->findBy($criteria, ['createdAt' => 'DESC']);
 
 		$this->sendJson(array_map([self::class, 'mapMessage'], $messages));
     }

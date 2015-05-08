@@ -85,6 +85,10 @@ class MessageFetcher extends Object
 			$this->em->persist(new IncomingMessage($order, $mail->subject, $body, $documents, $sender));
 
 			$this->accept($mail);
+
+			if ($order->state->slug === OrderState::WAITING) {
+				$order->state->transition(OrderState::PROCESSING);
+			}
 		}
 
 		$this->em->flush();
