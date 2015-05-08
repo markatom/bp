@@ -148,6 +148,28 @@ class DocumentsPresenter extends SecuredPresenter
 	}
 
 	/**
+	 * Deletes single document.
+	 * @param int $id
+	 */
+	public function actionDelete($id)
+	{
+		/** @var Document $document */
+		$document = $this->em->getRepository(Document::class)->find($id);
+
+		if (!$document) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownDocument');
+		}
+
+		if ($document->messages) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'integrityViolation');
+		}
+
+		$this->em->remove($document)->flush();
+
+		$this->sendEmpty();
+	}
+
+	/**
 	 * @param Document $document
 	 * @return array
 	 */

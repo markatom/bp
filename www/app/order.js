@@ -290,6 +290,7 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
 
     function DocumentCtrl($scope, $state, documents, Upload, Response, $timeout, alerts) {
         $scope.documents = [];
+        $scope.deleting = {};
 
         function loadGrid() {
             documents.readAll({'order[id]': $state.params.id}).success(function (data) {
@@ -348,6 +349,27 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
             }).finally(function () {
                 $scope.generating = false;
             })
+        };
+
+        $scope.delete = function (id) {
+            if (!confirm('Opravdu chcete smazat dokument?')) {
+                return;
+            }
+            $scope.deleting[id] = true;
+            documents.delete(id).success(function () {
+                alerts.clear();
+                alerts.showSuccess('Dokument byl úspěšně smazán.');
+                loadGrid();
+            }).error(function (error) {
+                if (error.type === 'integrityViolation') {
+                    alerts.clear();
+                    alerts.showError('Dokument nemůže být smazán, protože je přiřazen k již proběhlé komunikaci.');
+                } else {
+                    Response.defaultErrorHandler();
+                }
+            }).finally(function () {
+                delete $scope.deleting[id];
+            });
         };
     }
 

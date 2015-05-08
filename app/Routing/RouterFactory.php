@@ -49,6 +49,7 @@ class RouterFactory
 		$router[] = new ApiRoute('documents', 'Documents:create', ApiRoute::METHOD_POST);
 		$router[] = new ApiRoute('documents', 'Documents:readAll', ApiRoute::METHOD_GET);
 		$router[] = new ApiRoute('documents/<id>', 'Documents:read', ApiRoute::METHOD_GET);
+		$router[] = new ApiRoute('documents/<id>', 'Documents:delete', ApiRoute::METHOD_DELETE);
 
 		return $router;
 	}
