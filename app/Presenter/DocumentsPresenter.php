@@ -3,6 +3,7 @@
 namespace Presenter;
 
 use DateTime;
+use Document\MissingMandatoryItemsException;
 use Document\Poa\PoaGenerator;
 use Latte\Runtime\Filters;
 use Model\Entity\Document;
@@ -52,10 +53,19 @@ class DocumentsPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownOrder');
 		}
 
-		$generate = $this->getQuery('generate', NULL);
-		if ($generate === 'poa') {
-			$content  = $this->poaGenerator->generate($order);
-			$document = new Document('plna-moc.pdf', Document::TYPE_PDF, $content, $order);
+		if ($generate = $this->getQuery('generate', NULL)) {
+			try {
+				if ($generate === 'poa') {
+					$content  = $this->poaGenerator->generate($order);
+					$document = new Document('plna-moc.pdf', Document::TYPE_PDF, $content, $order);
+
+				} else {
+					$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownDocumentType');
+				}
+
+			} catch (MissingMandatoryItemsException $e) {
+				$this->sendError(IResponse::S400_BAD_REQUEST, 'missingMandatoryItems', NULL, ['items' => $e->getItems()]);
+			}
 
 		} else {
 			/** @var FileUpload[] $files */

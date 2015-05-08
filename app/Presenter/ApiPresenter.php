@@ -131,8 +131,9 @@ abstract class ApiPresenter extends Presenter
 	 * @param int $code
 	 * @param string $type
 	 * @param string $message
+	 * @param array $data
 	 */
-	public function sendError($code, $type, $message = NULL)
+	public function sendError($code, $type, $message = NULL, $data = [])
 	{
 		$error = ['type' => $type];
 
@@ -140,7 +141,7 @@ abstract class ApiPresenter extends Presenter
 			$error['message'] = $message;
 		}
 
-		$this->sendJson($error, $code);
+		$this->sendJson(array_merge($data, $error), $code);
 	}
 
 }

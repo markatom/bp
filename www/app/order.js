@@ -338,6 +338,13 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
                 alerts.clear();
                 alerts.showSuccess('Dokument byl úspěšně vygenerován. Překontrolujte prosím údaje, které do něj byly doplněny.');
                 loadGrid();
+            }).error(function (error) {
+                if (error.type === 'missingMandatoryItems') {
+                    alerts.clear();
+                    alerts.showError('Dokument nemůže být vygenerován. Doplňte prosím nejdříve tyto údaje: ' + error.items.join(', ') + '.');
+                } else {
+                    Response.defaultErrorHandler();
+                }
             }).finally(function () {
                 $scope.generating = false;
             })

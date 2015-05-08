@@ -23,10 +23,15 @@ class PoaGenerator extends BaseGenerator
 	 */
 	function generate(Order $order)
 	{
-		if (!$order->client->dateOfBirth || !$order->client->address->street
-			|| !$order->client->address->city || !$order->client->address->zip
-		) {
-			throw new MissingMandatoryItemsException;
+		$missing = $this->missing([
+			'datum narození klienta' => $order->client->dateOfBirth,
+			'ulice klienta'          => $order->client->address->street,
+			'město klienta'          => $order->client->address->city,
+			'PSČ klienta'            => $order->client->address->zip
+		]);
+
+		if ($missing) {
+			throw new MissingMandatoryItemsException($missing);
 		}
 
 		$template = $this->templateFactory->createTemplate();
