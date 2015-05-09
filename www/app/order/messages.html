@@ -18,7 +18,7 @@
                     {{message.sender.fullName}}
                 </span>
                 &nbsp;
-                {{message.createdAt|date:'d. M. yyyy'}}
+                {{message.createdAt|date:'d. M. yyyy H:mm:ss'}}
             </small>
         </h4>
         <div class="content" ng-bind-html="message.content"></div>

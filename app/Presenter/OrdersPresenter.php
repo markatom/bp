@@ -155,7 +155,7 @@ class OrdersPresenter extends SecuredPresenter
 			'name'      => $order->name,
 			'state'     => OrderStatesPresenter::mapOrderState($order->state),
 			'event'     => self::mapEvent($order->event),
-			'createdAt' => $order->createdAt->format(self::DATE_FORMAT),
+			'createdAt' => $order->createdAt->format(self::DATE_TIME_FORMAT),
 			'createdBy' => UsersPresenter::mapUser($order->createdBy),
 			'assignee'  => $order->assignee ? UsersPresenter::mapUser($order->assignee) : NULL,
 			'client'    => ClientsPresenter::mapClient($order->client),

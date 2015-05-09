@@ -65,7 +65,7 @@
                 <td>{{order.client.fullName}}</td>
                 <td>{{order.event.date|date:'d. M. yyyy'}}</td>
                 <td>{{order.assignee.fullName}}</td>
-                <td>{{order.createdAt|date:'d. M. yyyy'}}</td>
+                <td>{{order.createdAt|date:'d. M. yyyy H:mm:ss'}}</td>
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-default" ui-sref="app.order.tabs.detail({id: order.id})" title="Detail">

@@ -27,7 +27,7 @@
     <tr ng-repeat="document in documents">
         <td>{{document.name}}</td>
         <td>{{document.formattedSize}}</td>
-        <td>{{document.createdAt|date:'d. M. yyyy'}}</td>
+        <td>{{document.createdAt|date:'d. M. yyyy H:mm:ss'}}</td>
         <td>
             <div class="btn-group">
                 <a class="btn btn-default" ng-click="download(document.id)" title="Stáhnout">
