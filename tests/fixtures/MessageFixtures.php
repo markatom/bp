@@ -24,7 +24,7 @@ class MessageFixtures extends AbstractFixture implements DependentFixtureInterfa
 	 */
 	function getDependencies()
 	{
-		return [UserFixtures::class, ClientFixtures::class, OrderFixtures::class];
+		return [UserFixtures::class, ClientFixtures::class, OrderFixtures::class, DocumentFixtures::class];
 	}
 
 	/**
@@ -40,8 +40,8 @@ class MessageFixtures extends AbstractFixture implements DependentFixtureInterfa
 					. 'Vestibulum odio lectus, pretium sit amet commodo ut, cursus quis magna. Vestibulum tincidunt '
 					. 'quam magna, sit amet malesuada neque lobortis et. Nulla facilisi. Integer non quam iaculis, '
 					. 'bibendum sem eu, pellentesque odio. Nam a sollicitudin ante, ac hendrerit ante. Mauris pulvinar '
-					. 'odio et augue viverra, sed egestas massa mollis. Curabitur.', [],
-				$this->getReference('user.markMcDonald'), $this->getReference('client.petrZapalac')
+					. 'odio et augue viverra, sed egestas massa mollis. Curabitur.',
+				[], $this->getReference('user.markMcDonald'), $this->getReference('client.petrZapalac')
 			)
 		);
 
@@ -52,7 +52,8 @@ class MessageFixtures extends AbstractFixture implements DependentFixtureInterfa
 					. 'venenatis nisi id orci rhoncus volutpat. Aliquam eget erat faucibus, semper nunc vitae, '
 					. 'efficitur est. Vestibulum nec aliquet ipsum. Pellentesque congue, lacus sed convallis commodo, '
 					. 'velit dolor fermentum mi, quis sollicitudin magna diam volutpat diam. Ut nisl justo, dictum.'
-					. "\n\nS pozdravem\nPetr Zapalač", [], $this->getReference('client.petrZapalac')
+					. "\n\nS pozdravem\nPetr Zapalač",
+				[$this->getReference('document.img')], $this->getReference('client.petrZapalac')
 			)
 		);
 
