@@ -7,11 +7,12 @@
         <th>
             <a id="add" class="btn btn-success" ngf-select ngf-change="upload($files)" title="Nový dokument" ng-disabled="uploading"><i class="glyphicon" ng-class="{'glyphicon-plus': !uploading, 'glyphicon-refresh': uploading, 'spinner': uploading}"></i></a>
             <div class="dropdown">
-                <a class="btn btn-default dropdown-toggle" type="button" id="generate" data-toggle="dropdown">
-                    <i class="glyphicon glyphicon-file"></i>
-                    Generovat...
+                <button class="btn btn-default dropdown-toggle" id="generate" data-toggle="dropdown" ng-disabled="generating">
+                    <i class="glyphicon glyphicon-file" ng-if="!generating"></i>
+                    <i class="glyphicon glyphicon-refresh spinner" ng-if="generating"></i>
+                    {{generating ? 'Generuji...' : 'Generovat...'}}
                     <span class="caret"></span>
-                </a>
+                </button>
                 <ul class="dropdown-menu">
                     <li><a ng-click="generate('poa')">Plná moc</a></li>
                 </ul>
