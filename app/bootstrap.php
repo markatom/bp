@@ -10,7 +10,6 @@ $configurator->enableDebugger(__DIR__ . '/../log');
 $configurator->setTempDirectory(__DIR__ . '/../temp');
 $configurator->createRobotLoader()->addDirectory(__DIR__)->register();
 $configurator->addConfig(__DIR__ . '/config/app.neon');
-$configurator->addConfig(__DIR__ . '/config/console.neon');
 $configurator->addConfig(__DIR__ . '/config/local.neon');
 
 return $configurator->createContainer();

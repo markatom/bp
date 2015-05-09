@@ -1,4 +1,0 @@
-services:
-	installCommand:
-		class: Console\InstallCommand
-		tags: [kdyby.console.command]
