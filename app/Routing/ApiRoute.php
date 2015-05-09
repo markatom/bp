@@ -5,6 +5,7 @@ namespace Routing;
 use Nette\Application\Request;
 use Nette\Application\Routers\Route;
 use Nette\Http\IRequest;
+use Nette\Utils\Strings;
 
 /**
  * @todo Fill desc.
@@ -43,24 +44,57 @@ class ApiRoute extends Route
 	{
 		$appRequest = parent::match($httpRequest);
 
+		if (!$appRequest) {
+			return NULL;
+		}
+
+		// all query parameters are required
+		$query = Strings::match($this->getMask(), '~\?([^?]*)$~')[1];
+		parse_str($query, $query);
+		if (!$this->checkQuery($query, $appRequest->getParameters())) {
+			return NULL; // some query parameter is missing
+		}
+
 		if ($this->flags === 0) {
 			return $appRequest;
 		}
 
-		if ($appRequest) {
-			$method = $httpRequest->getMethod();
+		$method = $httpRequest->getMethod();
 
-			$match = $method === 'POST' && $this->flags & self::METHOD_POST
-				|| $method === 'GET' && $this->flags & self::METHOD_GET
-				|| $method === 'PUT' && $this->flags & self::METHOD_PUT
-				|| $method === 'DELETE' && $this->flags & self::METHOD_DELETE;
+		$match = $method === 'POST' && $this->flags & self::METHOD_POST
+			|| $method === 'GET' && $this->flags & self::METHOD_GET
+			|| $method === 'PUT' && $this->flags & self::METHOD_PUT
+			|| $method === 'DELETE' && $this->flags & self::METHOD_DELETE;
 
-			if ($match) {
-				return $appRequest;
+		if ($match) {
+			return $appRequest;
+		}
+	}
+
+	/**
+	 * @param array $origin
+	 * @param array $test
+	 * @return bool
+	 */
+	private function checkQuery($origin, $test)
+	{
+		foreach ($origin as $key => $value) {
+			if (!isset($test[$key])) {
+				return FALSE;
+			}
+
+			if (is_array($value)) {
+				if (!is_array($test[$key])) {
+					return FALSE;
+				}
+
+				if (!$this->checkQuery($value, $test[$key])) {
+					return FALSE;
+				}
 			}
 		}
 
-		return NULL;
+		return TRUE;
 	}
 
 }
