@@ -287,10 +287,10 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         };
 
         $scope.upload = function (files) {
-            $scope.uploading = true;
             if (files && files.length) {
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
+                    $scope.uploading = true;
                     Upload.upload({
                         url: 'api/documents',
                         file: file,
