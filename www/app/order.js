@@ -56,6 +56,9 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         function filtersToQuery() {
             function recursive(filters, params, fullName) {
                 fullName = fullName || '';
+                if (filters instanceof Date) {
+                    filters = filters.toString();
+                }
                 if (typeof filters == 'string') {
                     params['filters[' + fullName + ']'] = filters;
                 } else {
