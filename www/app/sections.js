@@ -43,6 +43,12 @@ define(['app/welcome', 'app/gui'], function () {
                     return;
                 }
 
+                if (toState.name === 'welcome.setPassword') {
+                    session.terminate();
+                    $cookies.remove('session-token');
+                    return;
+                }
+
                 var state = toState.name;
                 var params = toParams;
                 var section = state.split('.')[0];
