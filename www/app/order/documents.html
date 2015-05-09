@@ -5,7 +5,7 @@
         <th>Velikost</th>
         <th>Vytvořeno</th>
         <th>
-            <a id="add" class="btn btn-success" href="#" ngf-select ngf-change="upload($files)" title="Nový dokument" ng-disabled="uploading"><i class="glyphicon" ng-class="{'glyphicon-plus': !uploading, 'glyphicon-refresh': uploading, 'spinner': uploading}"></i></a>
+            <a id="add" class="btn btn-success" ngf-select ngf-change="upload($files)" title="Nový dokument" ng-disabled="uploading"><i class="glyphicon" ng-class="{'glyphicon-plus': !uploading, 'glyphicon-refresh': uploading, 'spinner': uploading}"></i></a>
             <div class="dropdown">
                 <a class="btn btn-default dropdown-toggle" type="button" id="generate" data-toggle="dropdown">
                     <i class="glyphicon glyphicon-file"></i>
@@ -29,10 +29,10 @@
         <td>{{document.createdAt|date:'d. M. yyyy'}}</td>
         <td>
             <div class="btn-group">
-                <a class="btn btn-default" ng-click="download(document.id)" href="#" title="Stáhnout">
+                <a class="btn btn-default" ng-click="download(document.id)" title="Stáhnout">
                     <i class="glyphicon glyphicon-download-alt"></i>
                 </a>
-                <a class="btn btn-danger" ng-class="{disabled: deleting[document.id]}" href="#" ng-click="delete(document.id)" title="Smazat">
+                <a class="btn btn-danger" ng-class="{disabled: deleting[document.id]}" ng-click="delete(document.id)" title="Smazat">
                     <i class="glyphicon" ng-class="{'glyphicon-remove': !deleting[document.id], 'spinner': deleting[document.id], 'glyphicon-refresh': deleting[document.id]}"></i>
                 </a>
             </div>

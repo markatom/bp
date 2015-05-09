@@ -1,10 +1,10 @@
 <div class="messages">
     <div class="pull-right">
-        <a href="#" class="btn btn-success" ui-sref="app.order.tabs.message.send">
+        <a class="btn btn-success" ui-sref="app.order.tabs.message.send">
             <i class="glyphicon glyphicon-send"></i>
             Odeslat novou zprávu
         </a>
-        <a href="#" class="btn btn-default" ng-disabled="fetching" ng-click="fetch()">
+        <a class="btn btn-default" ng-disabled="fetching" ng-click="fetch()">
             <i class="glyphicon glyphicon-refresh spinner" ng-if="fetching"></i>
             <i class="glyphicon glyphicon-save" ng-if="!fetching"></i>
             {{fetching ? 'Načítám zprávy…' : 'Načíst zprávy'}}

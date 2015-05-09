@@ -52,7 +52,7 @@
             </div>
         </div>
         <button id="save" type="submit" class="btn btn-primary" ng-disabled="sending"><i ng-if="sending" class="glyphicon glyphicon-refresh spinner"></i>{{sending ? ' Ukládám…' : 'Uložit'}}</button>
-        <a href="#" class="btn btn-default" ui-sref="app.client.detail({id: client.id})" ng-if="editation">
+        <a class="btn btn-default" ui-sref="app.client.detail({id: client.id})" ng-if="editation">
             Zrušit
         </a>
     </form>
