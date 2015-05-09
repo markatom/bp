@@ -498,3 +498,12 @@ form.sign-in a {
     display: block;
     float: right;
 }
+
+.account-container h1 {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.account-container form {
+    margin-top: 36px;
+}
