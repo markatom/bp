@@ -3,11 +3,13 @@
 namespace Presenter;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Email\LostPassword\LostPasswordSender;
 use Email\UserCreated\UserCreatedSender;
 use Model\Entity\Role;
 use Model\Entity\User;
 use Model\Service\Tokens;
 use Nette\Http\IResponse;
+use Nette\Utils\Strings;
 
 /**
  * Users resource controller.
@@ -20,6 +22,9 @@ class UsersPresenter extends SecuredPresenter
 	/** @var UserCreatedSender @inject */
 	public $userCreatedSender;
 
+	/** @var LostPasswordSender @inject */
+	public $lostPasswordSender;
+
 	/** @var Tokens @inject */
 	public $tokens;
 
@@ -28,7 +33,7 @@ class UsersPresenter extends SecuredPresenter
 	 */
 	public function startup()
 	{
-		if ($this->action === 'updateUserByToken') {
+		if (in_array($this->action, ['updateUserByToken', 'requestPasswordChange'])) {
 			ApiPresenter::startup(); // no authorization
 
 		} else {
@@ -135,6 +140,28 @@ class UsersPresenter extends SecuredPresenter
 	}
 
 	/**
+	 * Requests password change for user identified by given email.
+	 */
+	public function actionRequestPasswordChange()
+	{
+		$user = $this->em->getRepository(User::class)->findOneBy(['email' => $this->getQuery('email')]);
+
+		if (!$user) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'unknownUser');
+		}
+
+		$token = $this->tokens->create($user, 'setPassword', '+24 hours');
+
+		$this->lostPasswordSender->send($token->key, $user->email);
+
+		$this->sendJson([
+			'token' => [
+				'key' => $token->key,
+			],
+		]);
+	}
+
+	/**
 	 * Updates password of user identified by provided token key.
 	 */
 	public function actionUpdateUserByToken()
@@ -143,8 +170,16 @@ class UsersPresenter extends SecuredPresenter
 			$this->sendError(IResponse::S400_BAD_REQUEST, 'invalidToken', 'Invalid token key. Token maybe expired.');
 		}
 
-		$token->user->setPassword($this->getPost('password'));
+		$password = $this->getPost('password');
+
+		if (Strings::length($password) < 5) {
+			$this->sendError(IResponse::S400_BAD_REQUEST, 'shortPassword');
+		}
+
+		$token->user->setPassword($password);
 		$this->tokens->delete($token);
+
+		$this->em->flush();
 
 		$this->sendJson($this->mapUser($token->user));
 	}

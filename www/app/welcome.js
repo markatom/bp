@@ -4,7 +4,7 @@ define(['app/rest', 'app/gui', 'app/user'], function () {
 
     // Controllers
 
-    function signInCtrl ($scope, $http, sessions, session, alerts, $state, $cookies, Response) {
+    function SignInCtrl ($scope, $http, sessions, session, alerts, $state, $cookies, Response) {
         $scope.signing = false;
 
         $scope.signIn = function () {
@@ -59,10 +59,43 @@ define(['app/rest', 'app/gui', 'app/user'], function () {
         };
     }
 
-    function passwordFormCtrl($scope, $state, users, alerts, Response, sessions, $http, $cookies, session) {
+    function LostPasswordCtrl($scope, users, alerts, Response) {
+        $scope.send = function () {
+            $scope.sending = true;
+
+            users.updateAll({}, {
+                email: $scope.email,
+                'change-password': true
+            }).success(function () {
+                alerts.clear();
+                alerts.showSuccess('Nastavení nového hesla provedete pomocí e-mailu, který Vám byl právě odeslán.');
+                $scope.email = '';
+
+            }).error(function (error) {
+                if (error.type === 'unknownUser') {
+                    alerts.clear();
+                    alerts.showError('Žádný uživatel s e-mailovou adresou ' + $scope.email + ' není v systému evidován.');
+
+                } else {
+                    Response.defaultErrorHandler();
+                }
+
+            }).finally(function () {
+                $scope.sending = false;
+            });
+        };
+    }
+
+    function PasswordFormCtrl($scope, $state, users, alerts, Response, sessions, $http, $cookies, session) {
         $scope.saving = false;
 
         $scope.setPassword = function () {
+            if ($scope.password.length < 5) {
+                alerts.clear();
+                alerts.showInfo('Heslo musí mít alespoň pět znaků.');
+                return;
+            }
+
             $scope.saving = true;
 
             users.updateAll({
@@ -89,7 +122,7 @@ define(['app/rest', 'app/gui', 'app/user'], function () {
 
                         // set session value
                         session.start(data.token, data.user);
-
+                        alerts.prepareSuccess('Heslo bylo úspěšně nastaveno.')
                         $state.go('app.order.grid');
                     })
 
@@ -153,12 +186,19 @@ define(['app/rest', 'app/gui', 'app/user'], function () {
                 .state('welcome.signIn', {
                     url: '/',
                     templateUrl: 'app/welcome/signIn.html',
-                    controller: signInCtrl
+                    controller: SignInCtrl
                 })
+
                 .state('welcome.setPassword', {
                     url: '/set-password/{token}',
                     templateUrl: 'app/welcome/passwordForm.html',
-                    controller: passwordFormCtrl
+                    controller: PasswordFormCtrl
+                })
+
+                .state('welcome.lostPassword', {
+                    url: '/lost-password',
+                    templateUrl: 'app/welcome/lostPassword.html',
+                    controller: LostPasswordCtrl
                 });
         })
 

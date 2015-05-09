@@ -69,6 +69,7 @@ services:
 
 	- Email\UserCreated\UserCreatedSender(..., ..., %sender%)
 	- Email\UserCreated\ClientMessageSender(..., ..., %sender%)
+	- Email\LostPassword\LostPasswordSender(..., ..., %sender%)
 	- Model\Service\MessageFetcher(%mailboxNames%)
 	- Model\Service\EmailNormalizer
 	- Model\Service\Tokens

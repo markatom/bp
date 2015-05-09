@@ -73,24 +73,7 @@ class User extends Addressable
 	 */
 	public function setPassword($password)
 	{
-		if ($this->password !== NULL) {
-			throw new LogicException('Cannot set password if password was already set. Use User::changePassword method instead.');
-		}
-
 		$this->password = $this->hash($password);
-	}
-
-	/**
-	 * @param string $originalPassword
-	 * @param string $newPassword
-	 */
-	public function changePassword($originalPassword, $newPassword)
-	{
-		if (!$this->authenticate($originalPassword)) {
-			throw new InvalidOriginalPasswordException;
-		}
-
-		$this->password = $this->hash($newPassword);
 	}
 
 	/**

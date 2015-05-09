@@ -476,7 +476,7 @@ body.downloading {
     opacity: 0.3;
 }
 
-a[ng-click] {
+a {
     cursor: pointer;
 }
 
@@ -493,4 +493,14 @@ ol.breadcrumb {
     background-color: #f5f5f5;
     border-color: #ddd;
     color: #333;
+}
+
+form.sign-in div.checkbox {
+    float: left;
+    margin-top: 0;
+}
+
+form.sign-in a {
+    display: block;
+    float: right;
 }

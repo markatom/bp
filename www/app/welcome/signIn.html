@@ -1,4 +1,4 @@
-<form ng-submit="signIn()">
+<form ng-submit="signIn()" class="sign-in">
     <div class="form-group">
         <label for="email">E-mailová adresa</label>
         <input id="email" class="form-control" type="email" ng-model="email" required="required">
@@ -14,6 +14,8 @@
             <input id="longLife" type="checkbox" ng-model="longLife"> Zůstat přihlášen
         </label>
     </div>
+
+    <a ui-sref="welcome.lostPassword">Zapomněli jste heslo?</a>
 
     <button id="signIn" class="btn btn-primary btn-block" type="submit" ng-disabled="signing"><i ng-if="signing" class="glyphicon glyphicon-refresh spinner"></i>{{signing ? ' Přihlašuji…' : 'Přihlásit'}}</button>
 </form>
