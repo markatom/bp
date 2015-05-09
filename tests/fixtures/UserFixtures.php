@@ -38,6 +38,10 @@ class UserFixtures extends AbstractFixture
 		$markMcDonald->setPassword('lorem');
 		$manager->persist($markMcDonald);
 
+		$demo = new User('Demo', 'demo@example.net', $admin);
+		$demo->setPassword('cvutfit');
+		$manager->persist($demo);
+
 		$manager->persist(new Session($johnDoe, $longLife = FALSE));
 		$manager->persist(new Session($jamesSmith, $longLife = FALSE));
 
