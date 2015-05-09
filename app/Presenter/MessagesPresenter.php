@@ -63,7 +63,9 @@ class MessagesPresenter extends SecuredPresenter
 	public function actionReadAll()
     {
 		if ($this->getQuery('fetch', FALSE)) {
-			$this->messageFetcher->fetchMessages();
+			if ($this->messageFetcher->fetchMessages() === 0) {
+				$this->sendEmpty(IResponse::S304_NOT_MODIFIED);
+			}
 		}
 
 		$criteria = ($orderId = $this->getQuery(['order', 'id'], FALSE))

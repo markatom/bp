@@ -4,7 +4,7 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
 
     // Controllers
 
-    function GridCtrl($scope, orders, orderStates, $timeout, messages) {
+    function GridCtrl($scope, orders, orderStates, $timeout, messages, Response) {
         $scope.orders = [];
         $scope.filters = {};
         $scope.states = [];
@@ -38,7 +38,11 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         loadGrid();
 
         messages.readAll({fetch: true}).success(function () {
-            loadGrid();
+                loadGrid();
+        }).error(function (_, code) {
+            if (code != 304) { // HTTP 304 Not Modified
+                Response.defaultErrorHandler();
+            }
         });
 
         orderStates.readAll().success(function (data) {
@@ -212,7 +216,7 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
         $scope.id = $state.params.id;
     }
 
-    function MessagesCtrl($scope, $state, messages, $sce, documents, $timeout) {
+    function MessagesCtrl($scope, $state, messages, $sce, documents, $timeout, Response) {
         $scope.messages = [];
 
         function show(data) {
@@ -228,6 +232,10 @@ define(['app/rest', 'app/gui', 'app/client', 'app/user'], function () {
                 show(data);
                 messages.readAll({'order[id]': $state.params.id, fetch: true}).success(function (data) {
                     show(data);
+                }).error(function (_, code) {
+                    if (code != 304) { // HTTP 304 Not Modified
+                        Response.defaultErrorHandler();
+                    }
                 }).finally(function () {
                     $scope.fetching = false;
                 });

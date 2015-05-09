@@ -55,6 +55,7 @@ class MessageFetcher extends Object
 
 	/**
 	 * Fetches all messages from remote inbox via IMAP.
+	 * @return int Number of fetched messages.
 	 */
 	public function fetchMessages()
 	{
@@ -93,6 +94,8 @@ class MessageFetcher extends Object
 
 		$this->em->flush();
 		$this->imap->flush();
+
+		return count($mails);
 	}
 
 	/**

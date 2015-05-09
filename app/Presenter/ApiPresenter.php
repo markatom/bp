@@ -117,11 +117,12 @@ abstract class ApiPresenter extends Presenter
 	}
 
 	/**
-	 * Sends a response with empty body with HTTP No Content status code.
+	 * Sends a response with empty body.
+	 * @param int $code Default HTTP No Content status code.
 	 */
-	public function sendEmpty()
+	public function sendEmpty($code = IResponse::S204_NO_CONTENT)
 	{
-		$this->httpResponse->setCode(IResponse::S204_NO_CONTENT);
+		$this->httpResponse->setCode($code);
 
 		$this->sendResponse(new TextResponse(''));
 	}
