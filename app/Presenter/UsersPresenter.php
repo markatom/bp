@@ -57,6 +57,7 @@ class UsersPresenter extends SecuredPresenter
 				->setParameter($prop, "%$value%");
 		}
 
+		$qb->addOrderBy('u.fullName');
 		$users = $qb->getQuery()->getResult();
 
 		$this->sendJson(array_map([self::class, 'mapUser'], $users));
