@@ -56,6 +56,13 @@ define(function () {
         }
 
         $scope.save = function () {
+            if (!(/^("([ !\x23-\x5B\x5D-\x7E]*|\\[ -~])+"|[-a-z0-9!#$%&'*+\/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+\/=?^_`{|}~]+)*)@([0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)+[a-z\u00C0-\u02FF\u0370-\u1EFF][-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF]$/i).test($scope.user.email)) {
+                alerts.clear();
+                alerts.showInfo('E-mailová adresa není ve správném tvaru. Zkontrolujte prosím, zda neobsahuje překlepy.');
+                document.getElementById('email').focus();
+                return;
+            }
+
             $scope.sending = true;
 
             if ($scope.editation) {

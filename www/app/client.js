@@ -105,8 +105,30 @@ define(['app/rest', 'app/gui', 'app/order'], function () {
         };
 
         $scope.save = function () {
+            if ($scope.client.email && !(/^("([ !\x23-\x5B\x5D-\x7E]*|\\[ -~])+"|[-a-z0-9!#$%&'*+\/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+\/=?^_`{|}~]+)*)@([0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)+[a-z\u00C0-\u02FF\u0370-\u1EFF][-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF]$/i).test($scope.client.email)) {
+                alerts.clear();
+                alerts.showInfo('E-mailová adresa není ve správném tvaru. Zkontrolujte prosím, zda neobsahuje překlepy.');
+                document.getElementById('email').focus();
+                return;
+            }
+
+            if ($scope.client.telephone && !(/^((00|\+)\d{3})? ?\d{3} ?\d{3} ?\d{3}$/).test($scope.client.telephone)) {
+                alerts.clear();
+                alerts.showInfo('Telefonní číslo se musí skládat z devíti číslic, před kterými je možné uvést mezinárodní telefonní předvolbu. Trojice číslic je možné oddělit mezerou.');
+                document.getElementById('zip').focus();
+                return;
+            }
+
+            if ($scope.client.address.zip && !(/^(\d{3}) ?(\d{2})$/).test($scope.client.address.zip)) {
+                alerts.clear();
+                alerts.showInfo('PSČ se musí skládat z pěti číslic. Mezi třetí a čtvrtou číslicí může být mezera.');
+                document.getElementById('zip').focus();
+                return;
+            }
+
             if (!$scope.client.email && !$scope.client.telephone) {
-                alert('Vyplňte prosím alespoň jeden kontaktní údaj (telefon nebo e-mail).');
+                alerts.clear();
+                alerts.showInfo('Vyplňte prosím alespoň jeden kontaktní údaj (telefon nebo e-mail).');
                 document.getElementById('email').focus();
                 return;
             }
