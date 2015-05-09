@@ -461,15 +461,9 @@ div.messages a.label {
     float: left;
     display: block;
     margin: 12px 12px 0 0;
-}
-
-div.messages a.label:last-child {
+    padding: 6px;
     color: #222;
     background-color: #f5f5f5;
-    float: left;
-    display: block;
-    margin: 12px 12px 0 0;
-    padding: 6px;
 }
 
 body.downloading {
