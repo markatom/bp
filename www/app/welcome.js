@@ -53,9 +53,8 @@ define(['app/rest', 'app/gui', 'app/user'], function () {
                 })
                 .finally(function () {
                     $scope.signing = false;
+                    $scope.password = '';
                 });
-
-            $scope.password = '';
         };
     }
 
