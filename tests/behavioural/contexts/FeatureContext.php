@@ -10,7 +10,6 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Kdyby\Doctrine\EntityManager;
 use Model\Entity\Session;
 use Nette\DI\Container;
-use Nette\Neon\Neon;
 
 /**
  * Defines application features from the specific context.
@@ -54,36 +53,12 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 	}
 
 	/**
-	 * Creates local config with test database for tested server application.
-	 * @BeforeSuite
-	 */
-	public static function beforeSuite()
-	{
-		$test  = Neon::decode(file_get_contents(__DIR__ . self::TEST_CONFIG));
-		$local = Neon::decode(file_get_contents(__DIR__ . self::LOCAL_CONFIG));
-
-		$local['doctrine']['dbname'] = $test['doctrine']['dbname'];
-
-		rename(__DIR__ . self::LOCAL_CONFIG, __DIR__ . self::LOCAL_CONFIG . self::BACKUP_SUFFIX);
-		file_put_contents(__DIR__ . self::LOCAL_CONFIG, Neon::encode($local, Neon::BLOCK));
-	}
-
-	/**
 	 * Loads fixtures.
 	 * @BeforeScenario
 	 */
 	public function beforeScenario()
 	{
 		$this->executor->execute($this->loader->getFixtures());
-	}
-
-	/**
-	 * Undo changed local config.
-	 * @AfterSuite
-	 */
-	public static function afterSuite()
-	{
-		rename(__DIR__ . self::LOCAL_CONFIG . self::BACKUP_SUFFIX, __DIR__ . self::LOCAL_CONFIG);
 	}
 
 	/**

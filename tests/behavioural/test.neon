@@ -1,7 +1,2 @@
-doctrine:
-	user: root
-	password:
-	dbname: bp_test
-
 services:
 	cacheStorage: Nette\Caching\Storages\MemoryStorage
