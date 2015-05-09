@@ -76,12 +76,11 @@ class UsersPresenter extends SecuredPresenter
 
 		try {
 			$this->em->persist($user = new User($this->getPost('fullName'), $this->getPost('email'), $role));
+			$token = $this->tokens->create($user, 'setPassword', '+24 hours');
 
 		} catch (UniqueConstraintViolationException $e) {
 			$this->sendError(IResponse::S409_CONFLICT, 'emailConflict');
 		}
-
-		$token = $this->tokens->create($user, 'setPassword', '+24 hours');
 
 		$this->userCreatedSender->send($token->key, $user->email);
 
