@@ -77,7 +77,7 @@ class OrdersPresenter extends SecuredPresenter
 			if ($value === '') {
 				continue;
 			}
-			$qb->where($this->joinRelated($qb, $prop) . " LIKE ?$i")
+			$qb->andWhere($this->joinRelated($qb, $prop) . " LIKE ?$i")
 				->setParameter($i, "%$value%");
 			$i++;
 		}

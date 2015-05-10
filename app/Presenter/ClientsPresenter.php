@@ -125,7 +125,7 @@ class ClientsPresenter extends SecuredPresenter
 			if ($value === '') {
 				continue;
 			}
-			$qb->where("c.$prop LIKE :$prop")
+			$qb->andWhere("c.$prop LIKE :$prop")
 				->setParameter($prop, "%$value%");
 		}
 
