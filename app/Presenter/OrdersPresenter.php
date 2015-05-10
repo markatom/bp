@@ -42,7 +42,7 @@ class OrdersPresenter extends SecuredPresenter
 				$this->getPost(['event', 'date'], NULL),
 				$this->getPost(['event', 'description'], NULL),
 				$this->getPost(['event', 'causedBy'], NULL),
-				$this->getPost(['event', 'quilt'], NULL),
+				$this->getPost(['event', 'guilt'], NULL),
 				$this->getPost(['event', 'injury'], NULL)
 			),
 			$this->user,
