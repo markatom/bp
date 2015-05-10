@@ -18,13 +18,12 @@
 		"php": ">= 5.5",
 		"nette/nette": "~2.3.0",
 		"kdyby/doctrine": "~3.0@dev",
-		"kdyby/console": "~2.3",
 	  	"greeny/maillibrary": "dev-master",
-		"mpdf/mpdf": "~6.0"
+		"mpdf/mpdf": "6.0.0"
 	},
 	"require-dev": {
 		"behat/mink-extension": "2.0.1",
-		"behat/mink-sahi-driver": "1.1.0",
+		"behat/mink-selenium2-driver": "1.1.1",
 		"doctrine/data-fixtures": "1.1.1"
 	}
 }

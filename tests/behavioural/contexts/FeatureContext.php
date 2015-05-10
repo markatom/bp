@@ -62,16 +62,6 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 	}
 
 	/**
-	 * Terminate session.
-	 * @AfterScenario
-	 */
-	public function afterScenario()
-	{
-		$this->getSession()->executeScript("window.angular.element(document.documentElement).injector().get('session').terminate()");
-		$this->setSessionToken(NULL);
-	}
-
-	/**
 	 * Activates session of given user.
 	 * @Given /^I am "(?P<fullName>(?:[^"]|\\")*)"$/
 	 */
@@ -89,6 +79,7 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 
 		$this->setSessionToken($session->token);
 		$this->visitPath('/');
+		sleep(1);
 	}
 
 	/**
@@ -98,6 +89,7 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 	public function welcomeScreen()
 	{
 		$this->visitPath('/');
+		sleep(1);
 	}
 
 	/**
@@ -121,6 +113,19 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 		}
 
 		$element->click();
+		sleep(1);
+	}
+
+	public function clickLink($link)
+	{
+		parent::clickLink($link);
+		sleep(1);
+	}
+
+	public function pressButton($button)
+	{
+		parent::pressButton($button);
+		sleep(1);
 	}
 
 	/**
@@ -168,31 +173,16 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 	}
 
 	/**
-	 * Visits provided relative path using provided or default session.
-	 *
-	 * @param string      $path
-	 * @param string|null $sessionName
-	 */
-	public function visitPath($path, $sessionName = null)
-	{
-		parent::visitPath($path, $sessionName);
-
-		// fix sahi issue
-		if (is_int(strpos($this->getSession()->getPage()->getText(), 'Sahi could not connect to the desired URL'))) {
-			parent::visitPath($path, $sessionName);
-		}
-	}
-
-	/**
 	 * Sets session cookie and redirects to '/'.
 	 * @param string|NULL $token
 	 */
 	private function setSessionToken($token)
 	{
-		if ($this->getSession()->evaluateScript("typeof window.angular === 'undefined'") === 'true') { // first run
-			$this->visitPath('/'); // redirect from sahi welcome page to app in order to set cookie
-		}
+		// redirect to app in order to set cookie
+		$this->visitPath('/');
 
+		// cookie must be set via javascript
+		// native way will force persist cookie even if application tries to remove it
 		$this->getSession()->executeScript("document.cookie = 'session-token=$token'");
 	}
 

@@ -10,6 +10,6 @@ default:
       base_url: http://localhost/skola/bp/www
       sessions:
         default:
-          sahi: ~
+          selenium2: ~
   translation:
     locale: en

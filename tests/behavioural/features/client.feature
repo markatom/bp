@@ -11,15 +11,15 @@ Feature: Clients' management
     Then I should see "Zdeněk Velínský, Tomáš Jonáš, Petr Zapalač, Ondřej Hubený, Kryštof Čalfa, Karel Kos, Jiří Hojek, Adam Němec" in that order
     When I follow "search"
     And I fill in "search-fullName" with "k"
-    And I wait for "7" seconds
+    And I wait for "1" seconds
     Then I should see "Zdeněk Velínský, Kryštof Čalfa, Karel Kos, Jiří Hojek" in that order
     And I should not see any of "Tomáš Jonáš, Ondřej Hubený, Adam Němec, Petr Zalač"
     When I fill in "search-fullName" with "tomáš"
-    And I wait for "7" seconds
+    And I wait for "1" seconds
     Then I should see "Tomáš Jonáš"
     And I should not see any of "Ondřej Hubený, Adam Němec, Petr Zalač, Jiří Hojek, Karel Kos, Kryštof Čalfa, Zdeněk Velínský"
     When I follow "search"
-    And I wait for "2" seconds
+    And I wait for "1" seconds
     Then I should see "Zdeněk Velínský, Tomáš Jonáš, Petr Zapalač, Ondřej Hubený, Kryštof Čalfa, Karel Kos, Jiří Hojek, Adam Němec" in that order
 
   Scenario: Add new client

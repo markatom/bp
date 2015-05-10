@@ -2,6 +2,11 @@
 
 cd "`pwd`/`dirname $0`/.."
 
-vendor/bin/behat \
-    -c tests/behavioural/config.yaml \
-    ${1-tests/behavioural}
+if [ ! -e bin/selenium-server-standalone-2.45.0.jar ]; then
+    echo Downloading Selenium...
+    wget -P bin http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar
+fi;
+
+java -jar bin/selenium-server-standalone-2.45.0.jar -log log/selenium.log 2>> log/selenium.log &
+
+vendor/bin/behat -c tests/behavioural/config.yaml ${1-tests/behavioural}
