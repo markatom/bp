@@ -1,3 +1,7 @@
+# Online verze
+
+Běžící aplikace je k dispozici také online na adrese: http://novak-svoboda.markacz.com
+
 # Požadavky
 
 Pro běh systému je nutné mít nainstalováno:
@@ -8,7 +12,7 @@ Pro běh systému je nutné mít nainstalováno:
 
 Dále je nutné splnit požadavky Nette Frameworku: http://doc.nette.org/cs/2.3/requirements
 
-# Spuštění aplikace
+# Instalace
 
 Aplikace ke svému běhu vyžaduje vytvořenou MySQL databázi s kódováním `utf8_czech_ci` a e-mailovou schránku, ke které
 je možné přistupovat pomocí SMTP a IMAP protokolu. Také je důležité umožnit Apache zapisovat do adresářů `log` a `temp`.
