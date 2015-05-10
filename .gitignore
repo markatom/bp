@@ -4,3 +4,4 @@ temp/*
 vendor/*
 !vendor/others
 app/config/local.neon
+/bin/selenium-server-standalone-2.45.0.jar
