@@ -1,8 +1,3 @@
-<p>Tento informační systém vznikl v rámci bakalářské práce na ČVUT FIT.</p>
-<p>Kompletní <a href="https://github.com/markatom/bp" target="_blank">zdrojové kódy</a> jsou přístupné on-line.</p>
-<p>Pro přihlášení do systému využijte demo účet s e-mailovou adresou „demo@example.net“ a heslem „cvutfit“.</p>
-<p>Systém je vždy o půlnoci resetován do původního stavu.</p>
-
 <form ng-submit="signIn()" class="sign-in">
     <div class="form-group">
         <label for="email">E-mailová adresa</label>
@@ -24,3 +19,9 @@
 
     <button id="signIn" class="btn btn-primary btn-block" type="submit" ng-disabled="signing"><i ng-if="signing" class="glyphicon glyphicon-refresh spinner"></i>{{signing ? ' Přihlašuji…' : 'Přihlásit'}}</button>
 </form>
+
+<p>Tento informační systém vznikl v rámci bakalářské práce na ČVUT FIT.
+    Kompletní <a href="https://github.com/markatom/bp" target="_blank">zdrojové kódy</a> jsou přístupné on-line.</p>
+<p>Pro přihlášení do systému využijte demo účet s e-mailovou adresou demo@example.net a heslem „cvutfit“.
+    Systém je napojen na e-mailovou schránku novak-svoboda@markacz.com.</p>
+<p><b>Vždy o půlnoci je systém automaticky resetován do původního stavu.</b></p>
