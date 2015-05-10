@@ -102,7 +102,7 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 	}
 
 	/**
-	 * @When /^I follow "(?:[^"]|\\")*" with xpath "(?P<xpath>(?:[^"]|\\")*)"$/
+	 * @When /^I (?:follow|click) "(?:[^"]|\\")*" with xpath "(?P<xpath>(?:[^"]|\\")*)"$/
 	 */
 	public function followXpath($xpath)
 	{
@@ -113,18 +113,6 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 		}
 
 		$element->click();
-		sleep(1);
-	}
-
-	public function clickLink($link)
-	{
-		parent::clickLink($link);
-		sleep(1);
-	}
-
-	public function pressButton($button)
-	{
-		parent::pressButton($button);
 		sleep(1);
 	}
 
@@ -171,6 +159,46 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
 			}
 		}
 	}
+
+	////// fix some steps here:
+
+	/**
+	 * @param string $link
+	 */
+	public function clickLink($link)
+	{
+		parent::clickLink($link);
+		sleep(1); // wait for asynchronous load
+	}
+
+	/**
+	 * @param string $button
+	 */
+	public function pressButton($button)
+	{
+		parent::pressButton($button);
+		sleep(1); // wait for asynchronous load
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $value
+	 */
+	public function fillField($field, $value)
+	{
+		$this->getSession()->getPage()->findField($field)->focus(); // focus first for typeahead plugin
+		parent::fillField($field, $value);
+	}
+
+	/**
+	 * @When /^I rewrite value of "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
+	 */
+	public function rewriteField($field, $value)
+	{
+		parent::fillField($field, $value);
+	}
+
+	//////
 
 	/**
 	 * Sets session cookie and redirects to '/'.

@@ -14,7 +14,7 @@ Feature: Clients' management
     And I wait for "1" seconds
     Then I should see "Zdeněk Velínský, Kryštof Čalfa, Karel Kos, Jiří Hojek" in that order
     And I should not see any of "Tomáš Jonáš, Ondřej Hubený, Adam Němec, Petr Zalač"
-    When I fill in "search-fullName" with "tomáš"
+    When I rewrite value of "search-fullName" with "tomáš"
     And I wait for "1" seconds
     Then I should see "Tomáš Jonáš"
     And I should not see any of "Ondřej Hubený, Adam Němec, Petr Zalač, Jiří Hojek, Karel Kos, Kryštof Čalfa, Zdeněk Velínský"
@@ -53,7 +53,7 @@ Feature: Clients' management
     Given I am "John Doe"
     When I follow "clients"
     And I follow "Upravit Ondřej Hubený" with xpath "//table/tbody/tr[3]/td[5]/div/a[2]"
-    And I fill in "fullName" with "Pavel Hubený"
+    And I rewrite value of "fullName" with "Pavel Hubený"
     And I press "Uložit"
     Then I should see "Změny byly úspěšně uloženy."
     And I should see "Pavel Hubený"

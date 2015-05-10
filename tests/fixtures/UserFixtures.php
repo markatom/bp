@@ -44,6 +44,7 @@ class UserFixtures extends AbstractFixture
 
 		$manager->persist(new Session($johnDoe, $longLife = FALSE));
 		$manager->persist(new Session($jamesSmith, $longLife = FALSE));
+		$manager->persist(new Session($markMcDonald, $longLife = FALSE));
 
 		$this->setReference('user.johnDoe', $johnDoe);
 		$this->setReference('user.jamesSmith', $jamesSmith);
