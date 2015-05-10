@@ -20,7 +20,7 @@ Feature: Sign in/out
     When I fill in "email" with "mark.mcdonald@example.net"
     And I fill in "password" with "lorem"
     And I press "signIn"
-    Then I should see "Dashboard"
+    Then I should see "Objednávky"
 
   Scenario: Sign out
     Given I am "John Doe"
