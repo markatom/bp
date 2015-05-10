@@ -1,7 +1,9 @@
 .idea/*
 log/*
+!log/.keep
 temp/*
+!temp/.keep
 vendor/*
 !vendor/others
 app/config/local.neon
-/bin/selenium-server-standalone-2.45.0.jar
+bin/selenium-server-standalone-2.45.0.jar
