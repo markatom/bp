@@ -279,10 +279,6 @@ body.downloading {
     opacity: 0.3;
 }
 
-a {
-    cursor: pointer;
-}
-
 div.dropdown {
     display: inline-block;
 }

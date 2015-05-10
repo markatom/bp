@@ -17,7 +17,7 @@
                         <select id="document-{{$index}}" class="form-control" ng-model="message.documents[$index]" ng-options="document.name for document in availableDocuments track by document.id" required>
                             <option value="">Vyberte dokument…</option>
                         </select>
-                        <a class="btn btn-danger" title="Odebrat" ng-click="remove($index)">
+                        <a href="#" class="btn btn-danger" title="Odebrat" ng-click="remove($index); $event.preventDefault();">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
                     </div>
@@ -28,7 +28,7 @@
                         <i class="glyphicon glyphicon-open" ng-if="!uploading"></i>
                         {{uploading ? 'Nahrávám dokument' : 'Nahrát dokument'}}
                     </a>
-                    <a class="btn btn-default" ng-click="select()">
+                    <a href="#" class="btn btn-default" ng-click="select(); $event.preventDefault();">
                         <i class="glyphicon glyphicon-file"></i>
                         Vybrat dokument
                     </a>

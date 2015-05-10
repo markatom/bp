@@ -8,11 +8,11 @@
         <thead>
             <tr>
                 <th>
-                    <a id="name" ng-click="sort('name')">Název kauzy {{indicator('name')}}</a>
+                    <a href="#" id="name" ng-click="sort('name'); $event.preventDefault();">Název kauzy {{indicator('name')}}</a>
                     <div ng-if="search" class="form-group"><input id="search-name" class="form-control" type="text" ng-model="filters.name"></div>
                 </th>
                 <th>
-                    <a id="state" ng-click="sort('state.slug')">Stav {{indicator('state.slug')}}</a>
+                    <a href="#" id="state" ng-click="sort('state.slug'); $event.preventDefault();">Stav {{indicator('state.slug')}}</a>
                     <div ng-if="search" class="form-group">
                         <select id="search-state" class="form-control" ng-model="filters.state.slug">
                             <option value=""></option>
@@ -21,11 +21,11 @@
                     </div>
                 </th>
                 <th>
-                    <a id="client" ng-click="sort('client.fullName')">Klient {{indicator('client.fullName')}}</a>
+                    <a href="#" id="client" ng-click="sort('client.fullName'); $event.preventDefault();">Klient {{indicator('client.fullName')}}</a>
                     <div ng-if="search" class="form-group"><input id="search-client" class="form-control" type="text" ng-model="filters.client.fullName"></div>
                 </th>
                 <th>
-                    <a id="date" ng-click="sort('event.date')">Datum události {{indicator('event.date')}}</a>
+                    <a href="#" id="date" ng-click="sort('event.date'); $event.preventDefault();">Datum události {{indicator('event.date')}}</a>
                     <div ng-if="search" class="form-group">
                         <p class="input-group">
                             <input datepicker-popup="mediumDate" id="search-date" type="text" class="form-control" ng-model="filters.event.date" is-open="dateOpened">
@@ -36,11 +36,11 @@
                     </div>
                 </th>
                 <th>
-                    <a id="assignee" ng-click="sort('assignee.fullName')">Vyřizuje {{indicator('assignee.fullName')}}</a>
+                    <a href="#" id="assignee" ng-click="sort('assignee.fullName'); $event.preventDefault();">Vyřizuje {{indicator('assignee.fullName')}}</a>
                     <div ng-if="search" class="form-group"><input id="search-assignee" class="form-control" type="text" ng-model="filters.assignee.fullName"></div>
                 </th>
                 <th>
-                    <a id="createdAt" ng-click="sort('createdAt')">Vytvořeno {{indicator('createdAt')}}</a>
+                    <a href="#" id="createdAt" ng-click="sort('createdAt'); $event.preventDefault();">Vytvořeno {{indicator('createdAt')}}</a>
                     <div ng-if="search" class="form-group">
                         <p class="input-group">
                             <input datepicker-popup="mediumDate" id="search-created-at" type="text" class="form-control" ng-model="filters.createdAt" is-open="createdAtOpened">
@@ -52,7 +52,7 @@
                 </th>
                 <th>
                     <div ng-class="{search: search}">
-                        <a id="search" class="btn btn-default" ng-click="searchClicked()" title="Hledat"><i class="glyphicon glyphicon-search"></i></a>
+                        <a href="#" id="search" class="btn btn-default" ng-click="searchClicked(); $event.preventDefault();" title="Hledat"><i class="glyphicon glyphicon-search"></i></a>
                         <a id="add" class="btn btn-success" ui-sref="app.order.add" title="Nová objednávka"><i class="glyphicon glyphicon-plus"></i></a>
                     </div>
                 </th>

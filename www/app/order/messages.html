@@ -4,7 +4,7 @@
             <i class="glyphicon glyphicon-send"></i>
             Odeslat novou zprávu
         </a>
-        <a class="btn btn-default" ng-disabled="fetching" ng-click="fetch()">
+        <a href="#" class="btn btn-default" ng-disabled="fetching" ng-click="fetch(); $event.preventDefault();">
             <i class="glyphicon glyphicon-refresh spinner" ng-if="fetching"></i>
             <i class="glyphicon glyphicon-save" ng-if="!fetching"></i>
             {{fetching ? 'Načítám zprávy…' : 'Načíst zprávy'}}
@@ -23,7 +23,7 @@
         </h4>
         <div class="content" ng-bind-html="message.content"></div>
         <div class="clearfix">
-            <a ng-click="download(document.id)" class="label label-default" ng-repeat="document in message.documents">
+            <a href="#" ng-click="download(document.id); $event.preventDefault();" class="label label-default" ng-repeat="document in message.documents">
                 <i class="glyphicon glyphicon-file"></i>
                 {{document.name}} ({{document.formattedSize}})
             </a>

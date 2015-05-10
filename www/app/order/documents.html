@@ -14,7 +14,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="generate('poa')">Plná moc</a></li>
+                    <li><a href="#" ng-click="generate('poa'); $event.preventDefault();">Plná moc</a></li>
                 </ul>
             </div>
             <script>
@@ -30,10 +30,10 @@
         <td>{{document.createdAt|date:'d. M. yyyy H:mm:ss'}}</td>
         <td>
             <div class="btn-group">
-                <a class="btn btn-default" ng-click="download(document.id)" title="Stáhnout">
+                <a href="#" class="btn btn-default" ng-click="download(document.id); $event.preventDefault();" title="Stáhnout">
                     <i class="glyphicon glyphicon-download-alt"></i>
                 </a>
-                <a class="btn btn-danger" ng-class="{disabled: deleting[document.id]}" ng-click="delete(document.id)" title="Smazat">
+                <a href="#" class="btn btn-danger" ng-class="{disabled: deleting[document.id]}" ng-click="delete(document.id); $event.preventDefault();" title="Smazat">
                     <i class="glyphicon" ng-class="{'glyphicon-remove': !deleting[document.id], 'spinner': deleting[document.id], 'glyphicon-refresh': deleting[document.id]}"></i>
                 </a>
             </div>

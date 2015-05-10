@@ -27,7 +27,7 @@
                         <a class="btn btn-default" ui-sref="app.user.edit({id: user.id})" title="Upravit">
                             <i class="glyphicon glyphicon-pencil"></i>
                         </a>
-                        <a ng-if="session.user.id !== user.id" class="btn btn-danger" ng-class="{disabled: deleting[user.id]}" ng-click="delete(user.id)" title="Smazat">
+                        <a href="#" ng-if="session.user.id !== user.id" class="btn btn-danger" ng-class="{disabled: deleting[user.id]}" ng-click="delete(user.id); $event.preventDefault();" title="Smazat">
                             <i class="glyphicon" ng-class="{'glyphicon-remove': !deleting[user.id], 'spinner': deleting[user.id], 'glyphicon-refresh': deleting[user.id]}"></i>
                         </a>
                     </div>

@@ -8,11 +8,11 @@
         <thead>
             <tr>
                 <th>
-                    <a id="fullName" ng-click="sort('fullName')">Jméno {{indicator('fullName')}}</a>
+                    <a href="#" id="fullName" ng-click="sort('fullName'); $event.preventDefault();">Jméno {{indicator('fullName')}}</a>
                     <div ng-if="search" class="form-group"><input id="search-fullName" class="form-control" type="text" ng-model="filters.fullName"></div>
                 </th>
                 <th>
-                    <a id="dateOfBirth" ng-click="sort('dateOfBirth')">Datum narození {{indicator('dateOfBirth')}}</a>
+                    <a href="#" id="dateOfBirth" ng-click="sort('dateOfBirth'); $event.preventDefault();">Datum narození {{indicator('dateOfBirth')}}</a>
                     <div ng-if="search" class="form-group">
                         <p class="input-group">
                             <input datepicker-popup="mediumDate" datepicker-mode="'year'" id="search-date-of-birth" type="text" class="form-control" ng-model="filters.dateOfBirth" is-open="opened">
@@ -23,16 +23,16 @@
                     </div>
                 </th>
                 <th>
-                    <a id="email" ng-click="sort('email')">E-mail {{indicator('email')}}</a>
+                    <a href="#" id="email" ng-click="sort('email'); $event.preventDefault();">E-mail {{indicator('email')}}</a>
                     <div ng-if="search" class="form-group"><input id="search-email" class="form-control" type="text" ng-model="filters.email"></div>
                 </th>
                 <th>
-                    <a id="telephone" ng-click="sort('telephone')">Telefon {{indicator('telephone')}}</a>
+                    <a href="#" id="telephone" ng-click="sort('telephone'); $event.preventDefault();">Telefon {{indicator('telephone')}}</a>
                     <div ng-if="search" class="form-group"><input id="search-telephone" class="form-control" type="text" ng-model="filters.telephone"></div>
                 </th>
                 <th>
                     <div ng-class="{search: search}">
-                        <a id="search" class="btn btn-default" ng-click="searchClicked()" title="Hledat">
+                        <a href="#" id="search" class="btn btn-default" ng-click="searchClicked(); $event.preventDefault();" title="Hledat">
                             <i class="glyphicon glyphicon-search"></i>
                         </a>
                         <a id="add" class="btn btn-success" ui-sref="app.client.add" title="Nový klient">
